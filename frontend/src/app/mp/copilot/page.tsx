@@ -21,15 +21,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const promptSuggestions = [
-  { icon: AlertTriangle, text: "What are the top 3 water supply issues in my constituency?", category: "Infrastructure" },
-  { icon: IndianRupee, text: "Optimize my budget allocation for maximum citizen impact", category: "Budget" },
-  { icon: TrendingUp, text: "Which department needs immediate intervention?", category: "Performance" },
-  { icon: Users, text: "Show me villages with declining satisfaction scores", category: "Citizen Feedback" },
-  { icon: Globe, text: "Compare ROI of school upgrade vs new road construction", category: "Decision Support" },
-  { icon: FileText, text: "Generate a policy proposal for emergency water infrastructure", category: "Policy" },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 interface Message {
   id: string;
@@ -68,9 +60,19 @@ const contextPanel = {
 };
 
 export default function MPCopilotPage() {
+  const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>(mockConversation);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+
+  const promptSuggestions = [
+    { icon: AlertTriangle, text: t("mp.copilot.promptInfrastructure"), category: t("mp.copilot.catInfrastructure") },
+    { icon: IndianRupee, text: t("mp.copilot.promptBudget"), category: t("mp.copilot.catBudget") },
+    { icon: TrendingUp, text: t("mp.copilot.promptPerformance"), category: t("mp.copilot.catPerformance") },
+    { icon: Users, text: t("mp.copilot.promptCitizenFeedback"), category: t("mp.copilot.catCitizenFeedback") },
+    { icon: Globe, text: t("mp.copilot.promptDecisionSupport"), category: t("mp.copilot.catDecisionSupport") },
+    { icon: FileText, text: t("mp.copilot.promptPolicy"), category: t("mp.copilot.catPolicy") },
+  ];
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -107,11 +109,11 @@ export default function MPCopilotPage() {
             <Bot className="size-5 text-white" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-foreground">AI MP Copilot</h1>
+            <h1 className="text-lg font-bold text-foreground">{t("mp.copilot.aiMPCopilot")}</h1>
             <div className="flex items-center gap-1.5">
               <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[11px] text-emerald-600">Online</span>
-              <span className="text-[11px] text-muted-foreground">&middot; Powered by constituency intelligence engine</span>
+              <span className="text-[11px] text-emerald-600">{t("mp.copilot.online")}</span>
+              <span className="text-[11px] text-muted-foreground">&middot; {t("mp.copilot.poweredBy")}</span>
             </div>
           </div>
         </div>
@@ -123,9 +125,9 @@ export default function MPCopilotPage() {
               <div className="flex size-16 items-center justify-center rounded-2xl bg-purple-50 border border-purple-200">
                 <Sparkles className="size-8 text-purple-600" />
               </div>
-              <h2 className="mt-6 text-xl font-bold text-foreground">What can I help you with?</h2>
+              <h2 className="mt-6 text-xl font-bold text-foreground">{t("mp.copilot.whatCanIHelp")}</h2>
               <p className="mt-2 max-w-md text-sm text-muted-foreground">
-                Ask me anything about your constituency — infrastructure, budget, complaints, projects, or policy.
+                {t("mp.copilot.askAnything")}
               </p>
 
               {/* Prompt Suggestions */}
@@ -186,7 +188,7 @@ export default function MPCopilotPage() {
                   <div className="mt-4 border-t border-border pt-3">
                     <div className="flex items-center gap-1.5 mb-2">
                       <Database className="size-3 text-muted-foreground" />
-                      <span className="text-[10px] font-semibold text-muted-foreground uppercase">Sources</span>
+                      <span className="text-[10px] font-semibold text-muted-foreground uppercase">{t("mp.copilot.sources")}</span>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {msg.sources.map((source) => (
@@ -226,7 +228,7 @@ export default function MPCopilotPage() {
                       <div className="size-1.5 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: "150ms" }} />
                       <div className="size-1.5 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: "300ms" }} />
                     </div>
-                    <span className="text-xs text-muted-foreground">Analyzing constituency data...</span>
+                    <span className="text-xs text-muted-foreground">{t("mp.copilot.analyzingData")}</span>
                   </div>
                 </div>
               </motion.div>
@@ -247,7 +249,7 @@ export default function MPCopilotPage() {
                     handleSend();
                   }
                 }}
-                placeholder="Ask about your constituency..."
+                placeholder={t("mp.copilot.askQuestion")}
                 rows={1}
                 className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/30"
               />
@@ -266,8 +268,8 @@ export default function MPCopilotPage() {
             </button>
           </div>
           <div className="mt-2 flex items-center justify-between text-[10px] text-muted-foreground">
-            <span>AI responses are based on real constituency data. Always verify critical decisions.</span>
-            <span>North Chennai &middot; Updated: 2 hours ago</span>
+            <span>{t("mp.copilot.disclaimer")}</span>
+            <span>North Chennai &middot; {t("mp.copilot.updatedAgo")}</span>
           </div>
         </div>
       </div>
@@ -275,17 +277,17 @@ export default function MPCopilotPage() {
       {/* Context Panel */}
       <div className="hidden w-72 border-l border-border bg-card overflow-y-auto xl:block">
         <div className="p-4">
-          <h3 className="mb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">Constituency Context</h3>
+          <h3 className="mb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">{t("mp.copilot.constituencyContext")}</h3>
           <div className="space-y-2">
             {[
-              { label: "Constituency", value: contextPanel.constituency },
-              { label: "State", value: contextPanel.state },
-              { label: "Population", value: contextPanel.population },
-              { label: "Villages", value: contextPanel.villages },
-              { label: "Wards", value: contextPanel.wards },
-              { label: "Total Complaints", value: contextPanel.totalComplaints.toLocaleString("en-IN") },
-              { label: "Water Complaints", value: contextPanel.waterComplaints },
-              { label: "Budget", value: contextPanel.budget },
+              { label: t("mp.copilot.constituency"), value: contextPanel.constituency },
+              { label: t("mp.copilot.state"), value: contextPanel.state },
+              { label: t("mp.copilot.population"), value: contextPanel.population },
+              { label: t("mp.copilot.villages"), value: contextPanel.villages },
+              { label: t("mp.copilot.wards"), value: contextPanel.wards },
+              { label: t("mp.copilot.totalComplaints"), value: contextPanel.totalComplaints.toLocaleString("en-IN") },
+              { label: t("mp.copilot.waterComplaints"), value: contextPanel.waterComplaints },
+              { label: t("mp.copilot.budget"), value: contextPanel.budget },
             ].map((item) => (
               <div key={item.label} className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2">
                 <span className="text-[11px] text-muted-foreground">{item.label}</span>
@@ -295,7 +297,7 @@ export default function MPCopilotPage() {
           </div>
 
           <div className="mt-6">
-            <h3 className="mb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">AI Score</h3>
+            <h3 className="mb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">{t("mp.copilot.aiScore")}</h3>
             <div className="rounded-xl bg-muted/50 p-4">
               <div className="flex items-center gap-3">
                 <div className="relative size-14">
@@ -318,21 +320,21 @@ export default function MPCopilotPage() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-foreground">Excellent</div>
-                  <div className="text-[11px] text-muted-foreground">Top 15% nationally</div>
+                  <div className="text-sm font-semibold text-foreground">{t("mp.copilot.excellent")}</div>
+                  <div className="text-[11px] text-muted-foreground">{t("mp.copilot.topNationally")}</div>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="mt-6">
-            <h3 className="mb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">Quick Actions</h3>
+            <h3 className="mb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">{t("mp.copilot.quickActions")}</h3>
             <div className="space-y-1.5">
               {[
-                { label: "Generate Policy Report", icon: FileText },
-                { label: "Budget Optimization", icon: IndianRupee },
-                { label: "Compare Projects", icon: BarChart3 },
-                { label: "Impact Simulation", icon: Globe },
+                { label: t("mp.copilot.generatePolicyReport"), icon: FileText },
+                { label: t("mp.copilot.budgetOptimization"), icon: IndianRupee },
+                { label: t("mp.copilot.compareProjects"), icon: BarChart3 },
+                { label: t("mp.copilot.impactSimulation"), icon: Globe },
               ].map((action) => (
                 <button
                   key={action.label}

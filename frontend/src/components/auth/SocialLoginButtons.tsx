@@ -5,15 +5,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/use-translation";
 
 export function SocialLoginButtons() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState<string | null>(null);
 
   const handleDemoLogin = async (provider: string) => {
     setLoading(provider);
     await new Promise((r) => setTimeout(r, 600));
-    toast.success(`Logged in with ${provider}`);
+    toast.success(t('auth.signedInSuccessfully'));
     router.push("/citizen/dashboard");
   };
 

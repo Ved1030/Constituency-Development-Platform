@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Play, ArrowRight, BarChart3, Users, Globe, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/use-translation";
 
 const floatingIcons = [
   { Icon: BarChart3, delay: 0, x: -120, y: -40 },
@@ -13,6 +14,8 @@ const floatingIcons = [
 ];
 
 export function Hero() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden pt-16">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent" />
@@ -28,21 +31,19 @@ export function Hero() {
           >
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
               <span className="size-1.5 rounded-full bg-primary animate-pulse" />
-              AI-Powered Governance Platform
+              {t("landing.aiPoweredTag")}
             </div>
 
             <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-              Transforming{" "}
+              {t("landing.heroTitle1")}{" "}
               <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Citizen Voices
+                {t("landing.heroTitleHighlight")}
               </span>{" "}
-              into Data-Driven Development
+              {t("landing.heroTitle2")}
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              India&apos;s first AI-powered platform that connects citizens,
-              MLAs, and government officials for transparent, data-driven
-              constituency development.
+              {t("landing.heroSubtitle")}
             </p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -51,7 +52,7 @@ export function Hero() {
                   size="lg"
                   className="h-12 w-full gap-2 bg-primary px-8 text-base text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30 sm:w-auto"
                 >
-                  Get Started
+                  {t("nav.getStarted")}
                   <ArrowRight className="size-4" />
                 </Button>
               </Link>
@@ -62,7 +63,7 @@ export function Hero() {
                   className="h-12 w-full gap-2 border-border px-8 text-base sm:w-auto"
                 >
                   <Play className="size-4" />
-                  Watch Demo
+                  {t("landing.watchDemo")}
                 </Button>
               </Link>
             </div>
@@ -78,7 +79,7 @@ export function Hero() {
               </div>
               <div className="text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">10,000+</span>{" "}
-                citizens already connected
+                {t("landing.citizensConnected")}
               </div>
             </div>
           </motion.div>
@@ -173,10 +174,10 @@ export function Hero() {
                   <div className="size-10 rounded-full bg-success/10" />
                   <div>
                     <div className="text-sm font-semibold text-foreground">
-                      +128 New Projects
+                      {t("landing.newProjects")}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      This quarter
+                      {t("landing.thisQuarter")}
                     </div>
                   </div>
                 </div>

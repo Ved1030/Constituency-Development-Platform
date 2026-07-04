@@ -33,6 +33,7 @@ import {
 } from "recharts";
 import { projectComparisonData } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 const typeIcons: Record<string, typeof Hospital> = {
   Hospital: Hospital,
@@ -65,6 +66,7 @@ const radarData = projectComparisonData.map((p) => ({
 }));
 
 export default function ProjectsComparePage() {
+  const { t } = useTranslation();
   const [sortBy, setSortBy] = useState<"aiScore" | "roi" | "beneficiaries" | "budget">("aiScore");
   const sorted = [...projectComparisonData].sort((a, b) => {
     if (sortBy === "aiScore") return b.aiScore - a.aiScore;
@@ -76,23 +78,21 @@ export default function ProjectsComparePage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-2">
           <GitCompare className="size-5 text-blue-600" />
-          <h1 className="text-2xl font-bold text-foreground">AI Project Comparison</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t("mp.projects.aiProjectComparison")}</h1>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">Compare infrastructure projects side-by-side. AI scores factor in ROI, impact, and feasibility.</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("mp.projects.compareSideBySide")}</p>
       </motion.div>
 
-      {/* Sort Controls */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs text-muted-foreground">Sort by:</span>
+        <span className="text-xs text-muted-foreground">{t("mp.projects.sortBy")}</span>
         {[
-          { key: "aiScore" as const, label: "AI Score" },
-          { key: "roi" as const, label: "ROI" },
-          { key: "beneficiaries" as const, label: "Beneficiaries" },
-          { key: "budget" as const, label: "Lowest Cost" },
+          { key: "aiScore" as const, label: t("mp.projects.aiScore") },
+          { key: "roi" as const, label: t("mp.projects.roi") },
+          { key: "beneficiaries" as const, label: t("mp.projects.beneficiaries") },
+          { key: "budget" as const, label: t("mp.projects.lowestCost") },
         ].map((opt) => (
           <button
             key={opt.key}
@@ -107,7 +107,6 @@ export default function ProjectsComparePage() {
         ))}
       </div>
 
-      {/* Winner Banner */}
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -118,34 +117,33 @@ export default function ProjectsComparePage() {
             <Trophy className="size-6 text-amber-600" />
           </div>
           <div>
-            <div className="text-xs font-bold text-amber-600 uppercase tracking-wider">AI Recommended Winner</div>
+            <div className="text-xs font-bold text-amber-600 uppercase tracking-wider">{t("mp.projects.aiRecommendedWinner")}</div>
             <h2 className="text-xl font-bold text-foreground">{winner.name}</h2>
             <p className="text-sm text-muted-foreground">
-              Highest AI score of {winner.aiScore}/100. Best ROI at {winner.roi}x with {winner.beneficiaries.toLocaleString("en-IN")} beneficiaries.
+              {t("mp.projects.highestAiScore", { score: winner.aiScore, roi: winner.roi, beneficiaries: winner.beneficiaries.toLocaleString("en-IN") })}
             </p>
           </div>
         </div>
       </motion.div>
 
-      {/* Comparison Table */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className="rounded-2xl border border-border bg-card p-6 overflow-x-auto"
       >
-        <h3 className="mb-4 text-sm font-semibold text-foreground">Detailed Comparison</h3>
+        <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.projects.detailedComparison")}</h3>
         <table className="w-full text-left text-sm">
           <thead>
             <tr className="border-b border-border">
-              <th className="pb-3 font-medium text-muted-foreground">Project</th>
-              <th className="pb-3 font-medium text-muted-foreground">Type</th>
-              <th className="pb-3 font-medium text-muted-foreground">Budget</th>
-              <th className="pb-3 font-medium text-muted-foreground">Beneficiaries</th>
-              <th className="pb-3 font-medium text-muted-foreground">ROI</th>
-              <th className="pb-3 font-medium text-muted-foreground">Timeline</th>
-              <th className="pb-3 font-medium text-muted-foreground">Satisfaction</th>
-              <th className="pb-3 font-medium text-muted-foreground">Cost/Person</th>
-              <th className="pb-3 font-medium text-muted-foreground">AI Score</th>
+              <th className="pb-3 font-medium text-muted-foreground">{t("mp.projects.project")}</th>
+              <th className="pb-3 font-medium text-muted-foreground">{t("mp.projects.type")}</th>
+              <th className="pb-3 font-medium text-muted-foreground">{t("mp.projects.budget")}</th>
+              <th className="pb-3 font-medium text-muted-foreground">{t("mp.projects.beneficiaries")}</th>
+              <th className="pb-3 font-medium text-muted-foreground">{t("mp.projects.roi")}</th>
+              <th className="pb-3 font-medium text-muted-foreground">{t("mp.projects.timeline")}</th>
+              <th className="pb-3 font-medium text-muted-foreground">{t("mp.projects.satisfaction")}</th>
+              <th className="pb-3 font-medium text-muted-foreground">{t("mp.projects.costPerPerson")}</th>
+              <th className="pb-3 font-medium text-muted-foreground">{t("mp.projects.aiScore")}</th>
             </tr>
           </thead>
           <tbody>
@@ -208,14 +206,13 @@ export default function ProjectsComparePage() {
         </table>
       </motion.div>
 
-      {/* Charts */}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">ROI & Beneficiary Comparison</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.projects.roiChartTitle")}</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
@@ -235,7 +232,7 @@ export default function ProjectsComparePage() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Multi-Factor Radar</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.projects.radarTitle")}</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={radarData}>

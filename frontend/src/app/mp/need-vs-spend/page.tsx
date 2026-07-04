@@ -30,6 +30,7 @@ import {
 } from "recharts";
 import { needVsSpendData } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 const demandChartData = needVsSpendData.citizenDemand.map((d) => ({
   name: d.category.split(" ")[0],
@@ -57,24 +58,25 @@ const gapColors: Record<string, { bg: string; text: string; border: string }> = 
 };
 
 export default function NeedVsSpendPage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-2">
           <Flame className="size-5 text-orange-600" />
-          <h1 className="text-2xl font-bold text-foreground">Need vs Spend</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t("mp.needVsSpend.title")}</h1>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">Compare citizen demand against government spending. AI identifies gaps and recommends reallocations.</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("mp.needVsSpend.subtitle")}</p>
       </motion.div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: "Citizen Demands", value: "3,484", icon: Users, color: "text-orange-600", bg: "bg-orange-50", sub: "Total registered" },
-          { label: "Total Spent", value: "₹28.0 Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50", sub: "74.2% utilized" },
-          { label: "AI Gaps Identified", value: "3", icon: Brain, color: "text-purple-600", bg: "bg-purple-50", sub: "Require attention" },
-          { label: "Overall Match", value: "76%", icon: Target, color: "text-primary", bg: "bg-blue-50", sub: "Need-spend alignment" },
+          { label: t("mp.needVsSpend.citizenDemands"), value: "3,484", icon: Users, color: "text-orange-600", bg: "bg-orange-50", sub: t("mp.needVsSpend.totalRegistered") },
+          { label: t("mp.needVsSpend.totalSpent"), value: "₹28.0 Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50", sub: t("mp.needVsSpend.utilized") },
+          { label: t("mp.needVsSpend.aiGapsIdentified"), value: "3", icon: Brain, color: "text-purple-600", bg: "bg-purple-50", sub: t("mp.needVsSpend.requireAttention") },
+          { label: t("mp.needVsSpend.overallMatch"), value: "76%", icon: Target, color: "text-primary", bg: "bg-blue-50", sub: t("mp.needVsSpend.needSpendAlignment") },
         ].map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -106,8 +108,8 @@ export default function NeedVsSpendPage() {
               <Users className="size-4 text-orange-600" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-foreground">Citizen Demand</h2>
-              <p className="text-[11px] text-muted-foreground">What citizens are asking for</p>
+              <h2 className="text-lg font-bold text-foreground">{t("mp.needVsSpend.citizenDemand")}</h2>
+              <p className="text-[11px] text-muted-foreground">{t("mp.needVsSpend.whatCitizensAsking")}</p>
             </div>
           </div>
 
@@ -133,7 +135,7 @@ export default function NeedVsSpendPage() {
                 </div>
                 <div className="flex-1">
                   <div className="text-sm font-medium text-foreground">{item.category}</div>
-                  <div className="text-[10px] text-muted-foreground">{item.demand} complaints registered</div>
+                  <div className="text-[10px] text-muted-foreground">{t("mp.needVsSpend.complaintsRegistered", { count: item.demand })}</div>
                 </div>
                 <div className="text-right">
                   <span className={cn(
@@ -144,7 +146,7 @@ export default function NeedVsSpendPage() {
                   )}>
                     {item.priority}
                   </span>
-                  <div className="mt-1 text-[10px] text-muted-foreground">Sentiment: {item.sentiment}%</div>
+                  <div className="mt-1 text-[10px] text-muted-foreground">{t("mp.needVsSpend.sentiment", { value: item.sentiment })}</div>
                 </div>
               </div>
             ))}
@@ -162,8 +164,8 @@ export default function NeedVsSpendPage() {
               <IndianRupee className="size-4 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-foreground">Government Spending</h2>
-              <p className="text-[11px] text-muted-foreground">How budget is being allocated</p>
+              <h2 className="text-lg font-bold text-foreground">{t("mp.needVsSpend.governmentSpending")}</h2>
+              <p className="text-[11px] text-muted-foreground">{t("mp.needVsSpend.howBudgetAllocated")}</p>
             </div>
           </div>
 
@@ -220,7 +222,7 @@ export default function NeedVsSpendPage() {
       >
         <h2 className="mb-4 text-lg font-bold text-foreground flex items-center gap-2">
           <BarChart3 className="size-5 text-purple-600" />
-          Demand vs Spending Radar
+          {t("mp.needVsSpend.demandVsSpendingRadar")}
         </h2>
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
@@ -237,11 +239,11 @@ export default function NeedVsSpendPage() {
         <div className="mt-2 flex items-center justify-center gap-6">
           <div className="flex items-center gap-2">
             <div className="size-3 rounded-full bg-orange-500" />
-            <span className="text-xs text-muted-foreground">Citizen Demand</span>
+            <span className="text-xs text-muted-foreground">{t("mp.needVsSpend.citizenDemand")}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="size-3 rounded-full bg-blue-500" />
-            <span className="text-xs text-muted-foreground">Government Spending</span>
+            <span className="text-xs text-muted-foreground">{t("mp.needVsSpend.governmentSpending")}</span>
           </div>
         </div>
       </motion.div>
@@ -250,7 +252,7 @@ export default function NeedVsSpendPage() {
       <div>
         <div className="mb-4 flex items-center gap-2">
           <Brain className="size-5 text-purple-600" />
-          <h2 className="text-lg font-bold text-foreground">AI Gap Analysis</h2>
+          <h2 className="text-lg font-bold text-foreground">{t("mp.needVsSpend.aiGapAnalysis")}</h2>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {needVsSpendData.gapAnalysis.map((gap, i) => {
@@ -266,7 +268,7 @@ export default function NeedVsSpendPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
                     <span className={cn("rounded-full px-2.5 py-1 text-[10px] font-bold uppercase", colors.bg, colors.text)}>
-                      {gap.gap} Gap
+                      {t("mp.needVsSpend.gap", { level: gap.gap })}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -280,7 +282,7 @@ export default function NeedVsSpendPage() {
 
                 <div className="mt-4 flex items-center gap-2">
                   <Lightbulb className="size-3.5 text-amber-600" />
-                  <span className="text-[10px] text-amber-600/70">AI recommends action</span>
+                  <span className="text-[10px] text-amber-600/70">{t("mp.needVsSpend.aiRecommendsAction")}</span>
                 </div>
               </motion.div>
             );

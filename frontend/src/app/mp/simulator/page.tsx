@@ -31,6 +31,7 @@ import {
 } from "recharts";
 import { impactProjects } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 const projectTypeIcons: Record<string, typeof Hospital> = {
   Hospital: Hospital,
@@ -54,6 +55,7 @@ const comparisonData = impactProjects.map((p) => ({
 }));
 
 export default function MPSimulatorPage() {
+  const { t } = useTranslation();
   const [selectedProject, setSelectedProject] = useState(impactProjects[0]);
 
   const Icon = projectTypeIcons[selectedProject.type] || Globe;
@@ -66,13 +68,13 @@ export default function MPSimulatorPage() {
         <div>
           <div className="flex items-center gap-2">
             <Globe className="size-5 text-emerald-600" />
-            <h1 className="text-2xl font-bold text-foreground">Development Impact Simulator</h1>
+            <h1 className="text-2xl font-bold text-foreground">{t("mp.simulator.title")}</h1>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">Simulate the impact of infrastructure projects on your constituency.</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("mp.simulator.subtitle")}</p>
         </div>
         <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 border border-emerald-200">
           <Brain className="size-4 text-emerald-600" />
-          <span className="text-xs text-emerald-700 font-medium">AI-Powered Analysis</span>
+          <span className="text-xs text-emerald-700 font-medium">{t("mp.simulator.aiPoweredAnalysis")}</span>
         </div>
       </motion.div>
 
@@ -83,7 +85,7 @@ export default function MPSimulatorPage() {
           animate={{ opacity: 1, x: 0 }}
           className="xl:col-span-1 space-y-3"
         >
-          <h3 className="text-sm font-semibold text-foreground">Select Project</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t("mp.simulator.selectProject")}</h3>
           {impactProjects.map((project) => {
             const PIcon = projectTypeIcons[project.type] || Globe;
             const pColors = projectColors[project.type] || projectColors.Hospital;
@@ -190,7 +192,7 @@ export default function MPSimulatorPage() {
 
             {/* Impact Radius Label */}
             <div className="absolute right-4 top-4 rounded-xl bg-card/90 border border-border px-3 py-2 backdrop-blur-sm shadow-sm">
-              <div className="text-[10px] text-muted-foreground">Impact Radius</div>
+              <div className="text-[10px] text-muted-foreground">{t("mp.simulator.impactRadius")}</div>
               <div className="text-sm font-bold text-foreground">{(selectedProject.populationCovered / 1000).toFixed(0)}K citizens</div>
             </div>
           </div>
@@ -199,10 +201,10 @@ export default function MPSimulatorPage() {
           <div className="absolute bottom-6 left-6 right-6">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {[
-                { label: "Population Covered", value: selectedProject.populationCovered.toLocaleString("en-IN"), icon: Users, color: "text-primary" },
-                { label: "Travel Time Reduced", value: `${selectedProject.travelTimeReduction} min`, icon: Clock, color: "text-emerald-600" },
-                { label: "Complaint Reduction", value: selectedProject.complaintReduction.toString(), icon: TrendingDown, color: "text-amber-600" },
-                { label: "ROI Score", value: `${selectedProject.roi}x`, icon: Target, color: "text-purple-600" },
+                { label: t("mp.simulator.populationCovered"), value: selectedProject.populationCovered.toLocaleString("en-IN"), icon: Users, color: "text-primary" },
+                { label: t("mp.simulator.travelTimeReduced"), value: `${selectedProject.travelTimeReduction} min`, icon: Clock, color: "text-emerald-600" },
+                { label: t("mp.simulator.complaintReduction"), value: selectedProject.complaintReduction.toString(), icon: TrendingDown, color: "text-amber-600" },
+                { label: t("mp.simulator.roiScore"), value: `${selectedProject.roi}x`, icon: Target, color: "text-purple-600" },
               ].map((metric, i) => (
                 <motion.div
                   key={metric.label}
@@ -229,7 +231,7 @@ export default function MPSimulatorPage() {
       >
         <h2 className="mb-4 text-lg font-bold text-foreground flex items-center gap-2">
           <Target className="size-5 text-purple-600" />
-          Project Impact Comparison
+          {t("mp.simulator.projectImpactComparison")}
         </h2>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="h-64">
@@ -296,11 +298,11 @@ export default function MPSimulatorPage() {
 
                   <div className="mt-3 grid grid-cols-2 gap-2">
                     <div className="rounded-lg bg-muted/50 p-2">
-                      <div className="text-[10px] text-muted-foreground">Budget</div>
+                      <div className="text-[10px] text-muted-foreground">{t("mp.simulator.budget")}</div>
                       <div className="text-sm font-bold text-foreground">₹{(project.budgetUsed / 100000).toFixed(0)}L</div>
                     </div>
                     <div className="rounded-lg bg-muted/50 p-2">
-                      <div className="text-[10px] text-muted-foreground">Beneficiaries</div>
+                      <div className="text-[10px] text-muted-foreground">{t("mp.simulator.beneficiaries")}</div>
                       <div className="text-sm font-bold text-foreground">{(project.beneficiaries / 1000).toFixed(1)}K</div>
                     </div>
                   </div>

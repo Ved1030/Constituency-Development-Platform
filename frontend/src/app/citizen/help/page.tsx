@@ -21,27 +21,29 @@ import {
 import { cn } from "@/lib/utils";
 import { helpArticles } from "@/data/mock-citizen";
 import { useState } from "react";
-
-const faqCategories = [
-  {
-    icon: FileText,
-    title: "Getting Started",
-    articles: helpArticles.filter((a) => a.category === "Getting Started"),
-  },
-  {
-    icon: MessageCircle,
-    title: "Community",
-    articles: helpArticles.filter((a) => a.category === "Community"),
-  },
-  {
-    icon: Star,
-    title: "Account",
-    articles: helpArticles.filter((a) => a.category === "Account"),
-  },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function HelpPage() {
+  const { t } = useTranslation();
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+
+  const faqCategories = [
+    {
+      icon: FileText,
+      title: "Getting Started",
+      articles: helpArticles.filter((a) => a.category === "Getting Started"),
+    },
+    {
+      icon: MessageCircle,
+      title: "Community",
+      articles: helpArticles.filter((a) => a.category === "Community"),
+    },
+    {
+      icon: Star,
+      title: "Account",
+      articles: helpArticles.filter((a) => a.category === "Account"),
+    },
+  ];
 
   return (
     <div className="space-y-6">
@@ -49,7 +51,7 @@ export default function HelpPage() {
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/citizen/dashboard" className="hover:text-foreground">Dashboard</Link>
         <ChevronRight className="size-3.5" />
-        <span className="font-medium text-foreground">Help & Support</span>
+        <span className="font-medium text-foreground">{t("citizen.help.helpSupport")}</span>
       </div>
 
       {/* Hero */}
@@ -62,16 +64,16 @@ export default function HelpPage() {
           <div className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-primary/10">
             <HelpCircle className="size-8 text-primary" />
           </div>
-          <h2 className="mt-4 text-2xl font-bold text-foreground">How can we help you?</h2>
+          <h2 className="mt-4 text-2xl font-bold text-foreground">{t("citizen.help.howCanWeHelp")}</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Search our help center or browse frequently asked questions
+            {t("citizen.help.searchHelpCenter")}
           </p>
           <div className="mx-auto mt-6 max-w-lg">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search for help articles..."
+                placeholder={t("citizen.help.searchHelpArticles")}
                 className="h-12 w-full rounded-xl border border-border bg-card pl-11 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
@@ -82,9 +84,9 @@ export default function HelpPage() {
       {/* Quick Links */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {[
-          { icon: Phone, label: "Call Support", description: "1800-180-1551 (Toll Free)", color: "text-blue-600", bg: "bg-blue-50" },
-          { icon: Mail, label: "Email Us", description: "help@cdp.gov.in", color: "text-emerald-600", bg: "bg-emerald-50" },
-          { icon: MessageCircle, label: "Live Chat", description: "Chat with our support team", color: "text-purple-600", bg: "bg-purple-50" },
+          { icon: Phone, label: t("citizen.help.callSupport"), description: "1800-180-1551 (Toll Free)", color: "text-blue-600", bg: "bg-blue-50" },
+          { icon: Mail, label: t("citizen.help.emailUs"), description: "help@cdp.gov.in", color: "text-emerald-600", bg: "bg-emerald-50" },
+          { icon: MessageCircle, label: t("citizen.help.liveChat"), description: t("citizen.help.chatWithTeam"), color: "text-purple-600", bg: "bg-purple-50" },
         ].map((contact, i) => (
           <motion.div
             key={contact.label}
@@ -131,7 +133,7 @@ export default function HelpPage() {
                       <span className="text-sm font-medium text-foreground">{article.title}</span>
                       {article.popular && (
                         <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">
-                          Popular
+                          {t("common.popular")}
                         </span>
                       )}
                     </div>
@@ -162,13 +164,13 @@ export default function HelpPage() {
 
       {/* Additional Resources */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <h3 className="text-base font-semibold text-foreground">Additional Resources</h3>
+        <h3 className="text-base font-semibold text-foreground">{t("citizen.help.additionalResources")}</h3>
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {[
-            { label: "User Guide (PDF)", icon: BookOpen },
-            { label: "Video Tutorials", icon: ExternalLink },
-            { label: "Voice Input Guide", icon: Mic },
-            { label: "Language Support", icon: Globe },
+            { label: t("citizen.help.userGuide"), icon: BookOpen },
+            { label: t("citizen.help.videoTutorials"), icon: ExternalLink },
+            { label: t("citizen.help.voiceInputGuide"), icon: Mic },
+            { label: t("citizen.help.languageSupport"), icon: Globe },
           ].map((resource) => (
             <button
               key={resource.label}

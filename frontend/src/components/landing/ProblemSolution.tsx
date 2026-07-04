@@ -11,66 +11,69 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-
-const problems = [
-  {
-    icon: Clock,
-    title: "Slow Decision Making",
-    description: "Months of delay in identifying and prioritizing community needs.",
-  },
-  {
-    icon: FileText,
-    title: "Data Silos",
-    description: "Citizen feedback trapped in unorganized channels and paperwork.",
-  },
-  {
-    icon: BarChart3,
-    title: "No Impact Visibility",
-    description: "Unable to measure or predict the outcome of development projects.",
-  },
-  {
-    icon: MessageSquare,
-    title: "Language Barriers",
-    description: "Citizen voices lost in translation across diverse languages.",
-  },
-];
-
-const solutions = [
-  {
-    icon: TrendingUp,
-    title: "Real-Time AI Analysis",
-    description: "Instant processing of citizen feedback with NLP-powered sentiment analysis.",
-  },
-  {
-    icon: Users,
-    title: "Unified Platform",
-    description: "All stakeholder communication in one centralized, transparent system.",
-  },
-  {
-    icon: BarChart3,
-    title: "Impact Simulator",
-    description: "Predict development outcomes before allocating resources.",
-  },
-  {
-    icon: MessageSquare,
-    title: "Multilingual AI",
-    description: "12+ Indian languages supported with AI translation and analysis.",
-  },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export function ProblemSolution() {
+  const { t } = useTranslation();
+
+  const problems = [
+    {
+      icon: Clock,
+      title: t("landing.problem1Title"),
+      description: t("landing.problem1Desc"),
+    },
+    {
+      icon: FileText,
+      title: t("landing.problem2Title"),
+      description: t("landing.problem2Desc"),
+    },
+    {
+      icon: BarChart3,
+      title: t("landing.problem3Title"),
+      description: t("landing.problem3Desc"),
+    },
+    {
+      icon: MessageSquare,
+      title: t("landing.problem4Title"),
+      description: t("landing.problem4Desc"),
+    },
+  ];
+
+  const solutions = [
+    {
+      icon: TrendingUp,
+      title: t("landing.solution1Title"),
+      description: t("landing.solution1Desc"),
+    },
+    {
+      icon: Users,
+      title: t("landing.solution2Title"),
+      description: t("landing.solution2Desc"),
+    },
+    {
+      icon: BarChart3,
+      title: t("landing.solution3Title"),
+      description: t("landing.solution3Desc"),
+    },
+    {
+      icon: MessageSquare,
+      title: t("landing.solution4Title"),
+      description: t("landing.solution4Desc"),
+    },
+  ];
+
   return (
     <section id="problem-solution" className="py-16 md:py-24 bg-card/50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
           <div className="mb-4 inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
-            Problem vs Solution
+            {t("landing.problemSolutionTag")}
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            From Challenges to AI-Powered Solutions
+            {t("landing.problemSolutionTitle")}
           </h2>
           <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-            Replacing outdated processes with intelligent, data-driven governance.
+            {t("landing.problemSolutionSubtitle")}
           </p>
         </div>
 
@@ -86,7 +89,7 @@ export function ProblemSolution() {
                 <XCircle className="size-5" />
               </div>
               <h3 className="text-2xl font-bold text-foreground">
-                Current Problems
+                {t("landing.currentProblems")}
               </h3>
             </div>
             <div className="space-y-4">
@@ -146,7 +149,7 @@ export function ProblemSolution() {
                   <CheckCircle className="size-5" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground">
-                  AI-Powered Solution
+                  {t("landing.aiPoweredSolution")}
                 </h3>
               </div>
               <div className="space-y-4">

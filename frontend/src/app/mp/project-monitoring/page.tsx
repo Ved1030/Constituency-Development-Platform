@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import { FolderKanban, Clock, CheckCircle2, AlertCircle, TrendingUp, MapPin, IndianRupee } from "lucide-react";
 import { priorityProjects } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function ProjectMonitoringPage() {
+  const { t } = useTranslation();
   const statusCounts = {
     "on-track": priorityProjects.filter((p) => p.status === "on-track").length,
     delayed: priorityProjects.filter((p) => p.status === "delayed").length,
@@ -18,18 +20,17 @@ export default function ProjectMonitoringPage() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-2">
           <FolderKanban className="size-5 text-primary" />
-          <h1 className="text-2xl font-bold text-foreground">Project Monitoring</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t("mp.projectMonitoring.projectMonitoring")}</h1>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">Track all development projects across North Chennai constituency.</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("mp.projectMonitoring.trackAllProjects")}</p>
       </motion.div>
 
-      {/* Status Cards */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: "On Track", count: statusCounts["on-track"], color: "emerald", icon: CheckCircle2 },
-          { label: "Delayed", count: statusCounts.delayed, color: "amber", icon: Clock },
-          { label: "At Risk", count: statusCounts["at-risk"], color: "red", icon: AlertCircle },
-          { label: "Completed", count: statusCounts.completed, color: "blue", icon: CheckCircle2 },
+          { label: t("mp.projectMonitoring.onTrack"), count: statusCounts["on-track"], color: "emerald", icon: CheckCircle2 },
+          { label: t("mp.projectMonitoring.delayed"), count: statusCounts.delayed, color: "amber", icon: Clock },
+          { label: t("mp.projectMonitoring.atRisk"), count: statusCounts["at-risk"], color: "red", icon: AlertCircle },
+          { label: t("mp.projectMonitoring.completed"), count: statusCounts.completed, color: "blue", icon: CheckCircle2 },
         ].map((s, i) => (
           <motion.div
             key={s.label}
@@ -45,24 +46,23 @@ export default function ProjectMonitoringPage() {
         ))}
       </div>
 
-      {/* Project List */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className="rounded-2xl border border-border bg-card p-6"
       >
-        <h3 className="mb-4 text-sm font-semibold text-foreground">All Projects</h3>
+        <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.projectMonitoring.allProjects")}</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="border-b border-border">
                 <th className="pb-3 font-medium text-muted-foreground">#</th>
-                <th className="pb-3 font-medium text-muted-foreground">Project</th>
-                <th className="pb-3 font-medium text-muted-foreground">Category</th>
-                <th className="pb-3 font-medium text-muted-foreground">Village</th>
-                <th className="pb-3 font-medium text-muted-foreground">Budget</th>
-                <th className="pb-3 font-medium text-muted-foreground">Progress</th>
-                <th className="pb-3 font-medium text-muted-foreground">Status</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.projectMonitoring.project")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.projectMonitoring.category")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.projectMonitoring.village")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.projectMonitoring.budget")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.projectMonitoring.progress")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.projectMonitoring.status")}</th>
               </tr>
             </thead>
             <tbody>

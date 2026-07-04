@@ -9,66 +9,62 @@ import {
   ListChecks,
   Languages,
 } from "lucide-react";
-
-const features = [
-  {
-    icon: Bot,
-    title: "AI MP Copilot",
-    description:
-      "Intelligent assistant that helps MPs analyze constituency data, generate reports, and make informed decisions with real-time AI recommendations.",
-    gradient: "from-violet-500 to-purple-600",
-  },
-  {
-    icon: LineChart,
-    title: "Development Impact Simulator",
-    description:
-      "Simulate the impact of development projects before allocation. Visualize outcomes across education, healthcare, infrastructure, and more.",
-    gradient: "from-blue-500 to-cyan-600",
-  },
-  {
-    icon: Scale,
-    title: "Need vs Spend Detection",
-    description:
-      "AI identifies gaps between allocated funds and actual community needs, flagging mismatches for corrective action.",
-    gradient: "from-emerald-500 to-teal-600",
-  },
-  {
-    icon: GitCompare,
-    title: "Project Comparison",
-    description:
-      "Side-by-side comparison of projects based on cost, impact, timeline, and community priority scores.",
-    gradient: "from-orange-500 to-amber-600",
-  },
-  {
-    icon: ListChecks,
-    title: "Priority Engine",
-    description:
-      "Multi-factor prioritization algorithm that ranks projects by urgency, impact, budget alignment, and citizen sentiment.",
-    gradient: "from-rose-500 to-pink-600",
-  },
-  {
-    icon: Languages,
-    title: "Multilingual AI",
-    description:
-      "Break language barriers with AI-powered translation and sentiment analysis supporting 12+ Indian languages.",
-    gradient: "from-primary to-accent",
-  },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export function Features() {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      icon: Bot,
+      title: t("landing.feature1Title"),
+      description: t("landing.feature1Description"),
+      gradient: "from-violet-500 to-purple-600",
+    },
+    {
+      icon: LineChart,
+      title: t("landing.feature2Title"),
+      description: t("landing.feature2Description"),
+      gradient: "from-blue-500 to-cyan-600",
+    },
+    {
+      icon: Scale,
+      title: t("landing.feature3Title"),
+      description: t("landing.feature3Description"),
+      gradient: "from-emerald-500 to-teal-600",
+    },
+    {
+      icon: GitCompare,
+      title: t("landing.feature4Title"),
+      description: t("landing.feature4Description"),
+      gradient: "from-orange-500 to-amber-600",
+    },
+    {
+      icon: ListChecks,
+      title: t("landing.feature5Title"),
+      description: t("landing.feature5Description"),
+      gradient: "from-rose-500 to-pink-600",
+    },
+    {
+      icon: Languages,
+      title: t("landing.feature6Title"),
+      description: t("landing.feature6Description"),
+      gradient: "from-primary to-accent",
+    },
+  ];
+
   return (
     <section id="features" className="py-16 md:py-24 bg-card/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
           <div className="mb-4 inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
-            AI Features
+            {t("landing.aiFeaturesTag")}
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            Powered by Advanced AI
+            {t("landing.poweredByAI")}
           </h2>
           <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-            Cutting-edge artificial intelligence tools designed specifically for
-            constituency development.
+            {t("landing.aiFeaturesSubtitle")}
           </p>
         </div>
 
@@ -97,7 +93,7 @@ export function Features() {
               </p>
 
               <div className="mt-5 flex items-center gap-1.5 text-sm font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                <span>Learn more</span>
+                <span>{t("common.learnMore")}</span>
                 <svg
                   width="14"
                   height="14"

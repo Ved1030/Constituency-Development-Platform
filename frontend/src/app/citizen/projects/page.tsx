@@ -13,12 +13,13 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { developmentProjects } from "@/data/mock-citizen";
+import { useTranslation } from "@/hooks/use-translation";
 
-const statusConfig: Record<string, { label: string; color: string; bg: string; icon: typeof CheckCircle2 }> = {
-  "on-track": { label: "On Track", color: "text-emerald-700", bg: "bg-emerald-50", icon: CheckCircle2 },
-  delayed: { label: "Delayed", color: "text-amber-700", bg: "bg-amber-50", icon: Clock },
-  completed: { label: "Completed", color: "text-blue-700", bg: "bg-blue-50", icon: CheckCircle2 },
-  planned: { label: "Planned", color: "text-gray-700", bg: "bg-gray-50", icon: Calendar },
+const statusConfig: Record<string, { labelKey: string; color: string; bg: string; icon: typeof CheckCircle2 }> = {
+  "on-track": { labelKey: "onTrack", color: "text-emerald-700", bg: "bg-emerald-50", icon: CheckCircle2 },
+  delayed: { labelKey: "delayed", color: "text-amber-700", bg: "bg-amber-50", icon: Clock },
+  completed: { labelKey: "completed", color: "text-blue-700", bg: "bg-blue-50", icon: CheckCircle2 },
+  planned: { labelKey: "planned", color: "text-gray-700", bg: "bg-gray-50", icon: Calendar },
 };
 
 const categoryColors: Record<string, string> = {
@@ -30,32 +31,33 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function ProjectsPage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Link href="/citizen/dashboard" className="hover:text-foreground">Dashboard</Link>
+        <Link href="/citizen/dashboard" className="hover:text-foreground">{t("citizen.sidebar.dashboard")}</Link>
         <ChevronRight className="size-3.5" />
-        <span className="font-medium text-foreground">Development Projects</span>
+        <span className="font-medium text-foreground">{t("citizen.projects.developmentProjects")}</span>
       </div>
 
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Development Projects</h2>
+          <h2 className="text-2xl font-bold text-foreground">{t("citizen.projects.developmentProjects")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Track ongoing development projects in your constituency
+            {t("citizen.projects.trackOngoing")}
           </p>
         </div>
         <div className="flex gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
-            <CheckCircle2 className="size-3" /> {developmentProjects.filter((p) => p.status === "on-track").length} On Track
+            <CheckCircle2 className="size-3" /> {developmentProjects.filter((p) => p.status === "on-track").length} {t("citizen.projects.onTrack")}
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700">
-            <Clock className="size-3" /> {developmentProjects.filter((p) => p.status === "delayed").length} Delayed
+            <Clock className="size-3" /> {developmentProjects.filter((p) => p.status === "delayed").length} {t("citizen.projects.delayed")}
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">
-            <CheckCircle2 className="size-3" /> {developmentProjects.filter((p) => p.status === "completed").length} Completed
+            <CheckCircle2 className="size-3" /> {developmentProjects.filter((p) => p.status === "completed").length} {t("citizen.projects.completed")}
           </span>
         </div>
       </div>
@@ -80,7 +82,7 @@ export default function ProjectsPage() {
                 </span>
                 <span className={cn("flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold", status.bg, status.color)}>
                   <StatusIcon className="size-3" />
-                  {status.label}
+                  {t(`citizen.projects.${status.labelKey}`)}
                 </span>
               </div>
 
@@ -96,7 +98,7 @@ export default function ProjectsPage() {
 
               <div className="mt-4">
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>Progress</span>
+                  <span>{t("citizen.projects.progress")}</span>
                   <span className="font-medium text-foreground">{project.progress}%</span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
@@ -118,7 +120,7 @@ export default function ProjectsPage() {
                   <span>₹{(project.spent / 100000).toFixed(1)}L / ₹{(project.budget / 100000).toFixed(1)}L</span>
                 </div>
                 <button className="flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                  Details <ArrowUpRight className="size-3" />
+                  {t("citizen.projects.details")} <ArrowUpRight className="size-3" />
                 </button>
               </div>
             </motion.div>

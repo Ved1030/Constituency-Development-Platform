@@ -19,41 +19,43 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProfileCard } from "@/components/citizen/ProfileCard";
 import { citizenUser, contributionGraph } from "@/data/mock-citizen";
-
-const settingsSections = [
-  {
-    title: "Preferences",
-    items: [
-      { icon: Globe, label: "Language", value: citizenUser.preferredLanguage },
-      { icon: Bell, label: "Notifications", value: "Push, Email" },
-      { icon: Moon, label: "Dark Mode", value: "Off", toggle: true },
-      { icon: Smartphone, label: "Mobile Alerts", value: "SMS", toggle: true },
-    ],
-  },
-  {
-    title: "Account",
-    items: [
-      { icon: Shield, label: "Privacy", value: "Manage" },
-      { icon: Mail, label: "Email Preferences", value: "Weekly Digest" },
-    ],
-  },
-];
-
-const achievements = [
-  { label: "Early Adopter", description: "Joined in first 1000 users", progress: 100, color: "bg-primary" },
-  { label: "Problem Solver", description: "10+ complaints resolved", progress: 90, color: "bg-success" },
-  { label: "Voice of the Month", description: "Most upvoted issue", progress: 100, color: "bg-amber-500" },
-  { label: "Top Contributor", description: "500+ community points", progress: 84, color: "bg-purple-500" },
-  { label: "Super Voter", description: "Voted on 20+ proposals", progress: 35, color: "bg-blue-500" },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
   const [darkMode, setDarkMode] = useState(false);
   const [mobileAlerts, setMobileAlerts] = useState(true);
 
   const totalInteractions = contributionGraph.reduce((acc, m) => acc + m.complaints + m.votes, 0);
   const maxComplaints = Math.max(...contributionGraph.map((m) => m.complaints));
   const maxVotes = Math.max(...contributionGraph.map((m) => m.votes));
+
+  const settingsSections = [
+    {
+      title: t("citizen.profile.preferences"),
+      items: [
+        { icon: Globe, label: t("citizen.profile.language"), value: citizenUser.preferredLanguage },
+        { icon: Bell, label: t("citizen.profile.notifications"), value: t("citizen.profile.pushEmail") },
+        { icon: Moon, label: t("citizen.profile.darkMode"), value: t("citizen.profile.off"), toggle: true },
+        { icon: Smartphone, label: t("citizen.profile.mobileAlerts"), value: t("citizen.profile.sms"), toggle: true },
+      ],
+    },
+    {
+      title: t("citizen.profile.account"),
+      items: [
+        { icon: Shield, label: t("citizen.profile.privacy"), value: t("citizen.profile.manage") },
+        { icon: Mail, label: t("citizen.profile.emailPreferences"), value: t("citizen.profile.weeklyDigest") },
+      ],
+    },
+  ];
+
+  const achievements = [
+    { label: t("citizen.profile.earlyAdopter"), description: t("citizen.profile.joinedFirst1000"), progress: 100, color: "bg-primary" },
+    { label: t("citizen.profile.problemSolver"), description: t("citizen.profile.complaintsResolved10"), progress: 90, color: "bg-success" },
+    { label: t("citizen.profile.voiceOfMonth"), description: t("citizen.profile.mostUpvoted"), progress: 100, color: "bg-amber-500" },
+    { label: t("citizen.profile.topContributor"), description: t("citizen.profile.communityPoints500"), progress: 84, color: "bg-purple-500" },
+    { label: t("citizen.profile.superVoter"), description: t("citizen.profile.votedOn20"), progress: 35, color: "bg-blue-500" },
+  ];
 
   return (
     <div className="p-4 lg:p-6 space-y-6">
@@ -70,16 +72,16 @@ export default function ProfilePage() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <Activity className="size-5 text-primary" />
-                <h3 className="text-sm font-semibold text-foreground">Activity Overview</h3>
+                <h3 className="text-sm font-semibold text-foreground">{t("citizen.profile.activityOverview")}</h3>
               </div>
               <div className="flex items-center gap-3 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <span className="size-2 rounded-full bg-primary" />
-                  Complaints
+                  {t("citizen.profile.complaints")}
                 </span>
                 <span className="flex items-center gap-1">
                   <span className="size-2 rounded-full bg-accent" />
-                  Votes
+                  {t("citizen.profile.votes")}
                 </span>
               </div>
             </div>
@@ -105,15 +107,15 @@ export default function ProfilePage() {
             <div className="mt-4 grid grid-cols-3 gap-4 rounded-xl bg-muted/50 p-4">
               <div className="text-center">
                 <div className="text-lg font-bold text-foreground">{totalInteractions}</div>
-                <div className="text-[11px] text-muted-foreground">Total Activities</div>
+                <div className="text-[11px] text-muted-foreground">{t("citizen.profile.totalActivities")}</div>
               </div>
               <div className="text-center">
                 <div className="text-lg font-bold text-primary">{citizenUser.totalComplaints}</div>
-                <div className="text-[11px] text-muted-foreground">Complaints</div>
+                <div className="text-[11px] text-muted-foreground">{t("citizen.profile.complaints")}</div>
               </div>
               <div className="text-center">
                 <div className="text-lg font-bold text-accent">33</div>
-                <div className="text-[11px] text-muted-foreground">Votes Cast</div>
+                <div className="text-[11px] text-muted-foreground">{t("citizen.profile.votesCast")}</div>
               </div>
             </div>
           </motion.div>
@@ -126,7 +128,7 @@ export default function ProfilePage() {
           >
             <div className="flex items-center gap-3 mb-6">
               <BarChart3 className="size-5 text-primary" />
-              <h3 className="text-sm font-semibold text-foreground">Achievements</h3>
+              <h3 className="text-sm font-semibold text-foreground">{t("citizen.profile.achievements")}</h3>
             </div>
             <div className="space-y-4">
               {achievements.map((achievement) => (
@@ -173,12 +175,12 @@ export default function ProfilePage() {
                     {"toggle" in item ? (
                       <button
                         onClick={() => {
-                          if (item.label === "Dark Mode") setDarkMode(!darkMode);
-                          if (item.label === "Mobile Alerts") setMobileAlerts(!mobileAlerts);
+                          if (item.label === t("citizen.profile.darkMode")) setDarkMode(!darkMode);
+                          if (item.label === t("citizen.profile.mobileAlerts")) setMobileAlerts(!mobileAlerts);
                         }}
                         className={cn(
                           "relative h-5 w-9 rounded-full transition-colors",
-                          (item.label === "Dark Mode" && darkMode) || (item.label === "Mobile Alerts" && mobileAlerts)
+                          (item.label === t("citizen.profile.darkMode") && darkMode) || (item.label === t("citizen.profile.mobileAlerts") && mobileAlerts)
                             ? "bg-primary"
                             : "bg-muted-foreground/30",
                         )}
@@ -186,7 +188,7 @@ export default function ProfilePage() {
                         <span
                           className={cn(
                             "absolute left-0.5 top-0.5 size-4 rounded-full bg-white transition-transform shadow-sm",
-                            ((item.label === "Dark Mode" && darkMode) || (item.label === "Mobile Alerts" && mobileAlerts)) && "translate-x-4",
+                            ((item.label === t("citizen.profile.darkMode") && darkMode) || (item.label === t("citizen.profile.mobileAlerts") && mobileAlerts)) && "translate-x-4",
                           )}
                         />
                       </button>
@@ -209,7 +211,7 @@ export default function ProfilePage() {
           >
             <Button variant="outline" className="w-full gap-2 text-destructive hover:text-destructive hover:bg-destructive/5 border-destructive/30">
               <LogOut className="size-4" />
-              Sign Out
+              {t("citizen.profile.signOut")}
             </Button>
           </motion.div>
         </div>

@@ -16,6 +16,8 @@ import {
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
+import { LanguageSelector } from "@/components/common/LanguageSelector";
 
 interface TopNavbarProps {
   title: string;
@@ -24,6 +26,7 @@ interface TopNavbarProps {
 
 export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -56,7 +59,7 @@ export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
               )}
             >
               <Search className="size-4" />
-              <span className="hidden lg:inline">Search...</span>
+              <span className="hidden lg:inline">{t("mp.header.search")}</span>
               <kbd className="hidden rounded-md border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground lg:inline">
                 ⌘K
               </kbd>
@@ -87,8 +90,8 @@ export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
                   className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-border bg-card shadow-xl"
                 >
                   <div className="flex items-center justify-between border-b border-border px-4 py-3">
-                    <span className="text-sm font-semibold text-foreground">Notifications</span>
-                    <span className="text-xs text-primary cursor-pointer">Mark all read</span>
+                    <span className="text-sm font-semibold text-foreground">{t("mp.header.notifications")}</span>
+                    <span className="text-xs text-primary cursor-pointer">{t("mp.header.markAllRead")}</span>
                   </div>
                   <div className="max-h-72 overflow-y-auto">
                     {[
@@ -116,13 +119,16 @@ export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
                   </div>
                   <div className="border-t border-border px-4 py-2.5 text-center">
                     <button className="text-xs font-medium text-primary hover:underline">
-                      View all notifications
+                      {t("mp.header.viewAllNotifications")}
                     </button>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
+
+          {/* Language Selector */}
+          <LanguageSelector />
 
           {/* Settings */}
           <button
@@ -164,9 +170,9 @@ export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
                   </div>
                   <div className="p-1.5">
                     {[
-                      { label: "My Profile", icon: User, href: "/mp/settings" },
-                      { label: "Settings", icon: SettingsIcon, href: "/mp/settings" },
-                      { label: "Help & Support", icon: HelpCircle, href: "/mp/settings" },
+                      { label: t("mp.header.myProfile"), icon: User, href: "/mp/settings" },
+                      { label: t("mp.header.settings"), icon: SettingsIcon, href: "/mp/settings" },
+                      { label: t("mp.header.helpSupport"), icon: HelpCircle, href: "/mp/settings" },
                     ].map((item) => (
                       <a
                         key={item.label}
@@ -188,7 +194,7 @@ export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
                       className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-destructive transition-colors hover:bg-destructive/5"
                     >
                       <LogOut className="size-4" />
-                      Sign Out
+                      {t("common.signOut")}
                     </button>
                   </div>
                 </motion.div>

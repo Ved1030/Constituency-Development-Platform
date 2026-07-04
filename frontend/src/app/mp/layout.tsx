@@ -5,23 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { MPSidebar } from "@/components/dashboard/Sidebar";
 import { TopNavbar } from "@/components/dashboard/TopNavbar";
-
-const pageTitles: Record<string, string> = {
-  "/mp/dashboard": "Dashboard",
-  "/mp/copilot": "AI MP Copilot",
-  "/mp/priority-engine": "Priority Engine",
-  "/mp/simulator": "Impact Simulator",
-  "/mp/projects": "AI Project Comparison",
-  "/mp/recommendations": "Policy Recommendation",
-  "/mp/analytics": "Constituency Analytics",
-  "/mp/need-vs-spend": "Need vs Spend",
-  "/mp/complaint-intelligence": "Complaint Intelligence",
-  "/mp/constituency-twin": "Constituency Digital Twin",
-  "/mp/budget": "Budget Optimizer",
-  "/mp/project-monitoring": "Project Monitoring",
-  "/mp/departments": "Departments & Sectors",
-  "/mp/settings": "Settings & Reports",
-};
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function MPLayout({
   children,
@@ -29,10 +13,28 @@ export default function MPLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { t } = useTranslation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const pageTitle = pageTitles[pathname] || "MP Portal";
+  const pageTitles: Record<string, string> = {
+    "/mp/dashboard": t("mp.sidebar.dashboard"),
+    "/mp/copilot": t("mp.sidebar.aiMPCopilot"),
+    "/mp/priority-engine": t("mp.sidebar.aiPriorityEngine"),
+    "/mp/simulator": t("mp.sidebar.devImpactSimulator"),
+    "/mp/projects": t("mp.sidebar.aiProjectComparison"),
+    "/mp/recommendations": t("mp.sidebar.policyRecommendation"),
+    "/mp/analytics": t("mp.sidebar.constituencyAnalytics"),
+    "/mp/need-vs-spend": t("mp.sidebar.needVsSpend"),
+    "/mp/complaint-intelligence": t("mp.sidebar.complaintIntelligence"),
+    "/mp/constituency-twin": t("mp.sidebar.constituencyDigitalTwin"),
+    "/mp/budget": t("mp.sidebar.budgetOptimizer"),
+    "/mp/project-monitoring": t("mp.sidebar.projectMonitoring"),
+    "/mp/departments": t("mp.sidebar.departmentsSectors"),
+    "/mp/settings": t("mp.sidebar.settingsReports"),
+  };
+
+  const pageTitle = pageTitles[pathname] || t("mp.portal");
 
   return (
     <div className="flex min-h-screen bg-background">

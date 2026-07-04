@@ -1,35 +1,40 @@
+"use client";
+
 import Link from "next/link";
 import { Code2, MessageCircle, Briefcase, Mail, MapPin, Phone } from "lucide-react";
-
-const quickLinks = [
-  { href: "/", label: "Features" },
-  { href: "/", label: "How It Works" },
-  { href: "/", label: "Solutions" },
-  { href: "/login", label: "Pricing" },
-  { href: "/login", label: "FAQ" },
-];
-
-const resources = [
-  { href: "/login", label: "Documentation" },
-  { href: "/login", label: "API Reference" },
-  { href: "/login", label: "Blog" },
-  { href: "/login", label: "Community" },
-  { href: "/login", label: "Support" },
-];
-
-const contactItems = [
-  { icon: Mail, text: "hello@cdp.gov.in" },
-  { icon: Phone, text: "+91 1800-123-4567" },
-  { icon: MapPin, text: "New Delhi, India" },
-];
-
-const socialLinks = [
-  { icon: Code2, href: "https://github.com", label: "GitHub" },
-  { icon: MessageCircle, href: "https://twitter.com", label: "Twitter" },
-  { icon: Briefcase, href: "https://linkedin.com", label: "LinkedIn" },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export function Footer() {
+  const { t } = useTranslation();
+
+  const quickLinks = [
+    { href: "/", label: t("nav.features") },
+    { href: "/", label: t("nav.howItWorks") },
+    { href: "/", label: t("nav.solutions") },
+    { href: "/login", label: t("nav.pricing") },
+    { href: "/login", label: t("nav.faq") },
+  ];
+
+  const resources = [
+    { href: "/login", label: t("nav.documentation") },
+    { href: "/login", label: t("nav.apiReference") },
+    { href: "/login", label: t("nav.blog") },
+    { href: "/login", label: t("nav.community") },
+    { href: "/login", label: t("nav.support") },
+  ];
+
+  const contactItems = [
+    { icon: Mail, text: "hello@cdp.gov.in" },
+    { icon: Phone, text: "+91 1800-123-4567" },
+    { icon: MapPin, text: "New Delhi, India" },
+  ];
+
+  const socialLinks = [
+    { icon: Code2, href: "https://github.com", label: "GitHub" },
+    { icon: MessageCircle, href: "https://twitter.com", label: "Twitter" },
+    { icon: Briefcase, href: "https://linkedin.com", label: "LinkedIn" },
+  ];
+
   return (
     <footer className="border-t border-border bg-card">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -42,8 +47,7 @@ export function Footer() {
               <span className="text-lg font-bold text-foreground">CDP</span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Transforming Citizen Voices into Data-Driven Development Decisions
-              through the power of AI and real-time analytics.
+              {t("footer.description")}
             </p>
             <div className="mt-6 flex items-center gap-3">
               {socialLinks.map((social) => (
@@ -61,7 +65,7 @@ export function Footer() {
 
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Quick Links
+              {t("nav.quickLinks")}
             </h3>
             <ul className="mt-4 space-y-3">
               {quickLinks.map((link) => (
@@ -79,7 +83,7 @@ export function Footer() {
 
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Resources
+              {t("nav.resources")}
             </h3>
             <ul className="mt-4 space-y-3">
               {resources.map((resource) => (
@@ -97,7 +101,7 @@ export function Footer() {
 
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Contact
+              {t("nav.contactUs")}
             </h3>
             <ul className="mt-4 space-y-4">
               {contactItems.map((item) => (
@@ -123,13 +127,13 @@ export function Footer() {
               href="/login"
               className="text-xs text-muted-foreground transition-colors hover:text-primary"
             >
-              Privacy Policy
+              {t("nav.privacyPolicy")}
             </Link>
             <Link
               href="/login"
               className="text-xs text-muted-foreground transition-colors hover:text-primary"
             >
-              Terms of Service
+              {t("nav.termsOfService")}
             </Link>
           </div>
         </div>

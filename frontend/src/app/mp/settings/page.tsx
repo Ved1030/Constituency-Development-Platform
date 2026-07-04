@@ -3,63 +3,65 @@
 import { motion } from "framer-motion";
 import { Settings, User, Bell, Shield, FileText, Download, Globe, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const settingsSections = [
-  {
-    title: "Profile",
-    icon: User,
-    items: [
-      { label: "MP Name", value: "Dr. Rajesh Kumar Sharma" },
-      { label: "Constituency", value: "North Chennai" },
-      { label: "State", value: "Tamil Nadu" },
-      { label: "Party", value: "Indian National Congress" },
-      { label: "Email", value: "rajesh.sharma@parliament.gov.in" },
-      { label: "Phone", value: "+91 98765 43210" },
-    ],
-  },
-  {
-    title: "Notifications",
-    icon: Bell,
-    items: [
-      { label: "Critical Alerts", value: "Enabled", toggle: true },
-      { label: "AI Insights", value: "Enabled", toggle: true },
-      { label: "Budget Alerts", value: "Enabled", toggle: true },
-      { label: "Project Updates", value: "Enabled", toggle: true },
-      { label: "Weekly Digest", value: "Enabled", toggle: true },
-    ],
-  },
-  {
-    title: "Reports",
-    icon: FileText,
-    items: [
-      { label: "Budget Utilization Report", value: "Q4 2024" },
-      { label: "Complaint Summary", value: "January 2025" },
-      { label: "Project Status Report", value: "Monthly" },
-      { label: "AI Performance Report", value: "Quarterly" },
-    ],
-  },
-];
-
-const downloadableReports = [
-  { name: "Constituency Annual Report 2024", size: "2.4 MB", date: "Jan 2025" },
-  { name: "Budget Utilization Q4 2024", size: "1.1 MB", date: "Jan 2025" },
-  { name: "AI Performance Assessment", size: "890 KB", date: "Jan 2025" },
-  { name: "Complaint Resolution Analytics", size: "1.8 MB", date: "Dec 2024" },
-  { name: "MPLADS Fund Utilization", size: "650 KB", date: "Dec 2024" },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
+
+  const settingsSections = [
+    {
+      title: t("mp.settings.profile"),
+      icon: User,
+      items: [
+        { label: t("mp.settings.mpName"), value: "Dr. Rajesh Kumar Sharma" },
+        { label: t("mp.settings.constituency"), value: "North Chennai" },
+        { label: t("mp.settings.state"), value: "Tamil Nadu" },
+        { label: t("mp.settings.party"), value: "Indian National Congress" },
+        { label: t("mp.settings.email"), value: "rajesh.sharma@parliament.gov.in" },
+        { label: t("mp.settings.phone"), value: "+91 98765 43210" },
+      ],
+    },
+    {
+      title: t("mp.settings.notifications"),
+      icon: Bell,
+      items: [
+        { label: t("mp.settings.criticalAlerts"), value: t("mp.settings.enabled"), toggle: true },
+        { label: t("mp.settings.aiInsights"), value: t("mp.settings.enabled"), toggle: true },
+        { label: t("mp.settings.budgetAlerts"), value: t("mp.settings.enabled"), toggle: true },
+        { label: t("mp.settings.projectUpdates"), value: t("mp.settings.enabled"), toggle: true },
+        { label: t("mp.settings.weeklyDigest"), value: t("mp.settings.enabled"), toggle: true },
+      ],
+    },
+    {
+      title: t("mp.settings.reports"),
+      icon: FileText,
+      items: [
+        { label: t("mp.settings.budgetUtilizationReport"), value: "Q4 2024" },
+        { label: t("mp.settings.complaintSummary"), value: "January 2025" },
+        { label: t("mp.settings.projectStatusReport"), value: "Monthly" },
+        { label: t("mp.settings.aiPerformanceReport"), value: "Quarterly" },
+      ],
+    },
+  ];
+
+  const downloadableReports = [
+    { name: "Constituency Annual Report 2024", size: "2.4 MB", date: "Jan 2025" },
+    { name: "Budget Utilization Q4 2024", size: "1.1 MB", date: "Jan 2025" },
+    { name: "AI Performance Assessment", size: "890 KB", date: "Jan 2025" },
+    { name: "Complaint Resolution Analytics", size: "1.8 MB", date: "Dec 2024" },
+    { name: "MPLADS Fund Utilization", size: "650 KB", date: "Dec 2024" },
+  ];
+
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-2">
           <Settings className="size-5 text-muted-foreground" />
-          <h1 className="text-2xl font-bold text-foreground">Settings & Reports</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t("mp.settings.settingsReports")}</h1>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">Manage profile, notifications, and download constituency reports.</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("mp.settings.manageProfileNotifications")}</p>
       </motion.div>
 
-      {/* Settings Sections */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {settingsSections.map((section, i) => (
           <motion.div
@@ -91,7 +93,6 @@ export default function SettingsPage() {
         ))}
       </div>
 
-      {/* Downloadable Reports */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
@@ -100,7 +101,7 @@ export default function SettingsPage() {
       >
         <div className="mb-4 flex items-center gap-2">
           <Download className="size-5 text-emerald-600" />
-          <h3 className="text-sm font-semibold text-foreground">Downloadable Reports</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t("mp.settings.downloadableReports")}</h3>
         </div>
         <div className="space-y-2">
           {downloadableReports.map((report) => (

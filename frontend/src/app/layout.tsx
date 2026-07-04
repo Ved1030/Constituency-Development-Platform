@@ -9,6 +9,7 @@ import "@fontsource/inter/latin-900.css";
 import "./globals.css";
 import { LayoutShell } from "@/components/layout/LayoutShell";
 import { Toaster } from "react-hot-toast";
+import { I18nProvider } from "@/hooks/i18n-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -41,7 +42,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased" data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <LayoutShell>{children}</LayoutShell>
+        <I18nProvider>
+          <LayoutShell>{children}</LayoutShell>
+        </I18nProvider>
         <Toaster
           position="top-right"
           toastOptions={{

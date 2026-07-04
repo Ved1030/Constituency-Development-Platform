@@ -22,6 +22,7 @@ import {
 } from "recharts";
 import { villages, departments, complaintTrends } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 const villageData = villages.map((v) => ({
   name: v.name.length > 10 ? v.name.slice(0, 10) + "..." : v.name,
@@ -49,23 +50,24 @@ const satisfactionByVillage = [...villages].sort((a, b) => b.satisfaction - a.sa
 }));
 
 export default function AnalyticsPage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-2">
           <BarChart3 className="size-5 text-primary" />
-          <h1 className="text-2xl font-bold text-foreground">Constituency Analytics</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t("mp.analytics.title")}</h1>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">Deep analytics across villages, departments, and complaint patterns.</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("mp.analytics.subtitle")}</p>
       </motion.div>
 
       {/* Summary */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: "Total Villages", value: "142", icon: MapPin, color: "text-emerald-600", bg: "bg-emerald-50" },
-          { label: "Avg Satisfaction", value: "80.6%", icon: Users, color: "text-primary", bg: "bg-blue-50" },
-          { label: "Resolution Rate", value: "78.4%", icon: TrendingUp, color: "text-purple-600", bg: "bg-purple-50" },
-          { label: "AI Confidence", value: "87%", icon: Brain, color: "text-amber-600", bg: "bg-amber-50" },
+          { label: t("mp.analytics.totalVillages"), value: "142", icon: MapPin, color: "text-emerald-600", bg: "bg-emerald-50" },
+          { label: t("mp.analytics.avgSatisfaction"), value: "80.6%", icon: Users, color: "text-primary", bg: "bg-blue-50" },
+          { label: t("mp.analytics.resolutionRate"), value: "78.4%", icon: TrendingUp, color: "text-purple-600", bg: "bg-purple-50" },
+          { label: t("mp.analytics.aiConfidence"), value: "87%", icon: Brain, color: "text-amber-600", bg: "bg-amber-50" },
         ].map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -90,7 +92,7 @@ export default function AnalyticsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Monthly Complaint Trends</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.analytics.monthlyComplaintTrends")}</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={monthlyTrend}>
@@ -118,7 +120,7 @@ export default function AnalyticsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Department Complaint Distribution</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.analytics.deptComplaintDistribution")}</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={deptData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
@@ -141,7 +143,7 @@ export default function AnalyticsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Village-wise Complaints</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.analytics.villageWiseComplaints")}</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={villageData} layout="vertical" margin={{ top: 5, right: 10, left: 5, bottom: 5 }}>
@@ -162,7 +164,7 @@ export default function AnalyticsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Village Satisfaction Rankings</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.analytics.villageSatisfactionRankings")}</h3>
           <div className="space-y-2">
             {satisfactionByVillage.map((v, i) => (
               <div key={v.name} className="flex items-center gap-3 rounded-xl bg-muted/30 p-3">

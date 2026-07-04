@@ -17,21 +17,23 @@ import { Badge } from "@/components/ui/badge";
 import { NearbyMap } from "@/components/citizen/NearbyMap";
 import { IssueCard } from "@/components/citizen/IssueCard";
 import { nearbyIssues } from "@/data/mock-citizen";
-
-const categoryFilters = [
-  { label: "All", value: "all" },
-  { label: "Road", value: "road" },
-  { label: "Water", value: "water" },
-  { label: "Electricity", value: "electricity" },
-  { label: "Healthcare", value: "healthcare" },
-  { label: "Sanitation", value: "sanitation" },
-  { label: "Education", value: "education" },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function NearbyPage() {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"map" | "list">("map");
+
+  const categoryFilters = [
+    { label: t("common.all"), value: "all" },
+    { label: t("common.road"), value: "road" },
+    { label: t("common.water"), value: "water" },
+    { label: t("common.electricity"), value: "electricity" },
+    { label: t("common.healthcare"), value: "healthcare" },
+    { label: t("common.sanitation"), value: "sanitation" },
+    { label: t("common.education"), value: "education" },
+  ];
 
   const filtered = nearbyIssues.filter((issue) => {
     const matchesCategory = activeFilter === "all" || issue.category === activeFilter;
@@ -46,9 +48,9 @@ export default function NearbyPage() {
     <div className="p-4 lg:p-6 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-foreground">Nearby Issues</h2>
+          <h2 className="text-lg font-semibold text-foreground">{t("citizen.nearby.nearbyIssues")}</h2>
           <p className="text-sm text-muted-foreground">
-            {openCount} open issues near you &middot; {criticalCount} critical
+            {t("citizen.nearby.openIssuesNearYou", { count: openCount, critical: criticalCount })}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -59,7 +61,7 @@ export default function NearbyPage() {
             className="gap-2 h-8"
           >
             <MapPin className="size-3" />
-            Map
+            {t("common.map")}
           </Button>
           <Button
             variant={viewMode === "list" ? "default" : "outline"}
@@ -68,7 +70,7 @@ export default function NearbyPage() {
             className="gap-2 h-8"
           >
             <SlidersHorizontal className="size-3" />
-            List
+            {t("common.list")}
           </Button>
         </div>
       </div>
@@ -77,7 +79,7 @@ export default function NearbyPage() {
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search nearby issues..."
+            placeholder={t("citizen.nearby.searchNearby")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="h-10 pl-9"
@@ -123,8 +125,8 @@ export default function NearbyPage() {
             {filtered.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border py-16">
                 <TriangleAlert className="size-12 text-muted-foreground/40 mb-4" />
-                <h3 className="text-sm font-semibold text-foreground">No issues found</h3>
-                <p className="mt-1 text-xs text-muted-foreground">Try adjusting your filters</p>
+                <h3 className="text-sm font-semibold text-foreground">{t("citizen.nearby.noIssuesFound")}</h3>
+                <p className="mt-1 text-xs text-muted-foreground">{t("citizen.nearby.tryAdjustingFilters")}</p>
               </div>
             ) : (
               filtered.map((issue, i) => (

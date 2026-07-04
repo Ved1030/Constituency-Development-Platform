@@ -16,6 +16,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
+import { useTranslation } from "@/hooks/use-translation";
 
 const categoryData = [
   { name: "Roads", value: 892, color: "#0d47a1" },
@@ -45,23 +46,24 @@ const severityConfig: Record<string, { bg: string; text: string }> = {
 };
 
 export default function ComplaintIntelligencePage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-2">
           <ClipboardList className="size-5 text-primary" />
-          <h1 className="text-2xl font-bold text-foreground">Complaint Intelligence</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t("mp.complaintIntelligence.complaintIntelligence")}</h1>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">AI-powered complaint analysis with clustering, trend detection, and root cause identification.</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("mp.complaintIntelligence.aiPoweredAnalysis")}</p>
       </motion.div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: "Total Complaints", value: "3,847", change: "+12.5%", up: true, icon: ClipboardList },
-          { label: "Critical Issues", value: "156", change: "-8.2%", up: false, icon: AlertTriangle },
-          { label: "Resolution Rate", value: "78.4%", change: "+3.1%", up: true, icon: TrendingUp },
-          { label: "Avg Response Time", value: "11.2 days", change: "-1.8 days", up: false, icon: TrendingDown },
+          { label: t("mp.complaintIntelligence.totalComplaints"), value: "3,847", change: "+12.5%", up: true, icon: ClipboardList },
+          { label: t("mp.complaintIntelligence.criticalIssues"), value: "156", change: "-8.2%", up: false, icon: AlertTriangle },
+          { label: t("mp.complaintIntelligence.resolutionRate"), value: "78.4%", change: "+3.1%", up: true, icon: TrendingUp },
+          { label: t("mp.complaintIntelligence.avgResponseTime"), value: "11.2 days", change: "-1.8 days", up: false, icon: TrendingDown },
         ].map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -81,13 +83,12 @@ export default function ComplaintIntelligencePage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        {/* Complaint Trends */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Complaint Trends (6 months)</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.complaintIntelligence.complaintTrends6Months")}</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={complaintTrends}>
@@ -109,13 +110,12 @@ export default function ComplaintIntelligencePage() {
           </div>
         </motion.div>
 
-        {/* Category Distribution */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Category Distribution</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.complaintIntelligence.categoryDistribution")}</h3>
           <div className="flex items-center gap-8">
             <div className="size-48">
               <ResponsiveContainer width="100%" height="100%">
@@ -149,19 +149,19 @@ export default function ComplaintIntelligencePage() {
         className="rounded-2xl border border-border bg-card p-6"
       >
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-foreground">Complaint Hotspot Rankings</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t("mp.complaintIntelligence.hotspotRankings")}</h3>
           <Brain className="size-4 text-purple-600" />
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="border-b border-border">
-                <th className="pb-3 font-medium text-muted-foreground">Rank</th>
-                <th className="pb-3 font-medium text-muted-foreground">Village / Ward</th>
-                <th className="pb-3 font-medium text-muted-foreground">Complaints</th>
-                <th className="pb-3 font-medium text-muted-foreground">Resolved</th>
-                <th className="pb-3 font-medium text-muted-foreground">Density</th>
-                <th className="pb-3 font-medium text-muted-foreground">Trend</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.complaintIntelligence.rank")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.complaintIntelligence.villageWard")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.complaintIntelligence.complaints")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.complaintIntelligence.resolved")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.complaintIntelligence.density")}</th>
+                <th className="pb-3 font-medium text-muted-foreground">{t("mp.complaintIntelligence.trend")}</th>
               </tr>
             </thead>
             <tbody>
@@ -198,7 +198,7 @@ export default function ComplaintIntelligencePage() {
         animate={{ opacity: 1, y: 0 }}
         className="rounded-2xl border border-border bg-card p-6"
       >
-        <h3 className="mb-4 text-sm font-semibold text-foreground">Recent Complaints</h3>
+        <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.complaintIntelligence.recentComplaints")}</h3>
         <div className="space-y-3">
           {recentComplaints.map((c) => {
             const sev = severityConfig[c.severity];
@@ -218,7 +218,7 @@ export default function ComplaintIntelligencePage() {
                   <div className="mt-0.5 flex items-center gap-3 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1"><MapPin className="size-3" />{c.village}</span>
                     <span>{c.time}</span>
-                    <span>{c.upvotes} upvotes</span>
+                    <span>{c.upvotes} {t("common.upvotes")}</span>
                   </div>
                 </div>
               </div>

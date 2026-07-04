@@ -3,17 +3,20 @@
 import { motion } from "framer-motion";
 import { Brain, Shield, Globe, BarChart3, MapPin, Users } from "lucide-react";
 import Link from "next/link";
-
-const features = [
-  { icon: Brain, label: "AI-Powered Analytics" },
-  { icon: Shield, label: "Secure & Private" },
-  { icon: Globe, label: "Multilingual Support" },
-  { icon: BarChart3, label: "Real-time Dashboards" },
-  { icon: MapPin, label: "Geo-mapped Issues" },
-  { icon: Users, label: "Community Driven" },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export function AuthLayout({ children }: { children: React.ReactNode }) {
+  const { t } = useTranslation();
+
+  const features = [
+    { icon: Brain, label: t("auth.aiPoweredAnalytics") },
+    { icon: Shield, label: t("auth.secureAndPrivate") },
+    { icon: Globe, label: t("auth.multilingualSupport") },
+    { icon: BarChart3, label: t("auth.realTimeDashboards") },
+    { icon: MapPin, label: t("auth.geoMappedIssues") },
+    { icon: Users, label: t("auth.communityDriven") },
+  ];
+
   return (
     <div className="flex min-h-screen">
       {/* Left side — branding */}
@@ -75,9 +78,9 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         {/* Bottom — Stats */}
         <div className="relative z-10 grid grid-cols-3 gap-6">
           {[
-            { value: "18.4L", label: "Citizens Served" },
-            { value: "142", label: "Villages" },
-            { value: "87%", label: "AI Accuracy" },
+            { value: "18.4L", label: t("auth.citizensServed") },
+            { value: "142", label: t("auth.villages") },
+            { value: "87%", label: t("auth.aiAccuracy") },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="text-2xl font-bold text-white">{stat.value}</div>

@@ -5,20 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CitizenSidebar } from "@/components/citizen/CitizenSidebar";
 import { CitizenHeader } from "@/components/citizen/CitizenHeader";
-
-const pageTitles: Record<string, string> = {
-  "/citizen/dashboard": "Dashboard",
-  "/citizen/complaints": "My Complaints",
-  "/citizen/complaints/new": "Raise a Complaint",
-  "/citizen/tracking": "Track Complaints",
-  "/citizen/nearby": "Nearby Issues",
-  "/citizen/voting": "Community Voting",
-  "/citizen/projects": "Development Projects",
-  "/citizen/schemes": "Government Schemes",
-  "/citizen/notifications": "Notifications",
-  "/citizen/profile": "My Profile",
-  "/citizen/help": "Help & Support",
-};
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function CitizenLayout({
   children,
@@ -26,10 +13,25 @@ export default function CitizenLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { t } = useTranslation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const pageTitle = pageTitles[pathname] || "Citizen Portal";
+  const pageTitles: Record<string, string> = {
+    "/citizen/dashboard": t("citizen.sidebar.dashboard"),
+    "/citizen/complaints": t("citizen.sidebar.myComplaints"),
+    "/citizen/complaints/new": t("citizen.sidebar.raiseComplaint"),
+    "/citizen/tracking": t("citizen.sidebar.trackComplaint"),
+    "/citizen/nearby": t("citizen.sidebar.nearbyIssues"),
+    "/citizen/voting": t("citizen.sidebar.communityVoting"),
+    "/citizen/projects": t("citizen.sidebar.developmentProjects"),
+    "/citizen/schemes": t("citizen.sidebar.governmentSchemes"),
+    "/citizen/notifications": t("citizen.sidebar.notifications"),
+    "/citizen/profile": t("citizen.sidebar.myProfile"),
+    "/citizen/help": t("citizen.sidebar.helpSupport"),
+  };
+
+  const pageTitle = pageTitles[pathname] || t("citizen.portal");
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)]">

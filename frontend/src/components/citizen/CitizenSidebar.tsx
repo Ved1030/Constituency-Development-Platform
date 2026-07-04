@@ -22,6 +22,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface SidebarLink {
   href: string;
@@ -34,40 +35,6 @@ interface SidebarSection {
   title: string;
   links: SidebarLink[];
 }
-
-const sidebarSections: SidebarSection[] = [
-  {
-    title: "MAIN",
-    links: [
-      { href: "/citizen/dashboard", label: "Dashboard", icon: LayoutDashboard },
-      { href: "/citizen/complaints/new", label: "Raise Complaint", icon: PlusCircle },
-      { href: "/citizen/complaints", label: "My Complaints", icon: ClipboardList, badge: 12 },
-      { href: "/citizen/tracking", label: "Track Complaint", icon: MapPin },
-    ],
-  },
-  {
-    title: "COMMUNITY",
-    links: [
-      { href: "/citizen/nearby", label: "Nearby Issues", icon: Map, badge: 5 },
-      { href: "/citizen/voting", label: "Community Voting", icon: Vote, badge: 3 },
-      { href: "/citizen/projects", label: "Development Projects", icon: FolderKanban },
-    ],
-  },
-  {
-    title: "GOVERNMENT",
-    links: [
-      { href: "/citizen/schemes", label: "Government Schemes", icon: Target },
-      { href: "/citizen/notifications", label: "Notifications", icon: Bell, badge: 5 },
-    ],
-  },
-  {
-    title: "ACCOUNT",
-    links: [
-      { href: "/citizen/profile", label: "My Profile", icon: User },
-      { href: "/citizen/help", label: "Help & Support", icon: HelpCircle },
-    ],
-  },
-];
 
 interface CitizenSidebarProps {
   collapsed: boolean;
@@ -84,6 +51,41 @@ export function CitizenSidebar({
 }: CitizenSidebarProps) {
   const pathname = usePathname();
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const { t } = useTranslation();
+
+  const sidebarSections: SidebarSection[] = [
+    {
+      title: t("citizen.sidebar.main"),
+      links: [
+        { href: "/citizen/dashboard", label: t("citizen.sidebar.dashboard"), icon: LayoutDashboard },
+        { href: "/citizen/complaints/new", label: t("citizen.sidebar.raiseComplaint"), icon: PlusCircle },
+        { href: "/citizen/complaints", label: t("citizen.sidebar.myComplaints"), icon: ClipboardList, badge: 12 },
+        { href: "/citizen/tracking", label: t("citizen.sidebar.trackComplaint"), icon: MapPin },
+      ],
+    },
+    {
+      title: t("citizen.sidebar.community"),
+      links: [
+        { href: "/citizen/nearby", label: t("citizen.sidebar.nearbyIssues"), icon: Map, badge: 5 },
+        { href: "/citizen/voting", label: t("citizen.sidebar.communityVoting"), icon: Vote, badge: 3 },
+        { href: "/citizen/projects", label: t("citizen.sidebar.developmentProjects"), icon: FolderKanban },
+      ],
+    },
+    {
+      title: t("citizen.sidebar.government"),
+      links: [
+        { href: "/citizen/schemes", label: t("citizen.sidebar.governmentSchemes"), icon: Target },
+        { href: "/citizen/notifications", label: t("citizen.sidebar.notifications"), icon: Bell, badge: 5 },
+      ],
+    },
+    {
+      title: t("citizen.sidebar.account"),
+      links: [
+        { href: "/citizen/profile", label: t("citizen.sidebar.myProfile"), icon: User },
+        { href: "/citizen/help", label: t("citizen.sidebar.helpSupport"), icon: HelpCircle },
+      ],
+    },
+  ];
 
   const sidebarContent = (
     <div className="flex h-full flex-col">
@@ -100,7 +102,7 @@ export function CitizenSidebar({
               exit={{ opacity: 0, width: 0 }}
               className="overflow-hidden whitespace-nowrap text-sm font-bold text-foreground"
             >
-              Citizen Portal
+              {t("citizen.portal")}
             </motion.span>
           )}
         </Link>
@@ -263,7 +265,7 @@ export function CitizenSidebar({
                     CD
                   </div>
                   <span className="text-sm font-bold text-foreground">
-                    Citizen Portal
+                    {t("citizen.portal")}
                   </span>
                 </Link>
                 <button

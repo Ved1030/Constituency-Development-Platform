@@ -9,60 +9,62 @@ import {
   LineChart,
   BadgeCheck,
 } from "lucide-react";
-
-const steps = [
-  {
-    icon: MessageSquare,
-    title: "Citizen",
-    description: "Voice concerns via multilingual platform",
-    gradient: "from-violet-500 to-purple-500",
-  },
-  {
-    icon: Brain,
-    title: "AI Analysis",
-    description: "NLP & sentiment analysis of feedback",
-    gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    icon: ListChecks,
-    title: "Priority Engine",
-    description: "Data-driven project prioritization",
-    gradient: "from-emerald-500 to-teal-500",
-  },
-  {
-    icon: LayoutDashboard,
-    title: "MP Dashboard",
-    description: "Real-time constituency insights",
-    gradient: "from-orange-500 to-amber-500",
-  },
-  {
-    icon: LineChart,
-    title: "Impact Simulator",
-    description: "Simulate development outcomes",
-    gradient: "from-rose-500 to-pink-500",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Recommendation",
-    description: "AI-optimized development plan",
-    gradient: "from-primary to-accent",
-  },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export function HowItWorks() {
+  const { t } = useTranslation();
+
+  const steps = [
+    {
+      icon: MessageSquare,
+      title: t("landing.step1Title"),
+      description: t("landing.step1Description"),
+      gradient: "from-violet-500 to-purple-500",
+    },
+    {
+      icon: Brain,
+      title: t("landing.step2Title"),
+      description: t("landing.step2Description"),
+      gradient: "from-blue-500 to-cyan-500",
+    },
+    {
+      icon: ListChecks,
+      title: t("landing.step3Title"),
+      description: t("landing.step3Description"),
+      gradient: "from-emerald-500 to-teal-500",
+    },
+    {
+      icon: LayoutDashboard,
+      title: t("landing.step4Title"),
+      description: t("landing.step4Description"),
+      gradient: "from-orange-500 to-amber-500",
+    },
+    {
+      icon: LineChart,
+      title: t("landing.step5Title"),
+      description: t("landing.step5Description"),
+      gradient: "from-rose-500 to-pink-500",
+    },
+    {
+      icon: BadgeCheck,
+      title: t("landing.step6Title"),
+      description: t("landing.step6Description"),
+      gradient: "from-primary to-accent",
+    },
+  ];
+
   return (
     <section id="how-it-works" className="py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
           <div className="mb-4 inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
-            How It Works
+            {t("landing.howItWorksTag")}
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            From Voice to Action in 6 Steps
+            {t("landing.howItWorksTitle")}
           </h2>
           <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-            Our AI engine processes citizen feedback and transforms it into
-            actionable development plans.
+            {t("landing.howItWorksSubtitle")}
           </p>
         </div>
 

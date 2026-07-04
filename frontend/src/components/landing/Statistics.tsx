@@ -3,54 +3,56 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Users, FolderOpen, Brain, MapPin } from "lucide-react";
-
-const stats = [
-  {
-    icon: Users,
-    value: "100K+",
-    label: "Citizens",
-    description: "Active citizens engaged on the platform",
-    gradient: "from-violet-500 to-purple-600",
-  },
-  {
-    icon: FolderOpen,
-    value: "500+",
-    label: "Projects",
-    description: "Development projects tracked and managed",
-    gradient: "from-blue-500 to-cyan-600",
-  },
-  {
-    icon: Brain,
-    value: "98%",
-    label: "AI Accuracy",
-    description: "Classification and recommendation precision",
-    gradient: "from-emerald-500 to-teal-600",
-  },
-  {
-    icon: MapPin,
-    value: "150+",
-    label: "Constituencies",
-    description: "Constituencies across India",
-    gradient: "from-orange-500 to-amber-600",
-  },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export function Statistics() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { t } = useTranslation();
+
+  const stats = [
+    {
+      icon: Users,
+      value: "100K+",
+      label: t("landing.statsCitizensLabel"),
+      description: t("landing.statsCitizensDesc"),
+      gradient: "from-violet-500 to-purple-600",
+    },
+    {
+      icon: FolderOpen,
+      value: "500+",
+      label: t("landing.statsProjectsLabel"),
+      description: t("landing.statsProjectsDesc"),
+      gradient: "from-blue-500 to-cyan-600",
+    },
+    {
+      icon: Brain,
+      value: "98%",
+      label: t("landing.statsAIAccuracyLabel"),
+      description: t("landing.statsAIAccuracyDesc"),
+      gradient: "from-emerald-500 to-teal-600",
+    },
+    {
+      icon: MapPin,
+      value: "150+",
+      label: t("landing.statsConstituenciesLabel"),
+      description: t("landing.statsConstituenciesDesc"),
+      gradient: "from-orange-500 to-amber-600",
+    },
+  ];
 
   return (
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
           <div className="mb-4 inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
-            Platform Impact
+            {t("landing.statsTag")}
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            Built for Scale, Proven by Data
+            {t("landing.statsTitle")}
           </h2>
           <p className="mt-4 text-lg text-muted-foreground md:text-xl">
-            Trusted by government bodies and citizens across the nation.
+            {t("landing.statsSubtitle")}
           </p>
         </div>
 

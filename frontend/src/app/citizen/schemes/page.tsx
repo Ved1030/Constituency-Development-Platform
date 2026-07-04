@@ -13,9 +13,10 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { schemes } from "@/data/mock-citizen";
+import { useTranslation } from "@/hooks/use-translation";
 
 const categoryColors: Record<string, string> = {
-  Swachh Bharat: "bg-emerald-100 text-emerald-700",
+  "Swachh Bharat": "bg-emerald-100 text-emerald-700",
   AMRUT: "bg-blue-100 text-blue-700",
   "Smart City": "bg-purple-100 text-purple-700",
   "PM Awas": "bg-amber-100 text-amber-700",
@@ -24,30 +25,32 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function SchemesPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/citizen/dashboard" className="hover:text-foreground">Dashboard</Link>
         <ChevronRight className="size-3.5" />
-        <span className="font-medium text-foreground">Government Schemes</span>
+        <span className="font-medium text-foreground">{t("citizen.schemes.governmentSchemes")}</span>
       </div>
 
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-foreground">Government Schemes</h2>
+        <h2 className="text-2xl font-bold text-foreground">{t("citizen.schemes.governmentSchemes")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Explore active government schemes and development programs in your constituency
+          {t("citizen.schemes.exploreSchemes")}
         </p>
       </div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {[
-          { label: "Active Schemes", value: schemes.length, icon: Target, color: "text-blue-600", bg: "bg-blue-50" },
-          { label: "Total Budget", value: "₹373 Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
-          { label: "Beneficiaries", value: "12.8 Lakh", icon: Users, color: "text-purple-600", bg: "bg-purple-50" },
-          { label: "Avg Progress", value: `${Math.round(schemes.reduce((a, s) => a + s.progress, 0) / schemes.length)}%`, icon: CheckCircle2, color: "text-amber-600", bg: "bg-amber-50" },
+          { label: t("citizen.schemes.activeSchemes"), value: schemes.length, icon: Target, color: "text-blue-600", bg: "bg-blue-50" },
+          { label: t("citizen.schemes.totalBudget"), value: "₹373 Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
+          { label: t("citizen.schemes.beneficiaries"), value: "12.8 Lakh", icon: Users, color: "text-purple-600", bg: "bg-purple-50" },
+          { label: t("citizen.schemes.avgProgress"), value: `${Math.round(schemes.reduce((a, s) => a + s.progress, 0) / schemes.length)}%`, icon: CheckCircle2, color: "text-amber-600", bg: "bg-amber-50" },
         ].map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -93,23 +96,23 @@ export default function SchemesPage() {
               <div className="rounded-xl bg-muted/50 p-2.5">
                 <IndianRupee className="mx-auto size-4 text-muted-foreground" />
                 <div className="mt-1 text-xs font-semibold text-foreground">{scheme.budget}</div>
-                <div className="text-[10px] text-muted-foreground">Budget</div>
+                <div className="text-[10px] text-muted-foreground">{t("citizen.schemes.budget")}</div>
               </div>
               <div className="rounded-xl bg-muted/50 p-2.5">
                 <Users className="mx-auto size-4 text-muted-foreground" />
                 <div className="mt-1 text-xs font-semibold text-foreground">{scheme.beneficiaries}</div>
-                <div className="text-[10px] text-muted-foreground">Beneficiaries</div>
+                <div className="text-[10px] text-muted-foreground">{t("citizen.schemes.beneficiaries")}</div>
               </div>
               <div className="rounded-xl bg-muted/50 p-2.5">
                 <Calendar className="mx-auto size-4 text-muted-foreground" />
                 <div className="mt-1 text-xs font-semibold text-foreground">{scheme.deadline}</div>
-                <div className="text-[10px] text-muted-foreground">Deadline</div>
+                <div className="text-[10px] text-muted-foreground">{t("citizen.schemes.deadline")}</div>
               </div>
             </div>
 
             <div className="mt-4">
               <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>Implementation Progress</span>
+                <span>{t("citizen.schemes.implementationProgress")}</span>
                 <span className="font-medium text-foreground">{scheme.progress}%</span>
               </div>
               <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
@@ -121,7 +124,7 @@ export default function SchemesPage() {
             </div>
 
             <button className="mt-4 flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
-              Learn more <ExternalLink className="size-3.5" />
+              {t("common.learnMore")} <ExternalLink className="size-3.5" />
             </button>
           </motion.div>
         ))}

@@ -4,15 +4,18 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const benefits = [
-  "Free for government organizations",
-  "No credit card required",
-  "Enterprise-grade security",
-  "Dedicated support team",
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export function CTA() {
+  const { t } = useTranslation();
+
+  const benefits = [
+    t("landing.ctaBenefit1"),
+    t("landing.ctaBenefit2"),
+    t("landing.ctaBenefit3"),
+    t("landing.ctaBenefit4"),
+  ];
+
   return (
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -28,11 +31,10 @@ export function CTA() {
 
           <div className="relative">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
-              Ready to Transform Your Constituency?
+              {t("landing.ctaTitle")}
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80">
-              Join thousands of government officials and citizens already using
-              CDP to build better communities through data-driven decisions.
+              {t("landing.ctaSubtitle")}
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -41,7 +43,7 @@ export function CTA() {
                   size="lg"
                   className="h-12 gap-2 bg-white px-8 text-base font-semibold text-primary shadow-lg hover:bg-white/90 hover:shadow-xl"
                 >
-                  Start Free Trial
+                  {t("landing.ctaStartTrial")}
                   <ArrowRight className="size-4" />
                 </Button>
               </Link>
@@ -51,7 +53,7 @@ export function CTA() {
                   size="lg"
                   className="h-12 gap-2 border-white/30 px-8 text-base text-white hover:bg-white/10 hover:text-white"
                 >
-                  Schedule a Demo
+                  {t("landing.ctaScheduleDemo")}
                 </Button>
               </Link>
             </div>

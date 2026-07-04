@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { notifications } from "@/data/mock-citizen";
+import { useTranslation } from "@/hooks/use-translation";
 
 const typeConfig: Record<string, { icon: typeof Bell; color: string; bg: string }> = {
   status: { icon: CheckCircle, color: "text-blue-600", bg: "bg-blue-50" },
@@ -25,6 +26,7 @@ const typeConfig: Record<string, { icon: typeof Bell; color: string; bg: string 
 };
 
 export default function NotificationsPage() {
+  const { t } = useTranslation();
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
@@ -33,21 +35,21 @@ export default function NotificationsPage() {
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/citizen/dashboard" className="hover:text-foreground">Dashboard</Link>
         <ChevronRight className="size-3.5" />
-        <span className="font-medium text-foreground">Notifications</span>
+        <span className="font-medium text-foreground">{t("citizen.notifications.notifications")}</span>
       </div>
 
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Notifications</h2>
+          <h2 className="text-2xl font-bold text-foreground">{t("citizen.notifications.notifications")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Stay updated on your complaints, votes, and community activity
+            {t("citizen.notifications.stayUpdated")}
           </p>
         </div>
         <div className="flex gap-2">
           <button className="flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted">
             <CheckCheck className="size-4" />
-            Mark all read
+            {t("common.markAllRead")}
           </button>
         </div>
       </div>
@@ -55,9 +57,9 @@ export default function NotificationsPage() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { label: "Unread", value: unreadCount, icon: Bell, color: "text-primary", bg: "bg-primary/10" },
-          { label: "Total", value: notifications.length, icon: Info, color: "text-muted-foreground", bg: "bg-muted" },
-          { label: "This Week", value: 4, icon: CheckCircle, color: "text-emerald-600", bg: "bg-emerald-50" },
+          { label: t("citizen.notifications.unread"), value: unreadCount, icon: Bell, color: "text-primary", bg: "bg-primary/10" },
+          { label: t("citizen.notifications.total"), value: notifications.length, icon: Info, color: "text-muted-foreground", bg: "bg-muted" },
+          { label: t("citizen.notifications.thisWeek"), value: 4, icon: CheckCircle, color: "text-emerald-600", bg: "bg-emerald-50" },
         ].map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -113,7 +115,7 @@ export default function NotificationsPage() {
                 </div>
                 {!notif.read && (
                   <button className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10">
-                    Mark read
+                    {t("common.markRead")}
                   </button>
                 )}
               </motion.div>

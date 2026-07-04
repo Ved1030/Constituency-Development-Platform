@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RoleSelector } from "./RoleSelector";
+import { useTranslation } from "@/hooks/use-translation";
 
 const states = [
   "Andhra Pradesh", "Bihar", "Delhi", "Gujarat", "Haryana", "Karnataka",
@@ -20,6 +21,7 @@ const languages = ["Hindi", "English", "Tamil", "Telugu", "Bengali", "Marathi", 
 
 export function RegisterForm() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState<"citizen" | "mp" | "admin">("citizen");
   const [agreed, setAgreed] = useState(false);
@@ -28,14 +30,14 @@ export function RegisterForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreed) {
-      toast.error("Please agree to the Terms of Service");
+      toast.error(t("auth.agreeToTermsError"));
       return;
     }
     setLoading(true);
 
     await new Promise((r) => setTimeout(r, 1000));
 
-    toast.success("Account created successfully!");
+    toast.success(t("auth.accountCreated"));
     router.push("/login");
   };
 
@@ -46,9 +48,9 @@ export function RegisterForm() {
       transition={{ duration: 0.5 }}
     >
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-foreground">Create your account</h2>
+        <h2 className="text-3xl font-bold text-foreground">{t("auth.createAccount")}</h2>
         <p className="mt-2 text-muted-foreground">
-          Join the platform transforming constituency development
+          {t("auth.registerSubtitle")}
         </p>
       </div>
 
@@ -56,38 +58,38 @@ export function RegisterForm() {
         <RoleSelector value={role} onChange={setRole} />
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">Full Name</label>
+          <label className="text-sm font-medium text-foreground">{t("auth.fullName")}</label>
           <div className="relative">
             <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Enter your full name" className="h-12 pl-10" />
+            <Input placeholder={t("auth.namePlaceholder")} className="h-12 pl-10" />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Email</label>
+            <label className="text-sm font-medium text-foreground">{t("auth.email")}</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input type="email" placeholder="you@email.com" className="h-12 pl-10" />
+              <Input type="email" placeholder={t("auth.emailPlaceholder")} className="h-12 pl-10" />
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Phone</label>
+            <label className="text-sm font-medium text-foreground">{t("auth.phone")}</label>
             <div className="relative">
               <Phone className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input type="tel" placeholder="+91 98765 43210" className="h-12 pl-10" />
+              <Input type="tel" placeholder={t("auth.phonePlaceholder")} className="h-12 pl-10" />
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Password</label>
+            <label className="text-sm font-medium text-foreground">{t("auth.password")}</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type={showPassword ? "text" : "password"}
-                placeholder="Min 8 characters"
+                placeholder={t("auth.passwordMinPlaceholder")}
                 className="h-12 pl-10 pr-10"
               />
               <button
@@ -100,26 +102,26 @@ export function RegisterForm() {
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Confirm Password</label>
+            <label className="text-sm font-medium text-foreground">{t("auth.confirmPassword")}</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input type="password" placeholder="Re-enter password" className="h-12 pl-10" />
+              <Input type="password" placeholder={t("auth.passwordReenterPlaceholder")} className="h-12 pl-10" />
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Constituency</label>
+            <label className="text-sm font-medium text-foreground">{t("auth.constituency")}</label>
             <div className="relative">
               <MapPin className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Your constituency" className="h-12 pl-10" />
+              <Input placeholder={t("auth.constituencyPlaceholder")} className="h-12 pl-10" />
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">State</label>
+            <label className="text-sm font-medium text-foreground">{t("auth.state")}</label>
             <select className="h-12 w-full rounded-lg border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
-              <option value="">Select state</option>
+              <option value="">{t("auth.selectState")}</option>
               {states.map((s) => (
                 <option key={s} value={s}>{s}</option>
               ))}
@@ -128,7 +130,7 @@ export function RegisterForm() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">Preferred Language</label>
+          <label className="text-sm font-medium text-foreground">{t("auth.preferredLanguage")}</label>
           <select className="h-12 w-full rounded-lg border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
             {languages.map((l) => (
               <option key={l} value={l}>{l}</option>
@@ -144,10 +146,10 @@ export function RegisterForm() {
             className="mt-0.5 size-4 rounded border-border accent-primary"
           />
           <span>
-            I agree to the{" "}
-            <Link href="/register" className="font-medium text-primary hover:underline">Terms of Service</Link>
-            {" "}and{" "}
-            <Link href="/register" className="font-medium text-primary hover:underline">Privacy Policy</Link>
+            {t("auth.agreeToTerms")}{" "}
+            <Link href="/register" className="font-medium text-primary hover:underline">{t("auth.termsOfService")}</Link>
+            {" "}{t("auth.and")}{" "}
+            <Link href="/register" className="font-medium text-primary hover:underline">{t("auth.privacyPolicy")}</Link>
           </span>
         </label>
 
@@ -159,18 +161,18 @@ export function RegisterForm() {
           {loading ? (
             <span className="flex items-center gap-2">
               <Loader2 className="size-4 animate-spin" />
-              Creating account...
+              {t("auth.creatingAccount")}
             </span>
           ) : (
-            "Create Account"
+            t("auth.createAccount")
           )}
         </Button>
       </form>
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
+        {t("auth.alreadyHaveAccount")}{" "}
         <Link href="/login" className="font-semibold text-primary hover:underline">
-          Sign In
+          {t("auth.signIn")}
         </Link>
       </p>
     </motion.div>

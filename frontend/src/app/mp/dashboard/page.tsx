@@ -36,6 +36,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 import {
   executiveOverview,
   departmentPerformance,
@@ -85,6 +86,7 @@ const severityIcon: Record<string, typeof AlertTriangle> = {
 
 export default function MPDashboardPage() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <div className="space-y-6">
@@ -103,13 +105,13 @@ export default function MPDashboardPage() {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <Landmark className="size-4 text-white/70" />
-                <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">Lok Sabha Constituency: {executiveOverview.lokShabha}</span>
+                <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">{t("mp.dashboard.lokSabha")}: {executiveOverview.lokShabha}</span>
               </div>
               <h2 className="text-2xl font-bold text-white lg:text-3xl">
-                Good morning, {executiveOverview.mpName.split(" ").slice(0, 2).join(" ")}
+                {t("mp.dashboard.goodMorning")}, {executiveOverview.mpName.split(" ").slice(0, 2).join(" ")}
               </h2>
               <p className="mt-1 text-white/60">
-                {executiveOverview.constituency}, {executiveOverview.state} &middot; Assembly Segment: {executiveOverview.assemblySegment}
+                {executiveOverview.constituency}, {executiveOverview.state} &middot; {t("mp.dashboard.assemblySegment")}: {executiveOverview.assemblySegment}
               </p>
             </div>
             <div className="flex gap-2">
@@ -118,14 +120,14 @@ export default function MPDashboardPage() {
                 className="flex items-center gap-2 rounded-xl bg-white/15 px-4 py-2.5 text-sm font-medium text-white border border-white/20 hover:bg-white/25 transition-colors backdrop-blur-sm"
               >
                 <Bot className="size-4" />
-                AI Copilot
+                {t("mp.dashboard.aiCopilot")}
               </button>
               <button
                 onClick={() => router.push("/mp/simulator")}
                 className="flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-medium text-[#1565C0] shadow-lg hover:shadow-xl transition-all"
               >
                 <Zap className="size-4" />
-                Impact Simulator
+                {t("mp.dashboard.impactSimulator")}
               </button>
             </div>
           </div>
@@ -133,12 +135,12 @@ export default function MPDashboardPage() {
           {/* Executive Stats Grid */}
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {[
-              { label: "Population", value: executiveOverview.population.toLocaleString("en-IN"), sub: "Total citizens", icon: Users },
-              { label: "Villages", value: executiveOverview.villages.toString(), sub: `${executiveOverview.wards} Wards`, icon: MapPin },
-              { label: "Gram Panchayats", value: executiveOverview.gramPanchayats.toString(), sub: `${executiveOverview.urbanRuralSplit.urban}% Urban`, icon: Landmark },
-              { label: "Current Budget", value: executiveOverview.currentBudget, sub: "Total allocation", icon: IndianRupee },
-              { label: "MPLADS Fund", value: executiveOverview.mpladsFund, sub: "Annual allocation", icon: Shield },
-              { label: "AI Health Score", value: `${executiveOverview.aiHealthScore}/100`, sub: "Constituency health", icon: Brain, highlight: true },
+              { label: t("mp.dashboard.population"), value: executiveOverview.population.toLocaleString("en-IN"), sub: t("mp.dashboard.totalCitizens"), icon: Users },
+              { label: t("mp.dashboard.villages"), value: executiveOverview.villages.toString(), sub: `${executiveOverview.wards} ${t("mp.dashboard.wards")}`, icon: MapPin },
+              { label: t("mp.dashboard.gramPanchayats"), value: executiveOverview.gramPanchayats.toString(), sub: `${executiveOverview.urbanRuralSplit.urban}% ${t("mp.dashboard.urban")}`, icon: Landmark },
+              { label: t("mp.dashboard.currentBudget"), value: executiveOverview.currentBudget, sub: t("mp.dashboard.totalAllocation"), icon: IndianRupee },
+              { label: t("mp.dashboard.mpladsFund"), value: executiveOverview.mpladsFund, sub: t("mp.dashboard.annualAllocation"), icon: Shield },
+              { label: t("mp.dashboard.aiHealthScore"), value: `${executiveOverview.aiHealthScore}/100`, sub: t("mp.dashboard.constituencyHealth"), icon: Brain, highlight: true },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -163,9 +165,9 @@ export default function MPDashboardPage() {
       {/* ═══ SECTION 2: Department Performance ═══ */}
       <div>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">Department Performance</h2>
+          <h2 className="text-lg font-bold text-foreground">{t("mp.dashboard.departmentPerformance")}</h2>
           <button onClick={() => router.push("/mp/departments")} className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors">
-            View All <ArrowRight className="size-3" />
+            {t("mp.dashboard.viewAll")} <ArrowRight className="size-3" />
           </button>
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
@@ -189,19 +191,19 @@ export default function MPDashboardPage() {
                 <div className="mt-2 text-sm font-semibold text-foreground">{dept.name}</div>
                 <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
                   <div>
-                    <div className="text-muted-foreground">Complaints</div>
+                    <div className="text-muted-foreground">{t("mp.dashboard.complaints")}</div>
                     <div className="font-semibold text-foreground">{dept.complaints}</div>
                   </div>
                   <div>
-                    <div className="text-muted-foreground">Projects</div>
+                    <div className="text-muted-foreground">{t("mp.dashboard.projects")}</div>
                     <div className="font-semibold text-foreground">{dept.projects}</div>
                   </div>
                   <div>
-                    <div className="text-muted-foreground">Budget</div>
+                    <div className="text-muted-foreground">{t("mp.dashboard.budget")}</div>
                     <div className="font-semibold text-foreground">{dept.budget}</div>
                   </div>
                   <div>
-                    <div className="text-muted-foreground">Perf</div>
+                    <div className="text-muted-foreground">{t("mp.dashboard.perf")}</div>
                     <div className={cn("font-semibold", dept.performance >= 80 ? "text-emerald-600" : dept.performance >= 70 ? "text-amber-600" : "text-red-600")}>
                       {dept.performance}%
                     </div>
@@ -214,7 +216,7 @@ export default function MPDashboardPage() {
                   />
                 </div>
                 <div className="mt-1 flex items-center justify-between text-[10px]">
-                  <span className="text-muted-foreground">Budget utilization</span>
+                  <span className="text-muted-foreground">{t("mp.dashboard.budgetUtilization")}</span>
                   <span className="text-muted-foreground">{dept.budgetUtilization}%</span>
                 </div>
               </motion.div>
@@ -232,10 +234,10 @@ export default function MPDashboardPage() {
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
             <Globe className="size-5 text-emerald-600" />
-            Constituency Map
+            {t("mp.dashboard.constituencyMap")}
           </h2>
           <button onClick={() => router.push("/mp/constituency-twin")} className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors">
-            Full Digital Twin <ArrowRight className="size-3" />
+            {t("mp.dashboard.fullDigitalTwin")} <ArrowRight className="size-3" />
           </button>
         </div>
         <div className="relative h-80 overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/50">
@@ -296,7 +298,7 @@ export default function MPDashboardPage() {
 
           {/* Filter chips */}
           <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-            {["Roads", "Schools", "Hospitals", "Water", "Electricity", "Projects"].map((layer) => (
+            {[t("mp.dashboard.roads"), t("mp.dashboard.schools"), t("mp.dashboard.hospitals"), t("mp.dashboard.water"), t("mp.dashboard.electricity"), "Projects"].map((layer) => (
               <button key={layer} className="rounded-full bg-white/80 border border-border px-2.5 py-1 text-[10px] text-muted-foreground hover:text-foreground hover:bg-white transition-colors backdrop-blur-sm shadow-sm">
                 {layer}
               </button>
@@ -307,15 +309,15 @@ export default function MPDashboardPage() {
           <div className="absolute bottom-3 left-3 flex items-center gap-4 rounded-lg bg-white/90 border border-border px-4 py-2 backdrop-blur-sm shadow-sm">
             <div className="flex items-center gap-1.5">
               <div className="size-2 rounded-full bg-red-500" />
-              <span className="text-[10px] text-muted-foreground">High</span>
+              <span className="text-[10px] text-muted-foreground">{t("common.high")}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="size-2 rounded-full bg-amber-500" />
-              <span className="text-[10px] text-muted-foreground">Medium</span>
+              <span className="text-[10px] text-muted-foreground">{t("common.medium")}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="size-2 rounded-full bg-emerald-500" />
-              <span className="text-[10px] text-muted-foreground">Low</span>
+              <span className="text-[10px] text-muted-foreground">{t("common.low")}</span>
             </div>
           </div>
         </div>
@@ -326,10 +328,10 @@ export default function MPDashboardPage() {
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
             <Brain className="size-5 text-purple-600" />
-            Top AI Insights
+            {t("mp.dashboard.topAIInsights")}
           </h2>
           <span className="rounded-full bg-purple-50 px-2.5 py-1 text-[10px] font-semibold text-purple-600">
-            Powered by AI Analysis
+            {t("mp.dashboard.poweredByAI")}
           </span>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -370,7 +372,7 @@ export default function MPDashboardPage() {
               </div>
 
               <div className="mt-4 rounded-xl bg-muted/50 p-3">
-                <div className="text-[10px] font-semibold text-muted-foreground uppercase mb-1">AI Recommendation</div>
+                <div className="text-[10px] font-semibold text-muted-foreground uppercase mb-1">{t("mp.dashboard.aiRecommendation")}</div>
                 <div className="text-xs text-foreground/80">{insight.recommendation}</div>
               </div>
 
@@ -381,7 +383,7 @@ export default function MPDashboardPage() {
                   )}
                   <span className="flex items-center gap-1"><Clock className="size-3" />{insight.timeframe}</span>
                 </div>
-                <span className="text-[10px] text-primary/60 font-medium">Confidence: {insight.confidence}%</span>
+                <span className="text-[10px] text-primary/60 font-medium">{t("mp.dashboard.confidence")}: {insight.confidence}%</span>
               </div>
 
               {/* Sources */}
@@ -403,16 +405,16 @@ export default function MPDashboardPage() {
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
             <Bot className="size-5 text-cyan-600" />
-            AI Decision Center
+            {t("mp.dashboard.aiDecisionCenter")}
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {[
-            { label: "Development Impact Simulator", icon: Globe, color: "from-emerald-500 to-teal-500", shadow: "shadow-emerald-500/20", href: "/mp/simulator" },
-            { label: "Need vs Spend", icon: Flame, color: "from-orange-500 to-red-500", shadow: "shadow-orange-500/20", href: "/mp/need-vs-spend" },
-            { label: "Project Comparison", icon: GitCompare, color: "from-blue-500 to-indigo-500", shadow: "shadow-blue-500/20", href: "/mp/projects" },
-            { label: "Policy Generator", icon: FileText, color: "from-purple-500 to-pink-500", shadow: "shadow-purple-500/20", href: "/mp/recommendations" },
-            { label: "AI Copilot", icon: Bot, color: "from-cyan-500 to-blue-500", shadow: "shadow-cyan-500/20", href: "/mp/copilot" },
+            { label: t("mp.dashboard.developmentImpactSimulator"), icon: Globe, color: "from-emerald-500 to-teal-500", shadow: "shadow-emerald-500/20", href: "/mp/simulator" },
+            { label: t("mp.dashboard.needVsSpend"), icon: Flame, color: "from-orange-500 to-red-500", shadow: "shadow-orange-500/20", href: "/mp/need-vs-spend" },
+            { label: t("mp.dashboard.projectComparison"), icon: GitCompare, color: "from-blue-500 to-indigo-500", shadow: "shadow-blue-500/20", href: "/mp/projects" },
+            { label: t("mp.dashboard.policyGenerator"), icon: FileText, color: "from-purple-500 to-pink-500", shadow: "shadow-purple-500/20", href: "/mp/recommendations" },
+            { label: t("mp.dashboard.aiCopilot"), icon: Bot, color: "from-cyan-500 to-blue-500", shadow: "shadow-cyan-500/20", href: "/mp/copilot" },
           ].map((item, i) => (
             <motion.button
               key={item.label}
@@ -433,17 +435,17 @@ export default function MPDashboardPage() {
 
       {/* ═══ SECTION 6: Constituency KPIs ═══ */}
       <div>
-        <h2 className="mb-4 text-lg font-bold text-foreground">Constituency KPIs</h2>
+        <h2 className="mb-4 text-lg font-bold text-foreground">{t("mp.dashboard.constituencyKPIs")}</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
           {[
-            { label: "Population", value: "18.4L", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
-            { label: "Villages", value: "142", icon: MapPin, color: "text-emerald-600", bg: "bg-emerald-50" },
-            { label: "Projects", value: "47", icon: FolderKanban, color: "text-cyan-600", bg: "bg-cyan-50" },
-            { label: "Complaints", value: "3,847", icon: ClipboardList, color: "text-amber-600", bg: "bg-amber-50" },
-            { label: "Budget", value: "₹37.7Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
-            { label: "Satisfaction", value: "79%", icon: Heart, color: "text-pink-600", bg: "bg-pink-50" },
-            { label: "Completion", value: "78%", icon: CheckCircle2, color: "text-blue-600", bg: "bg-blue-50" },
-            { label: "AI Confidence", value: "87%", icon: Brain, color: "text-purple-600", bg: "bg-purple-50" },
+            { label: t("mp.dashboard.population"), value: "18.4L", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
+            { label: t("mp.dashboard.villages"), value: "142", icon: MapPin, color: "text-emerald-600", bg: "bg-emerald-50" },
+            { label: t("mp.dashboard.projects"), value: "47", icon: FolderKanban, color: "text-cyan-600", bg: "bg-cyan-50" },
+            { label: t("mp.dashboard.complaints"), value: "3,847", icon: ClipboardList, color: "text-amber-600", bg: "bg-amber-50" },
+            { label: t("mp.dashboard.budget"), value: "₹37.7Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
+            { label: t("mp.dashboard.satisfaction"), value: "79%", icon: Heart, color: "text-pink-600", bg: "bg-pink-50" },
+            { label: t("mp.dashboard.completion"), value: "78%", icon: CheckCircle2, color: "text-blue-600", bg: "bg-blue-50" },
+            { label: t("mp.dashboard.aiConfidence"), value: "87%", icon: Brain, color: "text-purple-600", bg: "bg-purple-50" },
           ].map((kpi, i) => (
             <motion.div
               key={kpi.label}
@@ -469,9 +471,9 @@ export default function MPDashboardPage() {
         className="rounded-2xl border border-border bg-card p-6"
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">Recent Development Projects</h2>
+          <h2 className="text-lg font-bold text-foreground">{t("mp.dashboard.recentDevProjects")}</h2>
           <button onClick={() => router.push("/mp/project-monitoring")} className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors">
-            View All <ArrowRight className="size-3" />
+            {t("mp.dashboard.viewAll")} <ArrowRight className="size-3" />
           </button>
         </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
@@ -526,7 +528,7 @@ export default function MPDashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         className="rounded-2xl border border-border bg-card p-6"
       >
-        <h2 className="mb-4 text-lg font-bold text-foreground">Sector-wise Spending</h2>
+        <h2 className="mb-4 text-lg font-bold text-foreground">{t("mp.dashboard.sectorWiseSpending")}</h2>
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={sectorChartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
@@ -550,7 +552,7 @@ export default function MPDashboardPage() {
         >
           <h2 className="mb-4 text-lg font-bold text-foreground flex items-center gap-2">
             <Flame className="size-5 text-orange-600" />
-            Complaint Hotspots
+            {t("mp.dashboard.complaintHotspots")}
           </h2>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -573,7 +575,7 @@ export default function MPDashboardPage() {
         >
           <h2 className="mb-4 text-lg font-bold text-foreground flex items-center gap-2">
             <Flame className="size-5 text-orange-600" />
-            Village Rankings
+            {t("mp.dashboard.villageRankings")}
           </h2>
           <div className="space-y-2">
             {complaintHotspots.slice(0, 8).map((v, i) => (
@@ -607,7 +609,7 @@ export default function MPDashboardPage() {
       <div>
         <h2 className="mb-4 text-lg font-bold text-foreground flex items-center gap-2">
           <AlertTriangle className="size-5 text-amber-600" />
-          Upcoming AI Alerts
+          {t("mp.dashboard.upcomingAIAlerts")}
         </h2>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           {aiAlerts.map((alert, i) => {

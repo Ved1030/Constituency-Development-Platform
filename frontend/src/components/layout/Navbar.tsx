@@ -7,18 +7,20 @@ import { Menu, X, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { LanguageSelector } from "@/components/common/LanguageSelector";
-
-const navLinks = [
-  { href: "#features", label: "Features" },
-  { href: "#how-it-works", label: "How it Works" },
-  { href: "#solutions", label: "Solutions" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export function Navbar() {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navLinks = [
+    { href: "#features", label: t("nav.features") },
+    { href: "#how-it-works", label: t("nav.howItWorks") },
+    { href: "#solutions", label: t("nav.solutions") },
+    { href: "#about", label: t("nav.about") },
+    { href: "#contact", label: t("nav.contact") },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +65,7 @@ export function Navbar() {
           <LanguageSelector />
           <Link href="/login">
             <Button variant="ghost" size="sm">
-              Log in
+              {t("nav.login")}
             </Button>
           </Link>
           <Link href="/login">
@@ -71,7 +73,7 @@ export function Navbar() {
               size="sm"
               className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              Get Started
+              {t("nav.getStarted")}
             </Button>
           </Link>
         </div>
@@ -111,17 +113,17 @@ export function Navbar() {
               <hr className="my-3 border-border" />
               <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted">
                 <Globe className="size-4" />
-                English
+                {t("common.active")}
               </button>
               <div className="flex flex-col gap-2 pt-2">
                 <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                   <Button variant="outline" className="w-full justify-center">
-                    Log in
+                    {t("nav.login")}
                   </Button>
                 </Link>
                 <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                   <Button className="w-full justify-center bg-primary text-primary-foreground hover:bg-primary/90">
-                    Get Started
+                    {t("nav.getStarted")}
                   </Button>
                 </Link>
               </div>

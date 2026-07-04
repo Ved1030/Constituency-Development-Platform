@@ -2,22 +2,25 @@
 
 import { User, Shield, Crown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface RoleSelectorProps {
   value: "citizen" | "mp" | "admin";
   onChange: (value: "citizen" | "mp" | "admin") => void;
 }
 
-const roles = [
-  { value: "citizen" as const, label: "Citizen", icon: User, description: "Report issues & vote" },
-  { value: "mp" as const, label: "MP", icon: Crown, description: "Manage constituency" },
-  { value: "admin" as const, label: "Admin", icon: Shield, description: "Platform admin" },
-];
-
 export function RoleSelector({ value, onChange }: RoleSelectorProps) {
+  const { t } = useTranslation();
+
+  const roles = [
+    { value: "citizen" as const, label: t("auth.citizen"), icon: User, description: t("auth.citizenDesc") },
+    { value: "mp" as const, label: t("auth.mp"), icon: Crown, description: t("auth.mpDesc") },
+    { value: "admin" as const, label: t("auth.admin"), icon: Shield, description: t("auth.adminDesc") },
+  ];
+
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium text-foreground">Sign in as</label>
+      <label className="text-sm font-medium text-foreground">{t("auth.signInAs")}</label>
       <div className="grid grid-cols-3 gap-2">
         {roles.map((role) => (
           <button

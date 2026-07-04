@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, TrendingUp, Clock, MapPin, ChevronRight, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 const priorities = [
   {
@@ -92,6 +93,7 @@ const severityConfig: Record<string, { bg: string; text: string; border: string 
 };
 
 export default function AIPriorityEnginePage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -103,13 +105,13 @@ export default function AIPriorityEnginePage() {
         <div>
           <div className="flex items-center gap-2">
             <AlertTriangle className="size-5 text-amber-600" />
-            <h1 className="text-2xl font-bold text-foreground">AI Priority Engine</h1>
+            <h1 className="text-2xl font-bold text-foreground">{t("mp.priorityEngine.title")}</h1>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">Ranked by AI-calculated urgency score. Updated every 6 hours.</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("mp.priorityEngine.subtitle")}</p>
         </div>
         <div className="flex items-center gap-2 rounded-xl bg-amber-50 px-3 py-2 border border-amber-200">
           <Zap className="size-4 text-amber-600" />
-          <span className="text-xs text-amber-700 font-medium">Last updated: 2 hours ago</span>
+          <span className="text-xs text-amber-700 font-medium">{t("mp.priorityEngine.lastUpdated")}</span>
         </div>
       </motion.div>
 
@@ -141,7 +143,7 @@ export default function AIPriorityEnginePage() {
                     <div className={cn("rounded-full px-2 py-0.5 text-[10px] font-bold uppercase", sev.bg)}>
                       {item.severity}
                     </div>
-                    <div className="mt-1 text-xs text-muted-foreground">Score: {item.score}/100</div>
+                    <div className="mt-1 text-xs text-muted-foreground">{t("mp.priorityEngine.score")}: {item.score}/100</div>
                   </div>
                 </div>
 
@@ -163,11 +165,11 @@ export default function AIPriorityEnginePage() {
                     {item.affectedCitizens > 0 && (
                       <span className="flex items-center gap-1 text-xs text-muted-foreground">
                         <TrendingUp className="size-3" />
-                        {item.affectedCitizens.toLocaleString("en-IN")} citizens
+                        {t("mp.priorityEngine.citizens", { count: item.affectedCitizens.toLocaleString("en-IN") })}
                       </span>
                     )}
                     <span className="text-xs text-primary/70 font-medium">
-                      AI Confidence: {item.aiConfidence}%
+                      {t("mp.priorityEngine.aiConfidence", { value: item.aiConfidence })}
                     </span>
                   </div>
 

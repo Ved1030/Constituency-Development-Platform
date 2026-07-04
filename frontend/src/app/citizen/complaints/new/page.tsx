@@ -47,6 +47,7 @@ import { useGeolocation } from "@/hooks/use-geolocation";
 import { useReverseGeocoding } from "@/hooks/use-reverse-geocoding";
 import { useBackgroundClassification } from "@/hooks/use-background-classification";
 import { submitComplaint } from "@/services/complaint-api";
+import { useTranslation } from "@/hooks/use-translation";
 import type {
   AIPreview,
   ComplaintCategory,
@@ -60,13 +61,6 @@ import type {
 // ---------------------------------------------------------------------------
 // Steps
 // ---------------------------------------------------------------------------
-const steps = [
-  { id: 1, label: "Category", icon: FileText },
-  { id: 2, label: "Details", icon: MessageSquare },
-  { id: 3, label: "Location", icon: MapPin },
-  { id: 4, label: "Evidence", icon: Camera },
-  { id: 5, label: "AI Review", icon: Zap },
-];
 
 type CategoryValue =
   | "road"
@@ -194,6 +188,7 @@ function clientSideAIPreview(
 // Page Component
 // ---------------------------------------------------------------------------
 export default function NewComplaintPage() {
+  const { t } = useTranslation();
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [category, setCategory] = useState<CategoryValue | null>(null);
@@ -208,6 +203,14 @@ export default function NewComplaintPage() {
   const [address, setAddress] = useState<GeoAddress | null>(null);
   const [submitResult, setSubmitResult] = useState<ComplaintSubmitResponse | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const steps = [
+    { id: 1, label: t("citizen.newComplaint.category"), icon: FileText },
+    { id: 2, label: t("citizen.newComplaint.details"), icon: MessageSquare },
+    { id: 3, label: t("citizen.newComplaint.location"), icon: MapPin },
+    { id: 4, label: t("citizen.newComplaint.evidence"), icon: Camera },
+    { id: 5, label: t("citizen.newComplaint.aiReview"), icon: Zap },
+  ];
 
   // Multilingual data from speech input
   const [originalLanguage, setOriginalLanguage] = useState("");
@@ -381,12 +384,12 @@ export default function NewComplaintPage() {
           <div className="mx-auto flex size-20 items-center justify-center rounded-full bg-success/10 mb-6">
             <CheckCircle className="size-10 text-success" />
           </div>
-          <h2 className="text-xl font-bold text-foreground">Complaint Submitted!</h2>
+          <h2 className="text-xl font-bold text-foreground">{t("citizen.newComplaint.complaintSubmitted")}</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Your complaint has been verified and registered.
+            {t("citizen.newComplaint.complaintRegistered")}
             {submitResult?.complaint && (
               <>
-                {" "}Your complaint ID is{" "}
+                {" "}{t("citizen.newComplaint.yourIdIs")}{" "}
                 <span className="font-medium text-primary">
                   {submitResult.complaint.complaint_uid}
                 </span>
@@ -396,20 +399,20 @@ export default function NewComplaintPage() {
           {submitResult?.complaint && (
             <div className="mt-4 rounded-xl bg-card border border-border p-3 text-left space-y-1.5">
               <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Evidence Score</span>
+                <span className="text-muted-foreground">{t("citizen.newComplaint.evidenceScore")}</span>
                 <span className="font-medium text-success">
                   {Math.round(submitResult.complaint.evidence_score)}/100
                 </span>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Status</span>
+                <span className="text-muted-foreground">{t("citizen.newComplaint.status")}</span>
                 <span className="font-medium text-primary capitalize">
                   {submitResult.complaint.verification_status.replace(/_/g, " ")}
                 </span>
               </div>
               {submitResult.complaint.department && (
                 <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">Department</span>
+                  <span className="text-muted-foreground">{t("citizen.newComplaint.department")}</span>
                   <span className="font-medium text-foreground">
                     {submitResult.complaint.department}
                   </span>
@@ -419,7 +422,7 @@ export default function NewComplaintPage() {
           )}
           <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
             <Loader className="size-4 animate-spin" />
-            Redirecting to complaints...
+            {t("citizen.newComplaint.redirecting")}
           </div>
         </motion.div>
       </div>
@@ -435,7 +438,7 @@ export default function NewComplaintPage() {
       <div className="flex items-center justify-between">
         <Button variant="ghost" size="sm" onClick={() => router.back()} className="gap-2">
           <ArrowLeft className="size-4" />
-          Back
+          {t("common.back")}
         </Button>
         <LanguageSwitcher
           currentLanguage={uiLanguage.code}
@@ -492,9 +495,9 @@ export default function NewComplaintPage() {
             className="space-y-4"
           >
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Select Complaint Category</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t("citizen.newComplaint.selectCategory")}</h2>
               <p className="text-sm text-muted-foreground">
-                Choose the category that best describes your issue
+                {t("citizen.newComplaint.chooseCategory")}
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -527,7 +530,7 @@ export default function NewComplaintPage() {
                           animate={{ opacity: 1 }}
                           className="text-[11px] text-primary"
                         >
-                          Selected
+                          {t("citizen.newComplaint.selected")}
                         </motion.div>
                       )}
                     </div>
@@ -549,9 +552,9 @@ export default function NewComplaintPage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg font-semibold text-foreground">Describe Your Issue</h2>
+                <h2 className="text-lg font-semibold text-foreground">{t("citizen.newComplaint.describeIssue")}</h2>
                 <p className="text-sm text-muted-foreground">
-                  Provide details about the problem
+                  {t("citizen.newComplaint.provideDetails")}
                 </p>
               </div>
               <Button
@@ -561,7 +564,7 @@ export default function NewComplaintPage() {
                 className={cn("gap-2", useVoice && "border-primary text-primary bg-primary/5")}
               >
                 <Mic className="size-4" />
-                {useVoice ? "Type instead" : "Use Voice"}
+                {useVoice ? t("citizen.newComplaint.typeInstead") : t("citizen.newComplaint.useVoice")}
               </Button>
             </div>
 
@@ -583,10 +586,10 @@ export default function NewComplaintPage() {
               <>
                 <div>
                   <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
-                    Title
+                    {t("citizen.newComplaint.title")}
                   </label>
                   <Input
-                    placeholder="e.g., Severe Waterlogging in Gandhi Nagar"
+                    placeholder={t("citizen.newComplaint.titlePlaceholder")}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="h-10"
@@ -594,10 +597,10 @@ export default function NewComplaintPage() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
-                    Description
+                    {t("citizen.newComplaint.description")}
                   </label>
                   <Textarea
-                    placeholder="Describe the issue in detail. Include when it started, how it affects you, and any other relevant information..."
+                    placeholder={t("citizen.newComplaint.descriptionPlaceholder")}
                     value={description}
                     onChange={(e) => {
                       setDescription(e.target.value);
@@ -613,7 +616,7 @@ export default function NewComplaintPage() {
             {isClassifying && (
               <div className="flex items-center gap-2 text-xs text-primary">
                 <Loader className="size-3 animate-spin" />
-                AI is analyzing your complaint in the background...
+                {t("citizen.newComplaint.aiAnalyzing")}
               </div>
             )}
           </motion.div>
@@ -629,9 +632,9 @@ export default function NewComplaintPage() {
             className="space-y-5"
           >
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Location & GPS</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t("citizen.newComplaint.locationGps")}</h2>
               <p className="text-sm text-muted-foreground">
-                Capture your GPS location for evidence verification
+                {t("citizen.newComplaint.captureGps")}
               </p>
             </div>
 
@@ -660,16 +663,16 @@ export default function NewComplaintPage() {
                 <div className="flex items-center gap-2">
                   <MapPin className="size-4 text-primary" />
                   <span className="text-sm font-medium text-foreground">
-                    Manual Location
+                    {t("citizen.newComplaint.manualLocation")}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Enter an address or landmark if GPS is unavailable
+                  {t("citizen.newComplaint.enterAddressFallback")}
                 </p>
                 <div className="relative">
                   <MapPin className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
-                    placeholder="e.g., Gandhi Nagar Main Road, Ward 7"
+                    placeholder={t("citizen.newComplaint.manualLocationPlaceholder")}
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     className="h-10 pl-9"
@@ -690,9 +693,9 @@ export default function NewComplaintPage() {
             className="space-y-5"
           >
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Upload Evidence</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t("citizen.newComplaint.uploadEvidence")}</h2>
               <p className="text-sm text-muted-foreground">
-                Add photos and voice notes to strengthen your complaint
+                {t("citizen.newComplaint.addPhotosVoice")}
               </p>
             </div>
 
@@ -711,13 +714,13 @@ export default function NewComplaintPage() {
             {voiceNotes.length > 0 && (
               <div className="space-y-2">
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Voice Notes ({voiceNotes.length})
+                  {t("citizen.newComplaint.voiceNotes")} ({voiceNotes.length})
                 </p>
                 {voiceNotes.map((note, i) => (
                   <div key={i} className="rounded-xl bg-muted/50 p-3 space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-semibold text-primary">{note.language}</span>
-                      <span className="text-[10px] text-muted-foreground">Voice Note {i + 1}</span>
+                      <span className="text-[10px] text-muted-foreground">{t("citizen.newComplaint.voiceNote")} {i + 1}</span>
                     </div>
                     <p className="text-xs text-foreground">{note.transcript}</p>
                   </div>
@@ -727,19 +730,19 @@ export default function NewComplaintPage() {
 
             {/* Quick evidence tips */}
             <div className="rounded-xl bg-primary/5 border border-primary/10 p-4">
-              <p className="text-xs font-medium text-primary mb-2">Tips for stronger evidence:</p>
+              <p className="text-xs font-medium text-primary mb-2">{t("citizen.newComplaint.evidenceTips")}</p>
               <ul className="space-y-1 text-[11px] text-muted-foreground">
                 <li className="flex items-start gap-1.5">
                   <Check className="size-3 text-success shrink-0 mt-0.5" />
-                  Capture multiple angles of the issue
+                  {t("citizen.newComplaint.captureMultipleAngles")}
                 </li>
                 <li className="flex items-start gap-1.5">
                   <Check className="size-3 text-success shrink-0 mt-0.5" />
-                  Record a voice note describing the problem
+                  {t("citizen.newComplaint.recordVoiceNote")}
                 </li>
                 <li className="flex items-start gap-1.5">
                   <Check className="size-3 text-success shrink-0 mt-0.5" />
-                  Ensure GPS is enabled for location verification
+                  {t("citizen.newComplaint.ensureGpsEnabled")}
                 </li>
               </ul>
             </div>
@@ -756,9 +759,9 @@ export default function NewComplaintPage() {
             className="space-y-5"
           >
             <div>
-              <h2 className="text-lg font-semibold text-foreground">AI Review & Submit</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t("citizen.newComplaint.aiReviewSubmit")}</h2>
               <p className="text-sm text-muted-foreground">
-                AI has analyzed your complaint. Review the intelligence preview below.
+                {t("citizen.newComplaint.aiAnalyzed")}
               </p>
             </div>
 
@@ -776,43 +779,43 @@ export default function NewComplaintPage() {
 
             {/* Complaint Summary */}
             <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
-              <h3 className="text-sm font-semibold text-foreground">Complaint Summary</h3>
+              <h3 className="text-sm font-semibold text-foreground">{t("citizen.newComplaint.complaintSummary")}</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Category</span>
+                  <span className="text-muted-foreground">{t("citizen.newComplaint.category")}</span>
                   <span className="font-medium text-foreground capitalize">{category}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Title</span>
+                  <span className="text-muted-foreground">{t("citizen.newComplaint.title")}</span>
                   <span className="font-medium text-foreground text-right max-w-[60%] truncate">
                     {title}
                   </span>
                 </div>
                 {originalLanguage && (
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Spoken Language</span>
+                    <span className="text-muted-foreground">{t("citizen.newComplaint.spokenLanguage")}</span>
                     <span className="font-medium text-foreground">{originalLanguage}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Location</span>
+                  <span className="text-muted-foreground">{t("citizen.newComplaint.location")}</span>
                   <span className="font-medium text-foreground text-right max-w-[60%] truncate">
-                    {address?.village || address?.district || location || "GPS Captured"}
+                    {address?.village || address?.district || location || t("citizen.newComplaint.gpsCaptured")}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">GPS</span>
                   <span className={cn("font-medium", gpsLocation ? "text-success" : "text-amber-500")}>
-                    {gpsLocation ? "Verified" : "Not captured"}
+                    {gpsLocation ? t("citizen.newComplaint.verified") : t("citizen.newComplaint.notCaptured")}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Photos</span>
+                  <span className="text-muted-foreground">{t("citizen.newComplaint.photos")}</span>
                   <span className="font-medium text-foreground">{imageCount}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Voice Note</span>
-                  <span className="font-medium text-foreground">{hasVoice ? "Yes" : "No"}</span>
+                  <span className="text-muted-foreground">{t("citizen.newComplaint.voiceNote")}</span>
+                  <span className="font-medium text-foreground">{hasVoice ? t("citizen.newComplaint.yes") : t("citizen.newComplaint.no")}</span>
                 </div>
               </div>
             </div>
@@ -836,7 +839,7 @@ export default function NewComplaintPage() {
           className="gap-2"
         >
           <ArrowLeft className="size-4" />
-          Previous
+          {t("common.previous")}
         </Button>
 
         {currentStep < 5 ? (
@@ -845,7 +848,7 @@ export default function NewComplaintPage() {
             disabled={!canProceed()}
             className="gap-2"
           >
-            Next
+            {t("common.next")}
             <ArrowRight className="size-4" />
           </Button>
         ) : (
@@ -857,12 +860,12 @@ export default function NewComplaintPage() {
             {isSubmitting ? (
               <>
                 <Loader className="size-4 animate-spin" />
-                Submitting...
+                {t("citizen.newComplaint.submitting")}
               </>
             ) : (
               <>
                 <Send className="size-4" />
-                Submit Complaint
+                {t("citizen.newComplaint.submitComplaint")}
               </>
             )}
           </Button>

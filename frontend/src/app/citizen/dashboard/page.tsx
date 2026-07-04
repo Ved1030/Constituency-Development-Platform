@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/use-translation";
 import {
   citizenUser,
   complaints,
@@ -26,48 +27,6 @@ import {
   notifications,
   nearbyIssues,
 } from "@/data/mock-citizen";
-
-const quickActions = [
-  {
-    label: "Raise Complaint",
-    description: "Report a new issue in your area",
-    href: "/citizen/complaints/new",
-    icon: PlusCircle,
-    gradient: "from-blue-500 to-blue-600",
-    shadow: "shadow-blue-500/25",
-  },
-  {
-    label: "Track Complaint",
-    description: "Track your complaint status",
-    href: "/citizen/tracking",
-    icon: MapPin,
-    gradient: "from-emerald-500 to-emerald-600",
-    shadow: "shadow-emerald-500/25",
-  },
-  {
-    label: "Nearby Issues",
-    description: "View issues near you",
-    href: "/citizen/nearby",
-    icon: Map,
-    gradient: "from-amber-500 to-amber-600",
-    shadow: "shadow-amber-500/25",
-  },
-  {
-    label: "Community Voting",
-    description: "Support development proposals",
-    href: "/citizen/voting",
-    icon: Vote,
-    gradient: "from-purple-500 to-purple-600",
-    shadow: "shadow-purple-500/25",
-  },
-];
-
-const kpiCards = [
-  { label: "Total Complaints", value: dashboardKPIs.totalComplaints, icon: FileText, color: "text-blue-600", bg: "bg-blue-50" },
-  { label: "Resolved", value: dashboardKPIs.resolvedComplaints, icon: CheckCircle, color: "text-emerald-600", bg: "bg-emerald-50" },
-  { label: "In Progress", value: dashboardKPIs.inProgressComplaints, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
-  { label: "Community Score", value: citizenUser.participationScore, icon: Star, color: "text-purple-600", bg: "bg-purple-50" },
-];
 
 const statusColors: Record<string, string> = {
   pending: "bg-gray-100 text-gray-700",
@@ -84,8 +43,51 @@ const severityDot: Record<string, string> = {
 };
 
 export default function CitizenDashboardPage() {
+  const { t } = useTranslation();
   const recentComplaints = complaints.slice(0, 5);
   const recentNotifications = notifications.slice(0, 4);
+
+  const quickActions = [
+    {
+      label: t("citizen.dashboard.raiseComplaint"),
+      description: t("citizen.dashboard.raiseComplaintDesc"),
+      href: "/citizen/complaints/new",
+      icon: PlusCircle,
+      gradient: "from-blue-500 to-blue-600",
+      shadow: "shadow-blue-500/25",
+    },
+    {
+      label: t("citizen.dashboard.trackComplaint"),
+      description: t("citizen.dashboard.trackComplaintDesc"),
+      href: "/citizen/tracking",
+      icon: MapPin,
+      gradient: "from-emerald-500 to-emerald-600",
+      shadow: "shadow-emerald-500/25",
+    },
+    {
+      label: t("citizen.dashboard.nearbyIssues"),
+      description: t("citizen.dashboard.nearbyIssuesDesc"),
+      href: "/citizen/nearby",
+      icon: Map,
+      gradient: "from-amber-500 to-amber-600",
+      shadow: "shadow-amber-500/25",
+    },
+    {
+      label: t("citizen.dashboard.communityVoting"),
+      description: t("citizen.dashboard.communityVotingDesc"),
+      href: "/citizen/voting",
+      icon: Vote,
+      gradient: "from-purple-500 to-purple-600",
+      shadow: "shadow-purple-500/25",
+    },
+  ];
+
+  const kpiCards = [
+    { label: t("citizen.dashboard.totalComplaints"), value: dashboardKPIs.totalComplaints, icon: FileText, color: "text-blue-600", bg: "bg-blue-50" },
+    { label: t("citizen.dashboard.resolved"), value: dashboardKPIs.resolvedComplaints, icon: CheckCircle, color: "text-emerald-600", bg: "bg-emerald-50" },
+    { label: t("citizen.dashboard.inProgress"), value: dashboardKPIs.inProgressComplaints, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
+    { label: t("citizen.dashboard.communityScore"), value: citizenUser.participationScore, icon: Star, color: "text-purple-600", bg: "bg-purple-50" },
+  ];
 
   return (
     <div className="space-y-6">
@@ -105,7 +107,7 @@ export default function CitizenDashboardPage() {
               {citizenUser.name.split(" ").map((n) => n[0]).join("")}
             </div>
             <div>
-              <h2 className="text-2xl font-bold">Welcome back, {citizenUser.name.split(" ")[0]}</h2>
+              <h2 className="text-2xl font-bold">{t("citizen.dashboard.welcomeBack")}, {citizenUser.name.split(" ")[0]}</h2>
               <p className="mt-1 text-white/80">
                 {citizenUser.constituency} &middot; {citizenUser.district}, {citizenUser.state}
               </p>
@@ -115,7 +117,7 @@ export default function CitizenDashboardPage() {
             <Link href="/citizen/complaints/new">
               <Button className="gap-2 rounded-xl bg-white text-primary hover:bg-white/90">
                 <PlusCircle className="size-4" />
-                Raise Complaint
+                {t("citizen.dashboard.raiseComplaint")}
               </Button>
             </Link>
           </div>
@@ -146,7 +148,7 @@ export default function CitizenDashboardPage() {
       {/* Quick Actions */}
       <div>
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-base font-semibold text-foreground">Quick Actions</h3>
+          <h3 className="text-base font-semibold text-foreground">{t("citizen.dashboard.quickActions")}</h3>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {quickActions.map((action, i) => (
@@ -183,9 +185,9 @@ export default function CitizenDashboardPage() {
         <div className="xl:col-span-2">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-base font-semibold text-foreground">Recent Complaints</h3>
+              <h3 className="text-base font-semibold text-foreground">{t("citizen.dashboard.recentComplaints")}</h3>
               <Link href="/citizen/complaints" className="flex items-center gap-1 text-sm font-medium text-primary hover:underline">
-                View all <ChevronRight className="size-3.5" />
+                {t("citizen.dashboard.viewAll")} <ChevronRight className="size-3.5" />
               </Link>
             </div>
             <div className="space-y-3">
@@ -209,8 +211,8 @@ export default function CitizenDashboardPage() {
                     <div className="mt-0.5 text-xs text-muted-foreground">{complaint.location}</div>
                   </div>
                   <div className="hidden text-right sm:block">
-                    <div className="text-xs text-muted-foreground">{complaint.upvotes} upvotes</div>
-                    <div className="text-xs text-muted-foreground">{complaint.comments} comments</div>
+                    <div className="text-xs text-muted-foreground">{complaint.upvotes} {t("common.upvotes")}</div>
+                    <div className="text-xs text-muted-foreground">{complaint.comments} {t("common.comments")}</div>
                   </div>
                 </motion.div>
               ))}
@@ -223,7 +225,7 @@ export default function CitizenDashboardPage() {
           {/* Trending Issues */}
           <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-base font-semibold text-foreground">Trending Issues</h3>
+              <h3 className="text-base font-semibold text-foreground">{t("citizen.dashboard.trendingIssues")}</h3>
               <TrendingUp className="size-4 text-primary" />
             </div>
             <div className="space-y-3">
@@ -234,7 +236,7 @@ export default function CitizenDashboardPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm font-medium text-foreground">{issue.title}</div>
-                    <div className="text-xs text-muted-foreground">{issue.upvotes} upvotes</div>
+                    <div className="text-xs text-muted-foreground">{issue.upvotes} {t("common.upvotes")}</div>
                   </div>
                 </div>
               ))}
@@ -244,9 +246,9 @@ export default function CitizenDashboardPage() {
           {/* Notifications */}
           <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-base font-semibold text-foreground">Notifications</h3>
+              <h3 className="text-base font-semibold text-foreground">{t("citizen.dashboard.notifications")}</h3>
               <Link href="/citizen/notifications" className="text-xs font-medium text-primary hover:underline">
-                View all
+                {t("citizen.dashboard.viewAll")}
               </Link>
             </div>
             <div className="space-y-2">
@@ -273,9 +275,9 @@ export default function CitizenDashboardPage() {
       {/* Government Schemes */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-base font-semibold text-foreground">Active Government Schemes</h3>
+          <h3 className="text-base font-semibold text-foreground">{t("citizen.dashboard.activeGovSchemes")}</h3>
           <Link href="/citizen/schemes" className="flex items-center gap-1 text-sm font-medium text-primary hover:underline">
-            View all <ChevronRight className="size-3.5" />
+            {t("citizen.dashboard.viewAll")} <ChevronRight className="size-3.5" />
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -285,7 +287,7 @@ export default function CitizenDashboardPage() {
               <div className="mt-1 text-xs text-muted-foreground line-clamp-1">{scheme.description}</div>
               <div className="mt-3">
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>Progress</span>
+                  <span>{t("citizen.dashboard.progress")}</span>
                   <span className="font-medium text-foreground">{scheme.progress}%</span>
                 </div>
                 <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted">

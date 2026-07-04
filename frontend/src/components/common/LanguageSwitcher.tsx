@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Globe, Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 export interface UILanguage {
   code: string;
@@ -13,36 +14,31 @@ export interface UILanguage {
 }
 
 const UI_LANGUAGES: UILanguage[] = [
-  { code: "en", name: "English", native_name: "English", flag: "🇮🇳" },
-  { code: "hi", name: "Hindi", native_name: "हिन्दी", flag: "🇮🇳" },
-  { code: "gu", name: "Gujarati", native_name: "ગુજરાતી", flag: "🇮🇳" },
-  { code: "ta", name: "Tamil", native_name: "தமிழ்", flag: "🇮🇳" },
-  { code: "te", name: "Telugu", native_name: "తెలుగు", flag: "🇮🇳" },
-  { code: "mr", name: "Marathi", native_name: "मराठी", flag: "🇮🇳" },
-  { code: "bn", name: "Bengali", native_name: "বাংলা", flag: "🇮🇳" },
-  { code: "kn", name: "Kannada", native_name: "ಕನ್ನಡ", flag: "🇮🇳" },
-  { code: "ml", name: "Malayalam", native_name: "മലയാളം", flag: "🇮🇳" },
-  { code: "pa", name: "Punjabi", native_name: "ਪੰਜਾਬੀ", flag: "🇮🇳" },
-  { code: "od", name: "Odia", native_name: "ଓଡ଼ିଆ", flag: "🇮🇳" },
-  { code: "as", name: "Assamese", native_name: "অসমীয়া", flag: "🇮🇳" },
+  { code: "en", name: "English", native_name: "English", flag: "\ud83c\uddee\ud83c\uddf3" },
+  { code: "hi", name: "Hindi", native_name: "\u0939\u093f\u0928\u094d\u0926\u0940", flag: "\ud83c\uddee\ud83c\uddf3" },
+  { code: "gu", name: "Gujarati", native_name: "\u0a97\u0ac1\u0a9c\u0ab0\u0abe\u0a9f\u0ac0", flag: "\ud83c\uddee\ud83c\uddf3" },
+  { code: "ta", name: "Tamil", native_name: "\u0ba4\u0bae\u0bbf\u0bb4\u0bcd", flag: "\ud83c\uddee\ud83c\uddf3" },
+  { code: "te", name: "Telugu", native_name: "\u0c24\u0c46\u0c32\u0c41\u0c17\u0c41", flag: "\ud83c\uddee\ud83c\uddf3" },
+  { code: "mr", name: "Marathi", native_name: "\u092e\u0930\u093e\u0920\u0940", flag: "\ud83c\uddee\ud83c\uddf3" },
+  { code: "bn", name: "Bengali", native_name: "\u09ac\u09be\u0982\u09b2\u09be", flag: "\ud83c\uddee\ud83c\uddf3" },
+  { code: "kn", name: "Kannada", native_name: "\u0c95\u0ca8\u0ccd\u0ca8\u0c9f", flag: "\ud83c\uddee\ud83c\uddf3" },
+  { code: "ml", name: "Malayalam", native_name: "\u0d2e\u0d32\u0d2f\u0d3e\u0d33\u0d02", flag: "\ud83c\uddee\ud83c\uddf3" },
+  { code: "pa", name: "Punjabi", native_name: "\u0a2a\u0a70\u0a1c\u0a3e\u0a2c\u0a40", flag: "\ud83c\uddee\ud83c\uddf3" },
 ];
 
 interface LanguageSwitcherProps {
-  currentLanguage: string;
-  onLanguageChange: (lang: UILanguage) => void;
   className?: string;
+  currentLanguage?: string;
+  onLanguageChange?: (language: UILanguage) => void;
 }
 
-export function LanguageSwitcher({
-  currentLanguage,
-  onLanguageChange,
-  className,
-}: LanguageSwitcherProps) {
+export function LanguageSwitcher({ className, currentLanguage, onLanguageChange }: LanguageSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { locale, setLocale } = useTranslation();
 
-  const currentLang = UI_LANGUAGES.find((l) => l.code === currentLanguage) || UI_LANGUAGES[0];
+  const activeCode = currentLanguage ?? locale;
+  const currentLang = UI_LANGUAGES.find((l) => l.code === activeCode) || UI_LANGUAGES[0];
 
-  // Close dropdown on outside click
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e: MouseEvent) => {
@@ -90,7 +86,8 @@ export function LanguageSwitcher({
                 <button
                   key={lang.code}
                   onClick={() => {
-                    onLanguageChange(lang);
+                    setLocale(lang.code);
+                    onLanguageChange?.(lang);
                     setIsOpen(false);
                   }}
                   className={cn(

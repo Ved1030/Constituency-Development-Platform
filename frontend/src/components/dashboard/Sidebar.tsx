@@ -25,6 +25,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface SidebarLink {
   href: string;
@@ -32,23 +33,6 @@ interface SidebarLink {
   icon: typeof LayoutDashboard;
   section: string;
 }
-
-const mpSidebarLinks: SidebarLink[] = [
-  { href: "/mp/dashboard", label: "Dashboard", icon: LayoutDashboard, section: "OVERVIEW" },
-  { href: "/mp/copilot", label: "AI MP Copilot", icon: Bot, section: "AI DECISION CENTER" },
-  { href: "/mp/priority-engine", label: "AI Priority Engine", icon: AlertTriangle, section: "AI DECISION CENTER" },
-  { href: "/mp/simulator", label: "Development Impact Simulator", icon: Globe, section: "AI DECISION CENTER" },
-  { href: "/mp/projects", label: "AI Project Comparison", icon: GitCompare, section: "AI DECISION CENTER" },
-  { href: "/mp/recommendations", label: "Policy Recommendation", icon: FileText, section: "AI DECISION CENTER" },
-  { href: "/mp/analytics", label: "Constituency Analytics", icon: BarChart3, section: "ANALYTICS" },
-  { href: "/mp/need-vs-spend", label: "Need vs Spend", icon: Flame, section: "ANALYTICS" },
-  { href: "/mp/complaint-intelligence", label: "Complaint Intelligence", icon: ClipboardList, section: "ANALYTICS" },
-  { href: "/mp/constituency-twin", label: "Constituency Digital Twin", icon: Map, section: "GEOSPATIAL" },
-  { href: "/mp/budget", label: "Budget Optimizer", icon: IndianRupee, section: "PROJECTS" },
-  { href: "/mp/project-monitoring", label: "Project Monitoring", icon: FolderKanban, section: "PROJECTS" },
-  { href: "/mp/departments", label: "Departments & Sectors", icon: Building2, section: "DEPARTMENTS" },
-  { href: "/mp/settings", label: "Settings & Reports", icon: Settings, section: "ADMIN" },
-];
 
 const sectionColors: Record<string, string> = {
   "OVERVIEW": "text-primary/60",
@@ -58,6 +42,16 @@ const sectionColors: Record<string, string> = {
   "PROJECTS": "text-amber-600/60",
   "DEPARTMENTS": "text-cyan-600/60",
   "ADMIN": "text-muted-foreground/60",
+};
+
+const sectionKeys: Record<string, string> = {
+  "OVERVIEW": "mp.sidebar.overview",
+  "AI DECISION CENTER": "mp.sidebar.aiDecisionCenter",
+  "ANALYTICS": "mp.sidebar.analytics",
+  "GEOSPATIAL": "mp.sidebar.geospatial",
+  "PROJECTS": "mp.sidebar.projects",
+  "DEPARTMENTS": "mp.sidebar.departments",
+  "ADMIN": "mp.sidebar.admin",
 };
 
 interface MPSidebarProps {
@@ -70,6 +64,24 @@ interface MPSidebarProps {
 export function MPSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: MPSidebarProps) {
   const pathname = usePathname();
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const { t } = useTranslation();
+
+  const mpSidebarLinks: SidebarLink[] = [
+    { href: "/mp/dashboard", label: t("mp.sidebar.dashboard"), icon: LayoutDashboard, section: "OVERVIEW" },
+    { href: "/mp/copilot", label: t("mp.sidebar.aiMPCopilot"), icon: Bot, section: "AI DECISION CENTER" },
+    { href: "/mp/priority-engine", label: t("mp.sidebar.aiPriorityEngine"), icon: AlertTriangle, section: "AI DECISION CENTER" },
+    { href: "/mp/simulator", label: t("mp.sidebar.devImpactSimulator"), icon: Globe, section: "AI DECISION CENTER" },
+    { href: "/mp/projects", label: t("mp.sidebar.aiProjectComparison"), icon: GitCompare, section: "AI DECISION CENTER" },
+    { href: "/mp/recommendations", label: t("mp.sidebar.policyRecommendation"), icon: FileText, section: "AI DECISION CENTER" },
+    { href: "/mp/analytics", label: t("mp.sidebar.constituencyAnalytics"), icon: BarChart3, section: "ANALYTICS" },
+    { href: "/mp/need-vs-spend", label: t("mp.sidebar.needVsSpend"), icon: Flame, section: "ANALYTICS" },
+    { href: "/mp/complaint-intelligence", label: t("mp.sidebar.complaintIntelligence"), icon: ClipboardList, section: "ANALYTICS" },
+    { href: "/mp/constituency-twin", label: t("mp.sidebar.constituencyDigitalTwin"), icon: Map, section: "GEOSPATIAL" },
+    { href: "/mp/budget", label: t("mp.sidebar.budgetOptimizer"), icon: IndianRupee, section: "PROJECTS" },
+    { href: "/mp/project-monitoring", label: t("mp.sidebar.projectMonitoring"), icon: FolderKanban, section: "PROJECTS" },
+    { href: "/mp/departments", label: t("mp.sidebar.departmentsSectors"), icon: Building2, section: "DEPARTMENTS" },
+    { href: "/mp/settings", label: t("mp.sidebar.settingsReports"), icon: Settings, section: "ADMIN" },
+  ];
 
   const sections = mpSidebarLinks.reduce<Record<string, SidebarLink[]>>((acc, link) => {
     if (!acc[link.section]) acc[link.section] = [];
@@ -92,8 +104,8 @@ export function MPSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: MP
               exit={{ opacity: 0 }}
               className="flex flex-col"
             >
-              <span className="text-sm font-bold text-foreground leading-tight">MP Portal</span>
-              <span className="text-[10px] text-primary/60 font-medium leading-tight">Governance Command Center</span>
+              <span className="text-sm font-bold text-foreground leading-tight">{t("mp.portal")}</span>
+              <span className="text-[10px] text-primary/60 font-medium leading-tight">{t("mp.governanceCommand")}</span>
             </motion.div>
           )}
         </Link>
@@ -115,7 +127,7 @@ export function MPSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: MP
           <div key={section} className={cn(sIdx > 0 && "mt-6")}>
             {!collapsed && (
               <div className={cn("mb-2 px-3 text-[10px] font-bold tracking-widest uppercase", sectionColors[section] || "text-muted-foreground/60")}>
-                {section}
+                {t(sectionKeys[section] || section)}
               </div>
             )}
             {collapsed && section !== "OVERVIEW" && (
@@ -230,7 +242,7 @@ export function MPSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: MP
                   <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-xs font-bold text-white shadow-md shadow-primary/20">
                     CD
                   </div>
-                  <span className="text-sm font-bold text-foreground">MP Portal</span>
+                  <span className="text-sm font-bold text-foreground">{t("mp.portal")}</span>
                 </Link>
                 <button
                   onClick={onMobileClose}
@@ -243,7 +255,7 @@ export function MPSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: MP
                 {Object.entries(sections).map(([section, links], sIdx) => (
                   <div key={section} className={cn(sIdx > 0 && "mt-6")}>
                     <div className={cn("mb-2 px-3 text-[10px] font-bold tracking-widest uppercase", sectionColors[section] || "text-muted-foreground/60")}>
-                      {section}
+                      {t(sectionKeys[section] || section)}
                     </div>
                     <div className="space-y-0.5">
                       {links.map((link) => {

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SocialLoginButtons } from "./SocialLoginButtons";
 import { RoleSelector } from "./RoleSelector";
+import { useTranslation } from "@/hooks/use-translation";
 
 const MOCK_USERS = [
   { email: "citizen@demo.com", password: "123456", role: "citizen" as const },
@@ -19,6 +20,7 @@ const MOCK_USERS = [
 
 export function LoginForm() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [role, setRole] = useState<"citizen" | "mp" | "admin">("citizen");
@@ -37,12 +39,12 @@ export function LoginForm() {
     );
 
     if (!user) {
-      toast.error("Invalid email or password");
+      toast.error(t("auth.invalidCredentials"));
       setLoading(false);
       return;
     }
 
-    toast.success("Logged in successfully!");
+    toast.success(t("auth.signedInSuccessfully"));
 
     if (user.role === "mp" || user.role === "admin") {
       router.push("/mp/dashboard");
@@ -58,9 +60,9 @@ export function LoginForm() {
       transition={{ duration: 0.5 }}
     >
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-foreground">Welcome back</h2>
+        <h2 className="text-3xl font-bold text-foreground">{t("auth.welcomeBack")}</h2>
         <p className="mt-2 text-muted-foreground">
-          Sign in to access your constituency dashboard
+          {t("auth.signInSubtitle")}
         </p>
       </div>
 
@@ -68,12 +70,12 @@ export function LoginForm() {
         <RoleSelector value={role} onChange={setRole} />
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">Email</label>
+          <label className="text-sm font-medium text-foreground">{t("auth.email")}</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="email"
-              placeholder="you@example.com"
+              placeholder={t("auth.emailPlaceholder")}
               className="h-12 pl-10"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -82,12 +84,12 @@ export function LoginForm() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">Password</label>
+          <label className="text-sm font-medium text-foreground">{t("auth.password")}</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type={showPassword ? "text" : "password"}
-              placeholder="Enter your password"
+              placeholder={t("auth.passwordPlaceholder")}
               className="h-12 pl-10 pr-10"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -110,10 +112,10 @@ export function LoginForm() {
               onChange={(e) => setRememberMe(e.target.checked)}
               className="size-4 rounded border-border accent-primary"
             />
-            Remember me
+            {t("auth.rememberMe")}
           </label>
           <Link href="/login" className="text-sm font-medium text-primary hover:underline">
-            Forgot password?
+            {t("auth.forgotPassword")}
           </Link>
         </div>
 
@@ -125,10 +127,10 @@ export function LoginForm() {
           {loading ? (
             <span className="flex items-center gap-2">
               <Loader2 className="size-4 animate-spin" />
-              Signing in...
+              {t("auth.signingIn")}
             </span>
           ) : (
-            "Sign In"
+            t("auth.signIn")
           )}
         </Button>
       </form>
@@ -138,16 +140,16 @@ export function LoginForm() {
           <div className="w-full border-t border-border" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-3 text-muted-foreground">or continue with</span>
+          <span className="bg-card px-3 text-muted-foreground">{t("auth.orContinueWith")}</span>
         </div>
       </div>
 
       <SocialLoginButtons />
 
       <p className="mt-8 text-center text-sm text-muted-foreground">
-        Don&apos;t have an account?{" "}
+        {t("auth.dontHaveAccount")}{" "}
         <Link href="/register" className="font-semibold text-primary hover:underline">
-          Create Account
+          {t("auth.createAccount")}
         </Link>
       </p>
     </motion.div>

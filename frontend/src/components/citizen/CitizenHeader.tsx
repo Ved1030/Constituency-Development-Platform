@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { citizenUser, notifications } from "@/data/mock-citizen";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface CitizenHeaderProps {
   onMenuClick: () => void;
@@ -25,6 +26,7 @@ interface CitizenHeaderProps {
 }
 
 export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
+  const { t, locale, setLocale } = useTranslation();
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -42,6 +44,8 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
     { code: "gu", label: "Gujarati" },
     { code: "kn", label: "Kannada" },
   ];
+
+  const currentLangLabel = languages.find((l) => l.code === locale)?.label?.slice(0, 2).toUpperCase() || "EN";
 
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-card/80 backdrop-blur-xl">
@@ -71,7 +75,7 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
               )}
             >
               <Search className="size-4" />
-              <span className="hidden lg:inline">Search...</span>
+              <span className="hidden lg:inline">{t("citizen.header.search")}</span>
               <kbd className="hidden rounded-md border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground lg:inline">
                 ⌘K
               </kbd>
@@ -89,7 +93,7 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
               className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               <Globe className="size-4" />
-              <span className="hidden md:inline">EN</span>
+              <span className="hidden md:inline">{currentLangLabel}</span>
             </button>
             <AnimatePresence>
               {langOpen && (
@@ -104,16 +108,19 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
-                        onClick={() => setLangOpen(false)}
+                        onClick={() => {
+                          setLocale(lang.code);
+                          setLangOpen(false);
+                        }}
                         className={cn(
                           "flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
-                          lang.code === "en"
+                          lang.code === locale
                             ? "bg-primary/10 font-medium text-primary"
                             : "text-muted-foreground hover:bg-muted hover:text-foreground",
                         )}
                       >
                         {lang.label}
-                        {lang.code === "en" && (
+                        {lang.code === locale && (
                           <span className="ml-auto text-[10px] text-primary">Active</span>
                         )}
                       </button>
@@ -156,8 +163,8 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                   className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-border bg-card shadow-xl"
                 >
                   <div className="flex items-center justify-between border-b border-border px-4 py-3">
-                    <span className="text-sm font-semibold text-foreground">Notifications</span>
-                    <span className="text-xs text-primary cursor-pointer">Mark all read</span>
+                    <span className="text-sm font-semibold text-foreground">{t("citizen.header.notifications")}</span>
+                    <span className="text-xs text-primary cursor-pointer">{t("citizen.header.markAllRead")}</span>
                   </div>
                   <div className="max-h-72 overflow-y-auto">
                     {notifications.slice(0, 5).map((notif) => (
@@ -181,7 +188,7 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                   </div>
                   <div className="border-t border-border px-4 py-2.5 text-center">
                     <button className="text-xs font-medium text-primary hover:underline">
-                      View all notifications
+                      {t("citizen.header.viewAllNotifications")}
                     </button>
                   </div>
                 </motion.div>
@@ -228,9 +235,9 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                   </div>
                   <div className="p-1.5">
                     {[
-                      { label: "My Profile", icon: User, href: "/citizen/profile" },
-                      { label: "Settings", icon: Settings, href: "/citizen/profile" },
-                      { label: "Help & Support", icon: HelpCircle, href: "/citizen/help" },
+                      { label: t("citizen.sidebar.myProfile"), icon: User, href: "/citizen/profile" },
+                      { label: t("citizen.header.settings"), icon: Settings, href: "/citizen/profile" },
+                      { label: t("citizen.header.helpSupport"), icon: HelpCircle, href: "/citizen/help" },
                     ].map((item) => (
                       <a
                         key={item.label}
@@ -246,7 +253,7 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                   <div className="border-t border-border p-1.5">
                     <button className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-destructive transition-colors hover:bg-destructive/5">
                       <LogOut className="size-4" />
-                      Sign Out
+                      {t("common.signOut")}
                     </button>
                   </div>
                 </motion.div>

@@ -18,17 +18,19 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ComplaintCard } from "@/components/citizen/ComplaintCard";
 import { complaints, citizenUser, complaintCategories } from "@/data/mock-citizen";
-
-const statusFilters = [
-  { label: "All", value: "all" },
-  { label: "Pending", value: "pending" },
-  { label: "In Progress", value: "in-progress" },
-  { label: "Resolved", value: "resolved" },
-];
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function ComplaintsPage() {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const statusFilters = [
+    { label: t("common.all"), value: "all" },
+    { label: t("common.pending"), value: "pending" },
+    { label: t("common.inProgress"), value: "in-progress" },
+    { label: t("common.resolved"), value: "resolved" },
+  ];
 
   const filtered = complaints.filter((c) => {
     const matchesStatus = activeFilter === "all" || c.status === activeFilter;
@@ -40,10 +42,10 @@ export default function ComplaintsPage() {
   });
 
   const stats = [
-    { icon: FileText, label: "Total", value: complaints.length, color: "text-primary", bg: "bg-primary/10" },
-    { icon: CheckCircle, label: "Resolved", value: complaints.filter((c) => c.status === "resolved").length, color: "text-success", bg: "bg-success/10" },
-    { icon: Clock, label: "In Progress", value: complaints.filter((c) => c.status === "in-progress").length, color: "text-purple-500", bg: "bg-purple-500/10" },
-    { icon: CircleAlert, label: "Pending", value: complaints.filter((c) => c.status === "pending" || c.status === "verified").length, color: "text-amber-500", bg: "bg-amber-500/10" },
+    { icon: FileText, label: t("citizen.complaints.total"), value: complaints.length, color: "text-primary", bg: "bg-primary/10" },
+    { icon: CheckCircle, label: t("common.resolved"), value: complaints.filter((c) => c.status === "resolved").length, color: "text-success", bg: "bg-success/10" },
+    { icon: Clock, label: t("common.inProgress"), value: complaints.filter((c) => c.status === "in-progress").length, color: "text-purple-500", bg: "bg-purple-500/10" },
+    { icon: CircleAlert, label: t("common.pending"), value: complaints.filter((c) => c.status === "pending" || c.status === "verified").length, color: "text-amber-500", bg: "bg-amber-500/10" },
   ];
 
   return (
@@ -51,13 +53,13 @@ export default function ComplaintsPage() {
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-sm text-muted-foreground">
-            Track and manage all your complaints
+            {t("citizen.complaints.trackManage")}
           </p>
         </div>
         <Link href="/citizen/complaints/new">
           <Button className="gap-2 h-9 text-sm">
             <PlusCircle className="size-4" />
-            Raise Complaint
+            {t("citizen.complaints.raiseComplaint")}
           </Button>
         </Link>
       </div>
@@ -81,7 +83,7 @@ export default function ComplaintsPage() {
         <div className="relative flex-1 max-w-md">
           <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search by title, ID, or location..."
+            placeholder={t("common.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="h-9 pl-8 text-sm"
@@ -115,9 +117,9 @@ export default function ComplaintsPage() {
             className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border py-16"
           >
             <FileText className="size-12 text-muted-foreground/40 mb-4" />
-            <h3 className="text-sm font-semibold text-foreground">No complaints found</h3>
+            <h3 className="text-sm font-semibold text-foreground">{t("citizen.complaints.noComplaintsFound")}</h3>
             <p className="mt-1 text-xs text-muted-foreground">
-              {searchQuery ? "Try a different search term" : "You haven't raised any complaints yet"}
+              {searchQuery ? t("citizen.complaints.tryDifferentSearch") : t("citizen.complaints.noComplaintsYet")}
             </p>
           </motion.div>
         ) : (

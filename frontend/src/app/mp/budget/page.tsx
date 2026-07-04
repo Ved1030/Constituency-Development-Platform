@@ -27,6 +27,7 @@ import {
 } from "recharts";
 import { budgetAllocations, sectorSpending } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 const CHART_COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899", "#f97316"];
 
@@ -79,23 +80,24 @@ const optimizations = [
 ];
 
 export default function BudgetPage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-2">
           <IndianRupee className="size-5 text-emerald-600" />
-          <h1 className="text-2xl font-bold text-foreground">Budget Optimizer</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t("mp.budget.title")}</h1>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">AI-powered budget analysis and optimization recommendations.</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("mp.budget.subtitle")}</p>
       </motion.div>
 
       {/* Summary */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: "Total Budget", value: "₹37.7 Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
-          { label: "Total Spent", value: "₹28.0 Cr", icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50" },
-          { label: "Remaining", value: "₹9.7 Cr", icon: Target, color: "text-amber-600", bg: "bg-amber-50" },
-          { label: "Utilization", value: `${overallUtilization}%`, icon: PieChartIcon, color: "text-purple-600", bg: "bg-purple-50" },
+          { label: t("mp.budget.totalBudget"), value: "₹37.7 Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
+          { label: t("mp.budget.totalSpent"), value: "₹28.0 Cr", icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50" },
+          { label: t("mp.budget.remaining"), value: "₹9.7 Cr", icon: Target, color: "text-amber-600", bg: "bg-amber-50" },
+          { label: t("mp.budget.utilization"), value: `${overallUtilization}%`, icon: PieChartIcon, color: "text-purple-600", bg: "bg-purple-50" },
         ].map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -120,7 +122,7 @@ export default function BudgetPage() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Budget Allocation vs Spending</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.budget.allocationVsSpending")}</h3>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={budgetData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
@@ -141,7 +143,7 @@ export default function BudgetPage() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-border bg-card p-6"
         >
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Budget Distribution</h3>
+          <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.budget.distribution")}</h3>
           <div className="flex items-center gap-8">
             <div className="size-56">
               <ResponsiveContainer width="100%" height="100%">
@@ -174,7 +176,7 @@ export default function BudgetPage() {
         animate={{ opacity: 1, y: 0 }}
         className="rounded-2xl border border-border bg-card p-6"
       >
-        <h3 className="mb-4 text-sm font-semibold text-foreground">Department Utilization</h3>
+        <h3 className="mb-4 text-sm font-semibold text-foreground">{t("mp.budget.deptUtilization")}</h3>
         <div className="space-y-3">
           {budgetData.map((dept, i) => (
             <div key={dept.name} className="flex items-center gap-4">
@@ -208,7 +210,7 @@ export default function BudgetPage() {
       <div>
         <div className="mb-4 flex items-center gap-2">
           <Brain className="size-5 text-purple-600" />
-          <h2 className="text-lg font-bold text-foreground">AI Optimization Recommendations</h2>
+          <h2 className="text-lg font-bold text-foreground">{t("mp.budget.aiOptimizationRecommendations")}</h2>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {optimizations.map((opt, i) => (
@@ -232,9 +234,9 @@ export default function BudgetPage() {
                   "rounded-full px-2 py-0.5 text-[10px] font-bold",
                   opt.impact === "High" ? "bg-emerald-50 text-emerald-600" : "bg-blue-50 text-blue-600",
                 )}>
-                  {opt.impact} Impact
+                  {opt.impact === "High" ? t("mp.budget.highImpact") : t("mp.budget.mediumImpact")}
                 </span>
-                <span className="text-[10px] text-purple-400">AI Confidence: {opt.confidence}%</span>
+                <span className="text-[10px] text-purple-400">{t("mp.budget.aiConfidence", { value: opt.confidence })}</span>
               </div>
             </motion.div>
           ))}

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Building2, TrendingUp, Users, FolderKanban, IndianRupee, Brain } from "lucide-react";
 import { departments } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/use-translation";
 
 const departmentIcons: Record<string, string> = {
   "Roads & Infrastructure": "🚧",
@@ -28,23 +29,24 @@ const riskLevels: Record<string, string> = {
 };
 
 export default function DepartmentsPage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-2">
           <Building2 className="size-5 text-cyan-600" />
-          <h1 className="text-2xl font-bold text-foreground">Departments & Sectors</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t("mp.departments.title")}</h1>
         </div>
-        <p className="mt-1 text-sm text-muted-foreground">Performance overview of all government departments in North Chennai constituency.</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("mp.departments.subtitle")}</p>
       </motion.div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: "Total Departments", value: "8", icon: Building2, color: "text-cyan-600", bg: "bg-cyan-50" },
-          { label: "Total Budget", value: "₹37.7 Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
-          { label: "Active Projects", value: "47", icon: FolderKanban, color: "text-primary", bg: "bg-blue-50" },
-          { label: "Avg Satisfaction", value: "79%", icon: Users, color: "text-purple-600", bg: "bg-purple-50" },
+          { label: t("mp.departments.totalDepartments"), value: "8", icon: Building2, color: "text-cyan-600", bg: "bg-cyan-50" },
+          { label: t("mp.departments.totalBudget"), value: "₹37.7 Cr", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
+          { label: t("mp.departments.activeProjects"), value: "47", icon: FolderKanban, color: "text-primary", bg: "bg-blue-50" },
+          { label: t("mp.departments.avgSatisfaction"), value: "79%", icon: Users, color: "text-purple-600", bg: "bg-purple-50" },
         ].map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -90,7 +92,7 @@ export default function DepartmentsPage() {
                       risk === "medium" ? "bg-amber-50 text-amber-600" :
                       "bg-emerald-50 text-emerald-600",
                     )}>
-                      AI Risk: {risk}
+                      {t("mp.departments.aiRisk", { level: risk })}
                     </span>
                   </div>
                 </div>
@@ -98,20 +100,20 @@ export default function DepartmentsPage() {
 
               <div className="mt-5 grid grid-cols-2 gap-3">
                 <div className="rounded-xl bg-muted/50 p-3">
-                  <div className="text-xs text-muted-foreground">Complaints</div>
+                  <div className="text-xs text-muted-foreground">{t("mp.departments.complaints")}</div>
                   <div className="mt-1 text-lg font-bold text-foreground">{dept.complaints.toLocaleString("en-IN")}</div>
-                  <div className="text-[10px] text-emerald-600">{dept.resolved} resolved</div>
+                  <div className="text-[10px] text-emerald-600">{t("mp.departments.resolved", { count: dept.resolved })}</div>
                 </div>
                 <div className="rounded-xl bg-muted/50 p-3">
-                  <div className="text-xs text-muted-foreground">Avg Days</div>
+                  <div className="text-xs text-muted-foreground">{t("mp.departments.avgDays")}</div>
                   <div className="mt-1 text-lg font-bold text-foreground">{dept.avgDays}</div>
-                  <div className="text-[10px] text-muted-foreground">resolution time</div>
+                  <div className="text-[10px] text-muted-foreground">{t("mp.departments.resolutionTime")}</div>
                 </div>
               </div>
 
               <div className="mt-4">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">Budget: ₹{(dept.budget / 100000).toFixed(0)} Lakh</span>
+                  <span className="text-muted-foreground">{t("mp.departments.budgetLakh", { value: (dept.budget / 100000).toFixed(0) })}</span>
                   <span className={cn("font-semibold", utilization > 85 ? "text-amber-600" : "text-emerald-600")}>{utilization}%</span>
                 </div>
                 <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted">
@@ -125,11 +127,11 @@ export default function DepartmentsPage() {
               <div className="mt-4 flex items-center justify-between">
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <Users className="size-3" />
-                  Satisfaction: {dept.satisfaction}%
+                  {t("mp.departments.satisfaction", { value: dept.satisfaction })}
                 </div>
                 <div className="flex items-center gap-1 text-xs text-primary/70">
                   <Brain className="size-3" />
-                  AI Score: {Math.round(dept.satisfaction * 1.05)}
+                  {t("mp.departments.aiScore", { value: Math.round(dept.satisfaction * 1.05) })}
                 </div>
               </div>
             </motion.div>
