@@ -1,22 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { transcribeAudio } from "@/services/speech-api";
-import type { TranscriptionResult } from "@/types/speech";
+import { transcribeAudio, SpeechAPIError } from "@/services/speech-api";
+import type { TranscriptionResult, SpeechProcessingStage, VoiceDebugInfo } from "@/types/speech";
 
 interface UseSpeechRecorderOptions {
-  /** Preferred MIME type for recording */
   mimeType?: string;
-  /** Language hint for STT (auto-detect if omitted) */
   languageCode?: string;
-  /** Called when recording starts */
   onRecordingStart?: () => void;
-  /** Called when recording stops with the audio blob */
   onRecordingStop?: (blob: Blob) => void;
-  /** Called when transcription completes */
   onTranscript?: (result: TranscriptionResult) => void;
-  /** Called on error */
-  onError?: (error: string) => void;
+  onError?: (error: string, stage: string) => void;
 }
 
 interface UseSpeechRecorderReturn {
@@ -28,6 +22,9 @@ interface UseSpeechRecorderReturn {
   audioUrl: string | null;
   transcript: TranscriptionResult | null;
   error: string | null;
+  errorStage: string | null;
+  currentStage: SpeechProcessingStage;
+  debug: VoiceDebugInfo;
   startRecording: () => Promise<void>;
   stopRecording: () => void;
   cancelRecording: () => void;
@@ -54,20 +51,38 @@ export function useSpeechRecorder(
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<TranscriptionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [errorStage, setErrorStage] = useState<string | null>(null);
+  const [currentStage, setCurrentStage] = useState<SpeechProcessingStage>("idle");
+  const [debug, setDebug] = useState<VoiceDebugInfo>({
+    microphonePermission: "prompt",
+    selectedMimeType: "",
+    isRecording: false,
+    recordingTimeSeconds: 0,
+    audioBlobSize: 0,
+    audioBlobType: "",
+    uploadStatus: "idle",
+    backendConnected: false,
+    sarvamConnected: false,
+    detectedLanguage: "",
+    confidence: 0,
+    transcript: "",
+    translation: "",
+    errorStage: "",
+    lastError: "",
+    pipelineStages: [],
+  });
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  // Check browser support
   const isSupported =
     typeof window !== "undefined" &&
     typeof navigator !== "undefined" &&
     !!navigator.mediaDevices?.getUserMedia &&
     typeof MediaRecorder !== "undefined";
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -78,19 +93,41 @@ export function useSpeechRecorder(
     };
   }, [audioUrl]);
 
+  const _setStage = (stage: SpeechProcessingStage) => {
+    setCurrentStage(stage);
+    setDebug((d) => ({ ...d, pipelineStages: [...d.pipelineStages, stage] }));
+  };
+
+  const _setError = (msg: string, stage: string) => {
+    setError(msg);
+    setErrorStage(stage);
+    setCurrentStage("error");
+    setDebug((d) => ({ ...d, lastError: msg, errorStage: stage }));
+    onError?.(msg, stage);
+  };
+
   const startRecording = useCallback(async () => {
     if (!isSupported) {
-      const msg = "Your browser does not support audio recording.";
-      setError(msg);
-      onError?.(msg);
+      _setError(
+        "Your browser does not support audio recording. Please use Chrome, Firefox, or Edge.",
+        "unsupported",
+      );
       return;
     }
 
     setError(null);
+    setErrorStage(null);
     setTranscript(null);
+    setDebug((d) => ({
+      ...d,
+      pipelineStages: [],
+      lastError: "",
+      errorStage: "",
+    }));
+
+    _setStage("requesting_microphone");
 
     try {
-      // Request microphone permission
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
@@ -100,9 +137,10 @@ export function useSpeechRecorder(
       });
 
       streamRef.current = stream;
+      setDebug((d) => ({ ...d, microphonePermission: "granted" }));
 
-      // Find best supported MIME type
       const selectedMime = mimeType || _findBestMimeType();
+      setDebug((d) => ({ ...d, selectedMimeType: selectedMime }));
 
       const recorder = new MediaRecorder(stream, {
         mimeType: selectedMime,
@@ -121,52 +159,78 @@ export function useSpeechRecorder(
       recorder.onstop = async () => {
         const blob = new Blob(chunksRef.current, { type: selectedMime });
 
-        // Revoke old URL
         if (audioUrl) URL.revokeObjectURL(audioUrl);
 
         const url = URL.createObjectURL(blob);
         setAudioBlob(blob);
         setAudioUrl(url);
         setIsRecording(false);
+        setDebug((d) => ({
+          ...d,
+          isRecording: false,
+          audioBlobSize: blob.size,
+          audioBlobType: blob.type,
+        }));
         onRecordingStop?.(blob);
 
-        // Stop all tracks
         stream.getTracks().forEach((t) => t.stop());
         streamRef.current = null;
 
-        // Auto-transcribe
         await _transcribeBlob(blob);
       };
 
       recorder.onerror = (e) => {
-        const msg = "Recording error occurred.";
-        setError(msg);
+        const errorEvent = e as MediaRecorderErrorEvent;
+        const errorName = errorEvent.error?.name || "Unknown";
+        const errorMsg = errorEvent.error?.message || "Recording error occurred";
+        _setError(`Recording error (${errorName}): ${errorMsg}`, "recording");
         setIsRecording(false);
-        onError?.(msg);
       };
 
-      // Start recording
-      recorder.start(1000); // Collect data every 1 second
+      recorder.start(1000);
       setIsRecording(true);
       setRecordingTime(0);
+      _setStage("recording");
+      setDebug((d) => ({ ...d, isRecording: true, recordingTimeSeconds: 0 }));
 
-      // Start timer
       timerRef.current = setInterval(() => {
-        setRecordingTime((prev) => prev + 1);
+        setRecordingTime((prev) => {
+          const newTime = prev + 1;
+          setDebug((d) => ({ ...d, recordingTimeSeconds: newTime }));
+          return newTime;
+        });
       }, 1000);
 
       onRecordingStart?.();
     } catch (err: any) {
-      let msg = "Failed to start recording.";
+      setDebug((d) => ({ ...d, microphonePermission: "denied" }));
+
       if (err.name === "NotAllowedError") {
-        msg = "Microphone permission denied. Please allow microphone access in your browser settings.";
+        _setError(
+          "Microphone permission denied. Please allow microphone access in your browser settings and try again.",
+          "microphone_permission",
+        );
       } else if (err.name === "NotFoundError") {
-        msg = "No microphone found. Please connect a microphone and try again.";
+        _setError(
+          "No microphone found. Please connect a microphone and try again.",
+          "no_microphone",
+        );
       } else if (err.name === "NotReadableError") {
-        msg = "Microphone is being used by another application.";
+        _setError(
+          "Microphone is being used by another application. Please close other apps using the microphone.",
+          "microphone_busy",
+        );
+      } else if (err.name === "OverconstrainedError") {
+        _setError(
+          "Microphone does not support the requested settings. Trying with default settings...",
+          "constraints",
+        );
+      } else {
+        _setError(
+          `Failed to access microphone: ${err.message || err.name || "Unknown error"}`,
+          "microphone",
+        );
       }
-      setError(msg);
-      onError?.(msg);
     }
   }, [isSupported, mimeType, languageCode, onRecordingStart, onRecordingStop, onError, audioUrl]);
 
@@ -207,22 +271,94 @@ export function useSpeechRecorder(
     setAudioUrl(null);
     setTranscript(null);
     setError(null);
+    setErrorStage(null);
     setRecordingTime(0);
     setIsProcessing(false);
+    setCurrentStage("idle");
+    setDebug({
+      microphonePermission: "prompt",
+      selectedMimeType: "",
+      isRecording: false,
+      recordingTimeSeconds: 0,
+      audioBlobSize: 0,
+      audioBlobType: "",
+      uploadStatus: "idle",
+      backendConnected: false,
+      sarvamConnected: false,
+      detectedLanguage: "",
+      confidence: 0,
+      transcript: "",
+      translation: "",
+      errorStage: "",
+      lastError: "",
+      pipelineStages: [],
+    });
   }, [cancelRecording]);
 
   const _transcribeBlob = async (blob: Blob) => {
     setIsProcessing(true);
     setError(null);
+    setErrorStage(null);
+
+    // Pre-upload validation
+    _setStage("validating");
+    setDebug((d) => ({ ...d, uploadStatus: "idle" }));
+
+    if (!blob || blob.size === 0) {
+      _setError(
+        "The recording is empty. No audio was captured.",
+        "validation_empty",
+      );
+      setIsProcessing(false);
+      return;
+    }
+
+    if (blob.size < 512) {
+      _setError(
+        "The recording is too short. Please speak for at least 2-3 seconds.",
+        "validation_short",
+      );
+      setIsProcessing(false);
+      return;
+    }
+
+    // Upload
+    _setStage("uploading");
+    setDebug((d) => ({ ...d, uploadStatus: "uploading" }));
 
     try {
-      const result = await transcribeAudio(blob, languageCode);
+      const result = await transcribeAudio(blob, languageCode, recordingTime);
+      setDebug((d) => ({ ...d, uploadStatus: "success", backendConnected: true }));
       setTranscript(result);
+
+      if (result.language) {
+        setDebug((d) => ({
+          ...d,
+          detectedLanguage: result.language,
+          confidence: result.confidence,
+          transcript: result.original_text,
+          translation: result.english_translation,
+        }));
+      }
+
       onTranscript?.(result);
     } catch (err: any) {
-      const msg = err.message || "Speech recognition failed. Please try again.";
-      setError(msg);
-      onError?.(msg);
+      setDebug((d) => ({ ...d, uploadStatus: "failed" }));
+
+      if (err instanceof SpeechAPIError) {
+        setDebug((d) => ({
+          ...d,
+          backendConnected: err.status !== 0,
+          errorStage: err.stage,
+          lastError: err.message,
+        }));
+        _setError(err.userMessage, err.stage);
+      } else {
+        _setError(
+          `Unexpected error: ${err.message || "Unknown error"}`,
+          "unknown",
+        );
+      }
     } finally {
       setIsProcessing(false);
     }
@@ -230,9 +366,10 @@ export function useSpeechRecorder(
 
   const retryTranscription = useCallback(async () => {
     if (audioBlob) {
+      setDebug((d) => ({ ...d, pipelineStages: [], lastError: "" }));
       await _transcribeBlob(audioBlob);
     }
-  }, [audioBlob, languageCode, onTranscript, onError]);
+  }, [audioBlob, languageCode, recordingTime, onTranscript, onError]);
 
   return {
     isRecording,
@@ -243,6 +380,9 @@ export function useSpeechRecorder(
     audioUrl,
     transcript,
     error,
+    errorStage,
+    currentStage,
+    debug,
     startRecording,
     stopRecording,
     cancelRecording,
@@ -268,4 +408,8 @@ function _findBestMimeType(): string {
     }
   }
   return "audio/webm";
+}
+
+interface MediaRecorderErrorEvent extends Event {
+  error: DOMException | null;
 }

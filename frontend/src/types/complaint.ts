@@ -152,6 +152,13 @@ export interface Complaint {
   // Heatmap
   heatmap_key: string | null;
 
+  // Multilingual
+  original_language: string | null;
+  language_code: string | null;
+  original_text: string | null;
+  final_text: string | null;
+  english_translation: string | null;
+
   // Timestamps
   created_at: string;
   updated_at: string;
@@ -198,9 +205,10 @@ export interface ComplaintCreateRequest {
   manual_village: string | null;
   // Multilingual fields
   original_language?: string;
+  language_code?: string;
   original_text?: string;
   english_translation?: string;
-  final_edited_text?: string;
+  final_text?: string;
 }
 
 // ─── GPS Permission State ─────────────────────────────────────────────

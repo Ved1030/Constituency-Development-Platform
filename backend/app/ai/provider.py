@@ -8,9 +8,12 @@ Call chain:
     Business Layer → AIService → AIProvider (this) → SarvamProvider / GeminiProvider / …
 """
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
+
+logger = logging.getLogger("app.ai.provider")
 
 
 # ---------------------------------------------------------------------------
@@ -48,7 +51,6 @@ class AIProvider(ABC):
     provider_name: str = "base"
 
     # -- Text generation ----------------------------------------------------
-    @abstractmethod
     async def chat_completion(
         self,
         messages: List[Dict[str, str]],
@@ -57,8 +59,22 @@ class AIProvider(ABC):
         max_tokens: int = 2048,
         system_prompt: Optional[str] = None,
     ) -> AIResponse:
-        """Send a chat-completion request and return the assistant message."""
-        ...
+        """
+        Send a chat-completion request and return the assistant message.
+
+        Providers that do NOT support text generation should override this
+        to return a clear "not supported" response — never raise 404s.
+        """
+        logger.warning(
+            "chat_completion not implemented by %s — returning not-supported",
+            self.provider_name,
+        )
+        return AIResponse(
+            success=False,
+            error=f"Text generation (chat completion) is not supported by {self.provider_name}. "
+                  f"This provider only supports: STT, Translation, TTS.",
+            model=self.provider_name,
+        )
 
     async def generate_text(
         self,
@@ -68,13 +84,21 @@ class AIProvider(ABC):
         temperature: float = 0.3,
         max_tokens: int = 2048,
     ) -> AIResponse:
-        """Convenience wrapper: single prompt → text response."""
-        messages: List[Dict[str, str]] = [{"role": "user", "content": prompt}]
-        return await self.chat_completion(
-            messages,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            system_prompt=system_prompt,
+        """
+        Convenience wrapper: single prompt → text response.
+
+        Providers that do NOT support text generation should override this
+        to return a clear "not supported" response.
+        """
+        logger.warning(
+            "generate_text not implemented by %s — returning not-supported",
+            self.provider_name,
+        )
+        return AIResponse(
+            success=False,
+            error=f"Text generation is not supported by {self.provider_name}. "
+                  f"This provider only supports: STT, Translation, TTS.",
+            model=self.provider_name,
         )
 
     # -- Translation --------------------------------------------------------

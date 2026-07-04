@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mic,
@@ -14,29 +14,35 @@ import {
   RefreshCw,
   Pencil,
   ArrowRight,
+  Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useSpeechRecorder } from "@/hooks/use-speech-recorder";
-import type { TranscriptionResult } from "@/types/speech";
+import { VoiceDebugPanel } from "@/components/citizen/VoiceDebugPanel";
 
 interface SpeechInputPanelProps {
-  /** Called when user confirms the transcript */
   onConfirm: (text: string) => void;
-  /** Called to go back to manual typing */
   onSwitchToType: () => void;
-  /** Language hint for STT */
   languageCode?: string;
 }
 
-export function SpeechInputPanel({
-  onConfirm,
-  onSwitchToType,
-  languageCode,
-}: SpeechInputPanelProps) {
+const stageMessages: Record<string, string> = {
+  requesting_microphone: "Requesting microphone permission...",
+  recording: "Recording your voice...",
+  validating: "Validating recording...",
+  uploading: "Uploading audio to server...",
+  stt: "Converting speech to text...",
+  detecting_language: "Detecting spoken language...",
+  translating: "Translating to English...",
+  done: "Done!",
+};
+
+export function SpeechInputPanel({ onConfirm, onSwitchToType, languageCode }: SpeechInputPanelProps) {
   const [editedText, setEditedText] = useState("");
   const [hasEdited, setHasEdited] = useState(false);
+  const [showDebug, setShowDebug] = useState(false);
 
   const {
     isRecording,
@@ -46,20 +52,22 @@ export function SpeechInputPanel({
     audioUrl,
     transcript,
     error,
+    errorStage,
+    currentStage,
+    debug,
     startRecording,
     stopRecording,
-    cancelRecording,
     reset,
     retryTranscription,
   } = useSpeechRecorder({
     languageCode,
     onTranscript: (result) => {
-      setEditedText(result.english_translation || result.original_text);
+      const text = result.english_translation || result.original_text;
+      setEditedText(text);
       setHasEdited(false);
     },
   });
 
-  // If browser doesn't support recording
   if (!isSupported) {
     return (
       <div className="rounded-2xl border border-border bg-card p-6 text-center">
@@ -78,7 +86,6 @@ export function SpeechInputPanel({
     );
   }
 
-  // Recording state
   if (isRecording) {
     return (
       <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-6 text-center">
@@ -99,113 +106,107 @@ export function SpeechInputPanel({
           Speak clearly. Tap Stop when done.
         </p>
 
-        {/* Timer */}
         <div className="mt-3 flex items-center justify-center gap-2 text-sm font-mono text-destructive">
           <Clock className="size-3.5" />
           {formatTime(recordingTime)}
         </div>
 
-        {/* Waveform */}
         <div className="mt-4 flex items-center justify-center gap-0.5">
           {Array.from({ length: 24 }).map((_, i) => (
             <motion.div
               key={i}
-              animate={{
-                height: [4, 12 + Math.random() * 20, 4],
-              }}
-              transition={{
-                duration: 0.4 + Math.random() * 0.4,
-                repeat: Infinity,
-                delay: i * 0.03,
-              }}
+              animate={{ height: [4, 12 + Math.random() * 20, 4] }}
+              transition={{ duration: 0.4 + Math.random() * 0.4, repeat: Infinity, delay: i * 0.03 }}
               className="w-1 rounded-full bg-destructive"
             />
           ))}
         </div>
-
-        <p className="mt-3 text-[11px] text-muted-foreground">
-          The detected text will be editable after recording.
-        </p>
       </div>
     );
   }
 
-  // Processing state
   if (isProcessing) {
     return (
       <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 text-center">
         <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-primary/10">
           <Loader className="size-8 text-primary animate-spin" />
         </div>
-        <h3 className="mt-4 text-sm font-semibold text-foreground">Processing Speech...</h3>
+        <h3 className="mt-4 text-sm font-semibold text-foreground">
+          {stageMessages[currentStage] || "Processing..."}
+        </h3>
         <p className="mt-1 text-xs text-muted-foreground">
-          Sarvam AI is transcribing and translating your voice.
+          Sarvam AI is working on your voice recording.
         </p>
-        <div className="mt-3 flex items-center justify-center gap-2 text-xs text-primary">
-          <BarChart3 className="size-3.5 animate-pulse" />
-          Detecting language and converting to text...
+
+        <div className="mt-4 flex items-center justify-center gap-2">
+          {["uploading", "stt", "detecting_language", "translating"].map((stage, i) => {
+            const stageIndex = ["uploading", "stt", "detecting_language", "translating"].indexOf(currentStage);
+            const isPast = i < stageIndex;
+            const isCurrent = i === stageIndex;
+            return (
+              <div key={stage} className="flex items-center gap-2">
+                <div className={cn("size-2 rounded-full transition-colors", isPast ? "bg-primary" : isCurrent ? "bg-primary animate-pulse" : "bg-muted")} />
+                {i < 3 && <div className={cn("w-6 h-px", isPast ? "bg-primary" : "bg-muted")} />}
+              </div>
+            );
+          })}
         </div>
+
+        {showDebug && <div className="mt-4"><VoiceDebugPanel debug={debug} currentStage={currentStage} /></div>}
       </div>
     );
   }
 
-  // Error state
   if (error && !transcript) {
     return (
       <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-6 text-center">
         <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-destructive/10">
           <AlertTriangle className="size-8 text-destructive" />
         </div>
-        <h3 className="mt-4 text-sm font-semibold text-foreground">Recording Error</h3>
-        <p className="mt-2 text-xs text-destructive max-w-xs mx-auto">{error}</p>
+        <h3 className="mt-4 text-sm font-semibold text-foreground">Something went wrong</h3>
+        <p className="mt-2 text-xs text-destructive max-w-sm mx-auto leading-relaxed">{error}</p>
+        {errorStage && (
+          <p className="mt-1 text-[10px] text-muted-foreground font-mono">Stage: {errorStage}</p>
+        )}
         <div className="mt-4 flex items-center justify-center gap-2">
           <Button variant="outline" size="sm" onClick={reset} className="gap-2">
-            <RefreshCw className="size-3.5" />
-            Try Again
+            <RefreshCw className="size-3.5" /> Try Again
           </Button>
-          <Button variant="outline" size="sm" onClick={onSwitchToType} className="gap-2">
-            <Pencil className="size-3.5" />
-            Type Instead
+          <Button variant="ghost" size="sm" onClick={onSwitchToType} className="gap-2">
+            <Pencil className="size-3.5" /> Type Instead
           </Button>
         </div>
+        <button onClick={() => setShowDebug(!showDebug)} className="mt-3 flex items-center gap-1 mx-auto text-[10px] text-muted-foreground hover:text-foreground">
+          <Settings className="size-3" /> {showDebug ? "Hide" : "Show"} Debug Info
+        </button>
+        {showDebug && <div className="mt-3"><VoiceDebugPanel debug={debug} currentStage={currentStage} /></div>}
       </div>
     );
   }
 
-  // Transcript result - editable
   if (transcript?.success) {
     const confidence = transcript.confidence;
     const isLowConfidence = confidence < 0.7;
 
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.02] to-accent/[0.02] p-5 space-y-4"
-      >
-        {/* Language & Confidence */}
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+        className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.02] to-accent/[0.02] p-5 space-y-4">
+
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1">
             <Languages className="size-3 text-primary" />
-            <span className="text-[11px] font-semibold text-primary">
-              {transcript.language}
-            </span>
+            <span className="text-[11px] font-semibold text-primary">{transcript.language}</span>
           </div>
           <div className="flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1">
             <BarChart3 className="size-3 text-muted-foreground" />
-            <span className="text-[11px] font-medium text-muted-foreground">
-              {Math.round(confidence * 100)}% confidence
-            </span>
+            <span className="text-[11px] font-medium text-muted-foreground">{Math.round(confidence * 100)}% confidence</span>
           </div>
           <div className="flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1">
             <Clock className="size-3 text-muted-foreground" />
-            <span className="text-[11px] font-medium text-muted-foreground">
-              {formatTime(Math.round(recordingTime))}
-            </span>
+            <span className="text-[11px] font-medium text-muted-foreground">{formatTime(Math.round(recordingTime))}</span>
           </div>
         </div>
 
-        {/* Low confidence warning */}
         {isLowConfidence && (
           <div className="flex items-start gap-2 rounded-xl bg-amber-500/5 border border-amber-500/20 p-3">
             <AlertTriangle className="size-4 text-amber-500 shrink-0 mt-0.5" />
@@ -215,91 +216,47 @@ export function SpeechInputPanel({
           </div>
         )}
 
-        {/* Original text + translation */}
         {transcript.english_translation && transcript.english_translation !== transcript.original_text && (
           <div className="rounded-xl bg-muted/50 p-3 space-y-1.5">
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Original ({transcript.language})
-              </span>
-            </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              {transcript.original_text}
-            </p>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Original ({transcript.language})
+            </span>
+            <p className="text-xs text-muted-foreground leading-relaxed">{transcript.original_text}</p>
           </div>
         )}
 
-        {/* Editable transcript */}
         <div>
           <label className="mb-1.5 block text-xs font-medium text-foreground">
             {transcript.english_translation && transcript.english_translation !== transcript.original_text
-              ? "English Translation (editable)"
-              : "Detected Text (editable)"}
+              ? "English Translation (editable)" : "Detected Text (editable)"}
           </label>
           <Textarea
             value={editedText}
-            onChange={(e) => {
-              setEditedText(e.target.value);
-              setHasEdited(true);
-            }}
-            rows={5}
-            className="text-sm leading-relaxed"
-            placeholder="The detected text will appear here..."
+            onChange={(e) => { setEditedText(e.target.value); setHasEdited(true); }}
+            rows={5} className="text-sm leading-relaxed"
           />
-          {hasEdited && (
-            <p className="mt-1 text-[10px] text-primary">
-              You have edited the transcript. Only your edits will be submitted.
-            </p>
-          )}
+          {hasEdited && <p className="mt-1 text-[10px] text-primary">You have edited the transcript. Only your edits will be submitted.</p>}
         </div>
 
-        {/* Audio playback */}
-        {audioUrl && (
-          <div className="rounded-xl bg-muted/50 p-3">
-            <audio controls src={audioUrl} className="w-full h-8" />
-          </div>
-        )}
+        {audioUrl && <audio controls src={audioUrl} className="w-full h-8" />}
 
-        {/* Action buttons */}
         <div className="flex flex-wrap items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              reset();
-              startRecording();
-            }}
-            className="gap-2"
-          >
-            <Mic className="size-3.5" />
-            Record Again
+          <Button variant="outline" size="sm" onClick={() => { reset(); setEditedText(""); startRecording(); }} className="gap-2">
+            <Mic className="size-3.5" /> Record Again
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={retryTranscription}
-            disabled={isProcessing}
-            className="gap-2"
-          >
-            <RefreshCw className={cn("size-3.5", isProcessing && "animate-spin")} />
-            Re-transcribe
+          <Button variant="outline" size="sm" onClick={retryTranscription} disabled={isProcessing} className="gap-2">
+            <RefreshCw className={cn("size-3.5", isProcessing && "animate-spin")} /> Re-transcribe
           </Button>
           <div className="flex-1" />
-          <Button
-            size="sm"
-            onClick={() => onConfirm(editedText)}
-            disabled={!editedText.trim()}
-            className="gap-2"
-          >
-            Continue
-            <ArrowRight className="size-3.5" />
+          <Button size="sm" onClick={() => onConfirm(editedText)} disabled={!editedText.trim()} className="gap-2">
+            Continue <ArrowRight className="size-3.5" />
           </Button>
         </div>
       </motion.div>
     );
   }
 
-  // Default: Record button
+  // Default state
   return (
     <div className="rounded-2xl border border-border bg-card p-6 text-center">
       <motion.button
@@ -317,19 +274,15 @@ export function SpeechInputPanel({
 
       <div className="mt-4 flex items-center justify-center gap-2">
         <Button variant="outline" size="sm" onClick={startRecording} className="gap-2">
-          <Mic className="size-3.5" />
-          Start Recording
+          <Mic className="size-3.5" /> Start Recording
         </Button>
         <Button variant="ghost" size="sm" onClick={onSwitchToType} className="gap-2">
-          <Pencil className="size-3.5" />
-          Type Instead
+          <Pencil className="size-3.5" /> Type Instead
         </Button>
       </div>
     </div>
   );
 }
-
-// ─── Helpers ─────────────────────────────────────────────────────────
 
 function formatTime(seconds: number): string {
   const mins = Math.floor(seconds / 60);

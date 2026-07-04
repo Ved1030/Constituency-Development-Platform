@@ -143,6 +143,13 @@ class ComplaintCreateRequest(BaseModel):
     manual_ward: Optional[str] = None
     manual_village: Optional[str] = None
 
+    # Multilingual fields
+    original_language: Optional[str] = None
+    language_code: Optional[str] = None
+    original_text: Optional[str] = None
+    final_text: Optional[str] = None
+    english_translation: Optional[str] = None
+
 
 # ---------------------------------------------------------------------------
 # Complaint Response
@@ -209,6 +216,13 @@ class ComplaintResponse(BaseModel):
 
     # Heatmap
     heatmap_key: Optional[str] = None
+
+    # Multilingual
+    original_language: Optional[str] = None
+    language_code: Optional[str] = None
+    original_text: Optional[str] = None
+    final_text: Optional[str] = None
+    english_translation: Optional[str] = None
 
     # Timestamps
     created_at: datetime

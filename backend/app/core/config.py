@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     # -- Sarvam AI ----------------------------------------------------------
     SARVAM_API_KEY: Optional[str] = None
     SARVAM_BASE_URL: str = "https://api.sarvam.ai"
-    SARVAM_MODEL: str = "sarvam-2b-v0.5"
+    SARVAM_MODEL: str = "sarvam-30b"
     SARVAM_TIMEOUT: int = 60
 
     # -- Gemini (fallback / future) -----------------------------------------

@@ -32,6 +32,7 @@ interface VoiceNoteRecorderProps {
 
 export function VoiceNoteRecorder({ onVoiceNote, onClear }: VoiceNoteRecorderProps) {
   const [editedText, setEditedText] = useState("");
+  const [savedTranslation, setSavedTranslation] = useState("");
 
   const {
     isRecording,
@@ -47,8 +48,9 @@ export function VoiceNoteRecorder({ onVoiceNote, onClear }: VoiceNoteRecorderPro
     reset,
   } = useSpeechRecorder({
     onTranscript: (result) => {
-      const text = result.english_translation || result.original_text;
-      setEditedText(text);
+      // ALWAYS bind to original_text — citizen edits in their own language
+      setEditedText(result.original_text);
+      setSavedTranslation(result.english_translation);
     },
   });
 
@@ -58,10 +60,11 @@ export function VoiceNoteRecorder({ onVoiceNote, onClear }: VoiceNoteRecorderPro
         audioBlob,
         transcript: editedText,
         language: transcript?.language || "Unknown",
-        englishTranslation: editedText,
+        englishTranslation: savedTranslation,
       });
       reset();
       setEditedText("");
+      setSavedTranslation("");
     }
   };
 

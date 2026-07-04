@@ -10,6 +10,8 @@ export interface TranscriptionResult {
   original_text: string;
   english_translation: string;
   speech_duration_seconds: number;
+  /** Pipeline stage where failure occurred, if success=false */
+  stage?: string;
   error?: string;
 }
 
@@ -61,4 +63,35 @@ export interface ComplaintMultilingualData {
   original_text: string;
   english_translation: string;
   final_edited_text: string;
+}
+
+export type SpeechProcessingStage =
+  | "idle"
+  | "requesting_microphone"
+  | "recording"
+  | "validating"
+  | "uploading"
+  | "stt"
+  | "detecting_language"
+  | "translating"
+  | "done"
+  | "error";
+
+export interface VoiceDebugInfo {
+  microphonePermission: "granted" | "denied" | "prompt" | "unknown";
+  selectedMimeType: string;
+  isRecording: boolean;
+  recordingTimeSeconds: number;
+  audioBlobSize: number;
+  audioBlobType: string;
+  uploadStatus: "idle" | "uploading" | "success" | "failed";
+  backendConnected: boolean;
+  sarvamConnected: boolean;
+  detectedLanguage: string;
+  confidence: number;
+  transcript: string;
+  translation: string;
+  errorStage: string;
+  lastError: string;
+  pipelineStages: string[];
 }

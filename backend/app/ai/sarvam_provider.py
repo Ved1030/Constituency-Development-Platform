@@ -5,13 +5,13 @@ ALL Sarvam API communication lives exclusively in this file.
 To swap providers, change DEFAULT_AI_PROVIDER — this file is never
 imported by business logic directly.
 
-Sarvam API reference (OpenAI-compatible):
+Sarvam API reference:
     Base URL  : https://api.sarvam.ai
     Auth      : api-subscription-key header
-    Chat      : POST /chat/completions
-    Translate : POST /translate
-    STT       : POST /speech-to-text
-    TTS       : POST /text-to-speech
+    Chat      : POST /v1/chat/completions  (model: sarvam-30b / sarvam-105b)
+    Translate : POST /translate            (model: mayura:v2)
+    STT       : POST /speech-to-text       (model: saaras:v3)
+    TTS       : POST /text-to-speech       (model: bulbul:v3)
 """
 
 import json
@@ -36,15 +36,32 @@ class SarvamProvider(AIProvider):
     provider_name = "sarvam"
 
     BASE_URL: str = "https://api.sarvam.ai"
-    CHAT_ENDPOINT = "/chat/completions"
+    CHAT_ENDPOINT = "/v1/chat/completions"
     TRANSLATE_ENDPOINT = "/translate"
     STT_ENDPOINT = "/speech-to-text"
     TTS_ENDPOINT = "/text-to-speech"
+
+    STT_MODEL = "saaras:v3"
+    TTS_MODEL = "bulbul:v3"
+    TRANSLATE_MODEL = "mayura:v2"
 
     def __init__(self) -> None:
         self._api_key: str = settings.SARVAM_API_KEY or ""
         self._model: str = settings.SARVAM_MODEL
         self._timeout: int = settings.SARVAM_TIMEOUT
+
+        # Log configuration on startup
+        logger.info("=" * 60)
+        logger.info("Sarvam Configuration")
+        logger.info("  Provider : %s", self.provider_name)
+        logger.info("  Chat Model : %s", self._model)
+        logger.info("  STT Model : %s", self.STT_MODEL)
+        logger.info("  TTS Model : %s", self.TTS_MODEL)
+        logger.info("  Translate Model : %s", self.TRANSLATE_MODEL)
+        logger.info("  Base URL : %s", self.BASE_URL)
+        logger.info("  API Key : %s", "Loaded" if self._api_key else "MISSING")
+        logger.info("  Timeout : %ds", self._timeout)
+        logger.info("=" * 60)
 
     # -- Helpers -----------------------------------------------------------
     def _headers(self, extra: Optional[Dict[str, str]] = None) -> Dict[str, str]:
@@ -114,6 +131,9 @@ class SarvamProvider(AIProvider):
         url = f"{self.BASE_URL}{path}"
         t0 = time.perf_counter()
 
+        if not self._api_key:
+            raise ValueError("SARVAM_API_KEY is not configured. Set it in backend/.env")
+
         try:
             async with httpx.AsyncClient(timeout=timeout or self._timeout) as client:
                 resp = await client.post(
@@ -122,8 +142,52 @@ class SarvamProvider(AIProvider):
                     data=data or {},
                     headers=self._multipart_headers(),
                 )
-                resp.raise_for_status()
+
+                latency = (time.perf_counter() - t0) * 1000
+
+                if resp.status_code == 401:
+                    body_text = resp.text[:500]
+                    logger.error(
+                        "Sarvam auth failed (401): %s | %.0fms | body=%s",
+                        path, latency, body_text,
+                    )
+                    raise ValueError(
+                        f"Sarvam API authentication failed (401). "
+                        f"Check your SARVAM_API_KEY. Response: {body_text[:200]}"
+                    )
+
+                if resp.status_code == 429:
+                    logger.error("Sarvam rate limited (429): %s | %.0fms", path, latency)
+                    raise ValueError("Sarvam API rate limit exceeded. Please try again in a few seconds.")
+
+                if resp.status_code >= 400:
+                    body_text = resp.text[:500]
+                    logger.error(
+                        "Sarvam HTTP %d: %s | %.0fms | body=%s",
+                        resp.status_code, path, latency, body_text,
+                    )
+                    raise ValueError(
+                        f"Sarvam API returned HTTP {resp.status_code}. "
+                        f"Response: {body_text[:200]}"
+                    )
+
                 result = resp.json()
+        except ValueError:
+            raise
+        except httpx.TimeoutException:
+            latency = (time.perf_counter() - t0) * 1000
+            logger.error("Sarvam timeout: %s | %.0fms", path, latency)
+            raise ValueError(
+                f"Sarvam API timed out after {timeout or self._timeout}s. "
+                f"The audio may be too long. Try a shorter recording."
+            )
+        except httpx.ConnectError as exc:
+            latency = (time.perf_counter() - t0) * 1000
+            logger.error("Sarvam connection failed: %s | %.0fms | %s", path, latency, exc)
+            raise ValueError(
+                f"Cannot connect to Sarvam API. Check your internet connection. "
+                f"Details: {exc}"
+            )
         except Exception as exc:
             latency = (time.perf_counter() - t0) * 1000
             logger.error("Sarvam multipart failed: %s | %.0fms | %s", path, latency, exc)
@@ -155,6 +219,15 @@ class SarvamProvider(AIProvider):
             "max_tokens": max_tokens,
         }
 
+        logger.info(
+            "Calling Sarvam\n"
+            "  Endpoint : %s\n"
+            "  Method   : POST\n"
+            "  Model    : %s\n"
+            "  Payload  : messages=%d, temperature=%.2f, max_tokens=%d",
+            self.CHAT_ENDPOINT, self._model, len(full_messages), temperature, max_tokens,
+        )
+
         try:
             data = await self._post(self.CHAT_ENDPOINT, payload)
             latency = (time.perf_counter() - t0) * 1000
@@ -165,10 +238,8 @@ class SarvamProvider(AIProvider):
             tokens = usage.get("total_tokens", 0)
 
             logger.info(
-                "Chat completion | model=%s | tokens=%d | %.0fms",
-                self._model,
-                tokens,
-                latency,
+                "Sarvam chat completion OK | model=%s | tokens=%d | %.0fms",
+                self._model, tokens, latency,
             )
 
             return AIResponse(
@@ -181,7 +252,14 @@ class SarvamProvider(AIProvider):
             )
         except Exception as exc:
             latency = (time.perf_counter() - t0) * 1000
-            logger.error("Chat completion failed: %s | %.0fms", exc, latency)
+            logger.error(
+                "Sarvam chat completion FAILED\n"
+                "  Endpoint : %s\n"
+                "  Model    : %s\n"
+                "  Error    : %s\n"
+                "  Latency  : %.0fms",
+                self.CHAT_ENDPOINT, self._model, exc, latency,
+            )
             return AIResponse(
                 success=False,
                 error=str(exc),
@@ -208,8 +286,17 @@ class SarvamProvider(AIProvider):
             "source_language_code": src,
             "target_language_code": tgt,
             "mode": "formal",
-            "model": "mayura:v2",
+            "model": self.TRANSLATE_MODEL,
         }
+
+        logger.info(
+            "Calling Sarvam\n"
+            "  Endpoint : %s\n"
+            "  Method   : POST\n"
+            "  Model    : %s\n"
+            "  Payload  : %s→%s, chars=%d",
+            self.TRANSLATE_ENDPOINT, self.TRANSLATE_MODEL, src, tgt, len(text),
+        )
 
         try:
             data = await self._post(self.TRANSLATE_ENDPOINT, payload)
@@ -217,27 +304,32 @@ class SarvamProvider(AIProvider):
 
             translated = data.get("translated_text", "")
             logger.info(
-                "Translation | %s→%s | chars=%d | %.0fms",
-                src,
-                tgt,
-                len(text),
-                latency,
+                "Sarvam translate OK | model=%s | %s→%s | chars=%d→%d | %.0fms",
+                self.TRANSLATE_MODEL, src, tgt, len(text), len(translated), latency,
             )
 
             return AIResponse(
                 success=True,
                 content=translated,
                 raw=data,
-                model="mayura:v2",
+                model=self.TRANSLATE_MODEL,
                 latency_ms=latency,
             )
         except Exception as exc:
             latency = (time.perf_counter() - t0) * 1000
-            logger.error("Translation failed: %s→%s | %s", src, tgt, exc)
+            logger.error(
+                "Sarvam translate FAILED\n"
+                "  Endpoint : %s\n"
+                "  Model    : %s\n"
+                "  Route    : %s→%s\n"
+                "  Error    : %s\n"
+                "  Latency  : %.0fms",
+                self.TRANSLATE_ENDPOINT, self.TRANSLATE_MODEL, src, tgt, exc, latency,
+            )
             return AIResponse(
                 success=False,
                 error=str(exc),
-                model="mayura:v2",
+                model=self.TRANSLATE_MODEL,
                 latency_ms=latency,
             )
 
@@ -252,12 +344,21 @@ class SarvamProvider(AIProvider):
         t0 = time.perf_counter()
         lang = _normalise_lang_code(language_code)
 
+        logger.info(
+            "Calling Sarvam\n"
+            "  Endpoint : %s\n"
+            "  Method   : POST (multipart)\n"
+            "  Model    : %s\n"
+            "  Payload  : lang=%s, audio_bytes=%d, format=%s",
+            self.STT_ENDPOINT, self.STT_MODEL, lang, len(audio_bytes), audio_format,
+        )
+
         try:
             files = {
                 "file": (f"audio.{audio_format}", audio_bytes, f"audio/{audio_format}"),
             }
             data_payload = {
-                "model": "saarika:v2",
+                "model": self.STT_MODEL,
                 "language_code": lang,
             }
 
@@ -270,26 +371,49 @@ class SarvamProvider(AIProvider):
 
             transcript = data.get("transcript", "")
             logger.info(
-                "STT | lang=%s | chars=%d | %.0fms",
-                lang,
-                len(transcript),
-                latency,
+                "Sarvam STT OK | model=%s | lang=%s | chars=%d | %.0fms",
+                self.STT_MODEL, lang, len(transcript), latency,
             )
 
             return AIResponse(
                 success=True,
                 content=transcript,
                 raw=data,
-                model="saarika:v2",
+                model=self.STT_MODEL,
+                latency_ms=latency,
+            )
+        except ValueError as exc:
+            latency = (time.perf_counter() - t0) * 1000
+            logger.error(
+                "Sarvam STT FAILED\n"
+                "  Endpoint : %s\n"
+                "  Model    : %s\n"
+                "  Lang     : %s\n"
+                "  Error    : %s\n"
+                "  Latency  : %.0fms",
+                self.STT_ENDPOINT, self.STT_MODEL, lang, exc, latency,
+            )
+            return AIResponse(
+                success=False,
+                error=str(exc),
+                model=self.STT_MODEL,
                 latency_ms=latency,
             )
         except Exception as exc:
             latency = (time.perf_counter() - t0) * 1000
-            logger.error("STT failed: lang=%s | %s", lang, exc)
+            logger.error(
+                "Sarvam STT FAILED\n"
+                "  Endpoint : %s\n"
+                "  Model    : %s\n"
+                "  Lang     : %s\n"
+                "  Error    : %s\n"
+                "  Latency  : %.0fms",
+                self.STT_ENDPOINT, self.STT_MODEL, lang, exc, latency,
+            )
             return AIResponse(
                 success=False,
-                error=str(exc),
-                model="saarika:v2",
+                error=f"Sarvam STT error: {type(exc).__name__}: {exc}",
+                model=self.STT_MODEL,
                 latency_ms=latency,
             )
 
@@ -306,10 +430,19 @@ class SarvamProvider(AIProvider):
 
         payload = {
             "input": text,
-            "model": "bulbul:v1",
+            "model": self.TTS_MODEL,
             "language_code": lang,
             "voice_id": voice_id,
         }
+
+        logger.info(
+            "Calling Sarvam\n"
+            "  Endpoint : %s\n"
+            "  Method   : POST\n"
+            "  Model    : %s\n"
+            "  Payload  : lang=%s, voice=%s, chars=%d",
+            self.TTS_ENDPOINT, self.TTS_MODEL, lang, voice_id, len(text),
+        )
 
         try:
             url = f"{self.BASE_URL}{self.TTS_ENDPOINT}"
@@ -325,27 +458,32 @@ class SarvamProvider(AIProvider):
                 latency = (time.perf_counter() - t0) * 1000
 
                 logger.info(
-                    "TTS | lang=%s | voice=%s | bytes=%d | %.0fms",
-                    lang,
-                    voice_id,
-                    len(audio_data),
-                    latency,
+                    "Sarvam TTS OK | model=%s | lang=%s | bytes=%d | %.0fms",
+                    self.TTS_MODEL, lang, len(audio_data), latency,
                 )
 
                 return AIResponse(
                     success=True,
                     content=audio_data.hex(),  # hex-encoded audio for transport
                     raw={"audio_size": len(audio_data)},
-                    model="bulbul:v1",
+                    model=self.TTS_MODEL,
                     latency_ms=latency,
                 )
         except Exception as exc:
             latency = (time.perf_counter() - t0) * 1000
-            logger.error("TTS failed: lang=%s | %s", lang, exc)
+            logger.error(
+                "Sarvam TTS FAILED\n"
+                "  Endpoint : %s\n"
+                "  Model    : %s\n"
+                "  Lang     : %s\n"
+                "  Error    : %s\n"
+                "  Latency  : %.0fms",
+                self.TTS_ENDPOINT, self.TTS_MODEL, lang, exc, latency,
+            )
             return AIResponse(
                 success=False,
                 error=str(exc),
-                model="bulbul:v1",
+                model=self.TTS_MODEL,
                 latency_ms=latency,
             )
 

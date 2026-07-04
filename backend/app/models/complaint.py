@@ -135,6 +135,13 @@ class Complaint(Base):
     # -- Heatmap integration ------------------------------------------------
     heatmap_key = Column(String(200), nullable=True)  # village+ward+department composite
 
+    # -- Multilingual -------------------------------------------------------
+    original_language = Column(String(50), nullable=True)
+    language_code = Column(String(10), nullable=True)
+    original_text = Column(Text, nullable=True)
+    final_text = Column(Text, nullable=True)
+    english_translation = Column(Text, nullable=True)
+
     # -- Timestamps ---------------------------------------------------------
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

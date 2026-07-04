@@ -211,6 +211,7 @@ export default function NewComplaintPage() {
 
   // Multilingual data from speech input
   const [originalLanguage, setOriginalLanguage] = useState("");
+  const [languageCode, setLanguageCode] = useState("");
   const [originalText, setOriginalText] = useState("");
   const [englishTranslation, setEnglishTranslation] = useState("");
   const [uiLanguage, setUiLanguage] = useState<UILanguage>({
@@ -345,9 +346,10 @@ export default function NewComplaintPage() {
         manual_ward: null,
         manual_village: null,
         original_language: originalLanguage,
+        language_code: languageCode,
         original_text: originalText,
+        final_text: description,
         english_translation: englishTranslation,
-        final_edited_text: description,
       });
 
       setSubmitResult(result);
@@ -572,6 +574,7 @@ export default function NewComplaintPage() {
                 }}
                 onMultilingualData={(data) => {
                   setOriginalLanguage(data.originalLanguage);
+                  setLanguageCode(data.languageCode);
                   setOriginalText(data.originalText);
                   setEnglishTranslation(data.englishTranslation);
                 }}

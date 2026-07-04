@@ -207,6 +207,13 @@ class ComplaintService:
 
             # Heatmap
             heatmap_key=processing_result.get("heatmap_key"),
+
+            # Multilingual
+            original_language=request.original_language,
+            language_code=request.language_code,
+            original_text=request.original_text,
+            final_text=request.final_text or request.original_text,
+            english_translation=request.english_translation,
         )
 
         db.add(complaint)
