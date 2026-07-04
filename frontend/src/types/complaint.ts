@@ -196,6 +196,11 @@ export interface ComplaintCreateRequest {
   citizen_name: string | null;
   manual_ward: string | null;
   manual_village: string | null;
+  // Multilingual fields
+  original_language?: string;
+  original_text?: string;
+  english_translation?: string;
+  final_edited_text?: string;
 }
 
 // ─── GPS Permission State ─────────────────────────────────────────────

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
@@ -39,9 +39,13 @@ import { ReverseGeocodingCard } from "@/components/citizen/ReverseGeocodingCard"
 import { EvidenceUpload } from "@/components/citizen/EvidenceUpload";
 import { AIPreviewCard } from "@/components/citizen/AIPreviewCard";
 import { EvidenceScoreGauge } from "@/components/citizen/EvidenceScoreGauge";
+import { BackgroundClassificationCard } from "@/components/citizen/BackgroundClassificationCard";
+import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
+import type { UILanguage } from "@/components/common/LanguageSwitcher";
 import { complaintCategories } from "@/data/mock-citizen";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { useReverseGeocoding } from "@/hooks/use-reverse-geocoding";
+import { useBackgroundClassification } from "@/hooks/use-background-classification";
 import { submitComplaint } from "@/services/complaint-api";
 import type {
   AIPreview,
@@ -119,7 +123,6 @@ function clientSideAIPreview(
   const cat = categoryDetails[category] || categoryDetails.other;
   const dept = cat.departments[0] || "General Administration";
 
-  // Evidence score simulation
   let evidenceScore = 0;
   if (gps) evidenceScore += 15;
   if (imageCount > 0) evidenceScore += 15;
@@ -128,10 +131,9 @@ function clientSideAIPreview(
   if (gps && gps.accuracy !== null && gps.accuracy <= 10) evidenceScore += 5;
   if (description.length > 50) evidenceScore += 5;
   if (address?.village) evidenceScore += 10;
-  evidenceScore += 15; // AI confidence base
+  evidenceScore += 15;
   evidenceScore = Math.min(100, evidenceScore);
 
-  // Priority
   const sevMap: Record<string, number> = {
     healthcare: 1.3,
     electricity: 1.2,
@@ -146,7 +148,6 @@ function clientSideAIPreview(
   if (imageCount > 0) priority += 5;
   priority = Math.min(100, Math.round(priority));
 
-  // Resolution
   const baseDays: Record<string, number> = {
     road: 14,
     water: 10,
@@ -160,7 +161,6 @@ function clientSideAIPreview(
   if (priority >= 75) estDays = Math.max(1, Math.round(estDays * 0.5));
   else if (priority >= 50) estDays = Math.max(1, Math.round(estDays * 0.7));
 
-  // Duplicate probability (simplified)
   const dupProb = gps ? 0.15 : 0.05;
 
   return {
@@ -209,6 +209,28 @@ export default function NewComplaintPage() {
   const [submitResult, setSubmitResult] = useState<ComplaintSubmitResponse | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  // Multilingual data from speech input
+  const [originalLanguage, setOriginalLanguage] = useState("");
+  const [originalText, setOriginalText] = useState("");
+  const [englishTranslation, setEnglishTranslation] = useState("");
+  const [uiLanguage, setUiLanguage] = useState<UILanguage>({
+    code: "en",
+    name: "English",
+    native_name: "English",
+    flag: "\ud83c\uddee\ud83c\uddf3",
+  });
+
+  // Voice note data from evidence step
+  const [voiceNotes, setVoiceNotes] = useState<Array<{
+    audioBlob: Blob;
+    transcript: string;
+    language: string;
+    englishTranslation: string;
+  }>>([]);
+
+  // Ref to track if description has been set from voice
+  const voiceSetTextRef = useRef(false);
+
   // GPS hook
   const {
     location: gpsLocation,
@@ -241,19 +263,47 @@ export default function NewComplaintPage() {
     }
   }, [geoAddress]);
 
-  // Client-side AI preview
+  // Background classification — fires automatically when title/description change
+  const {
+    classification,
+    isClassifying,
+    triggerClassification,
+  } = useBackgroundClassification({ debounceMs: 1500, minLength: 15 });
+
+  // Trigger background classification when description changes
+  useEffect(() => {
+    if (description.length >= 15 && title.length >= 3) {
+      triggerClassification({
+        title,
+        description,
+        category: category || undefined,
+        original_language: originalLanguage || undefined,
+        english_translation: englishTranslation || undefined,
+      });
+    }
+  }, [title, description, category, originalLanguage, englishTranslation, triggerClassification]);
+
+  // Merge background classification into AI preview
   const aiPreview = useMemo(() => {
-    if (!category) return null;
-    return clientSideAIPreview(
-      category,
-      title,
-      description,
-      gpsLocation,
-      address,
-      imageCount,
-      hasVoice,
-    );
-  }, [category, title, description, gpsLocation, address, imageCount, hasVoice]);
+    const basePreview = category
+      ? clientSideAIPreview(category, title, description, gpsLocation, address, imageCount, hasVoice)
+      : null;
+
+    // If we have a real AI classification from background, merge it in
+    if (classification?.success && basePreview) {
+      return {
+        ...basePreview,
+        detected_department: classification.detected_department || basePreview.detected_department,
+        detected_sector: classification.detected_sector || basePreview.detected_sector,
+        detected_category: classification.detected_category || basePreview.detected_category,
+        priority_prediction: classification.priority_score || basePreview.priority_prediction,
+        ai_confidence: classification.confidence || basePreview.ai_confidence,
+        estimated_resolution_days: classification.estimated_resolution_days || basePreview.estimated_resolution_days,
+      };
+    }
+
+    return basePreview;
+  }, [category, title, description, gpsLocation, address, imageCount, hasVoice, classification]);
 
   const canProceed = () => {
     switch (currentStep) {
@@ -262,7 +312,7 @@ export default function NewComplaintPage() {
       case 2:
         return title.length >= 5 && description.length >= 10;
       case 3:
-        return true; // GPS is optional
+        return true;
       case 4:
         return true;
       case 5:
@@ -294,6 +344,10 @@ export default function NewComplaintPage() {
         citizen_name: "Arun Kumar",
         manual_ward: null,
         manual_village: null,
+        original_language: originalLanguage,
+        original_text: originalText,
+        english_translation: englishTranslation,
+        final_edited_text: description,
       });
 
       setSubmitResult(result);
@@ -302,7 +356,6 @@ export default function NewComplaintPage() {
         router.push("/citizen/complaints");
       }, 4000);
     } catch (err: any) {
-      // Graceful fallback – show success anyway for demo
       setIsSubmitted(true);
       setTimeout(() => {
         router.push("/citizen/complaints");
@@ -376,12 +429,16 @@ export default function NewComplaintPage() {
   // ---------------------------------------------------------------------------
   return (
     <div className="p-4 lg:p-6 max-w-3xl mx-auto space-y-6">
-      {/* Back button */}
-      <div className="flex items-center gap-4">
+      {/* Back button + Language Switcher */}
+      <div className="flex items-center justify-between">
         <Button variant="ghost" size="sm" onClick={() => router.back()} className="gap-2">
           <ArrowLeft className="size-4" />
           Back
         </Button>
+        <LanguageSwitcher
+          currentLanguage={uiLanguage.code}
+          onLanguageChange={setUiLanguage}
+        />
       </div>
 
       {/* Step indicator */}
@@ -509,8 +566,14 @@ export default function NewComplaintPage() {
             {useVoice ? (
               <VoiceRecorderCard
                 onTranscript={(text) => {
+                  voiceSetTextRef.current = true;
                   setDescription(text);
                   setTitle(text.slice(0, 50));
+                }}
+                onMultilingualData={(data) => {
+                  setOriginalLanguage(data.originalLanguage);
+                  setOriginalText(data.originalText);
+                  setEnglishTranslation(data.englishTranslation);
                 }}
               />
             ) : (
@@ -533,11 +596,22 @@ export default function NewComplaintPage() {
                   <Textarea
                     placeholder="Describe the issue in detail. Include when it started, how it affects you, and any other relevant information..."
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                      voiceSetTextRef.current = false;
+                    }}
                     rows={5}
                   />
                 </div>
               </>
+            )}
+
+            {/* Background AI classification indicator */}
+            {isClassifying && (
+              <div className="flex items-center gap-2 text-xs text-primary">
+                <Loader className="size-3 animate-spin" />
+                AI is analyzing your complaint in the background...
+              </div>
             )}
           </motion.div>
         )}
@@ -622,9 +696,31 @@ export default function NewComplaintPage() {
             <EvidenceUpload
               onImagesChange={(files) => setImageCount((prev) => prev + files.length)}
               onVoiceChange={(blob) => setHasVoice(!!blob)}
+              onVoiceNoteTranscript={(note) => {
+                setVoiceNotes((prev) => [...prev, note]);
+                setHasVoice(true);
+              }}
               imageCount={imageCount}
               hasVoice={hasVoice}
             />
+
+            {/* Voice notes list */}
+            {voiceNotes.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Voice Notes ({voiceNotes.length})
+                </p>
+                {voiceNotes.map((note, i) => (
+                  <div key={i} className="rounded-xl bg-muted/50 p-3 space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-semibold text-primary">{note.language}</span>
+                      <span className="text-[10px] text-muted-foreground">Voice Note {i + 1}</span>
+                    </div>
+                    <p className="text-xs text-foreground">{note.transcript}</p>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Quick evidence tips */}
             <div className="rounded-xl bg-primary/5 border border-primary/10 p-4">
@@ -663,6 +759,12 @@ export default function NewComplaintPage() {
               </p>
             </div>
 
+            {/* Real AI classification result (already computed in background) */}
+            <BackgroundClassificationCard
+              classification={classification}
+              isClassifying={isClassifying}
+            />
+
             {aiPreview && <AIPreviewCard preview={aiPreview} />}
 
             {aiPreview?.evidence_score && (
@@ -683,6 +785,12 @@ export default function NewComplaintPage() {
                     {title}
                   </span>
                 </div>
+                {originalLanguage && (
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Spoken Language</span>
+                    <span className="font-medium text-foreground">{originalLanguage}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Location</span>
                   <span className="font-medium text-foreground text-right max-w-[60%] truncate">

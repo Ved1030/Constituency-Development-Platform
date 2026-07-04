@@ -15,11 +15,13 @@ from app.api import copilot
 from app.api import analytics
 from app.api import projects
 from app.api import recommendation
+from app.api import speech
 
 api_router = APIRouter()
 
 api_router.include_router(health.router, prefix="/health", tags=["Health"])
 api_router.include_router(complaints.router, prefix="/complaints", tags=["Complaints"])
+api_router.include_router(speech.router, prefix="/speech", tags=["Speech"])
 api_router.include_router(dashboard.router, prefix="/dashboard", tags=["Dashboard"])
 api_router.include_router(simulator.router, prefix="/simulator", tags=["Simulator"])
 api_router.include_router(copilot.router, prefix="/copilot", tags=["Copilot"])
