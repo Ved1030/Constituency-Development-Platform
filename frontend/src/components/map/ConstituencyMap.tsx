@@ -14,6 +14,7 @@ interface ConstituencyMapProps {
   activeOverlays: OverlayLayer[];
   flyToLocation?: { lat: number; lng: number; zoom: number } | null;
   onMapReady?: (map: L.Map) => void;
+  previewMode?: boolean;
 }
 
 export default function ConstituencyMap({
@@ -23,6 +24,7 @@ export default function ConstituencyMap({
   activeOverlays,
   flyToLocation,
   onMapReady,
+  previewMode = false,
 }: ConstituencyMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -193,8 +195,14 @@ export default function ConstituencyMap({
     const container = mapContainerRef.current;
     if (!container) return;
 
-    const timer = setTimeout(() => {
-      if (mapRef.current) return;
+    let cancelled = false;
+
+    const tryInit = () => {
+      if (cancelled || mapRef.current) return;
+      if (!container || container.clientWidth === 0 || container.clientHeight === 0) {
+        setTimeout(tryInit, 100);
+        return;
+      }
 
       const map = L.map(container, {
         center: [CONSTITUENCY_CENTER.lat, CONSTITUENCY_CENTER.lng],
@@ -208,16 +216,22 @@ export default function ConstituencyMap({
         maxZoom: 19,
       }).addTo(map);
 
+      map.invalidateSize();
       mapRef.current = map;
 
-      loadGeoJson(map);
-      updateMarkers(map);
-      if (onMapReady) onMapReady(map);
+      setTimeout(() => {
+        if (cancelled) return;
+        map.invalidateSize();
+        loadGeoJson(map);
+        updateMarkers(map);
+        if (onMapReady) onMapReady(map);
+      }, 350);
+    };
 
-      setTimeout(() => map.invalidateSize(), 200);
-    }, 50);
+    const timer = setTimeout(tryInit, 100);
 
     return () => {
+      cancelled = true;
       clearTimeout(timer);
       mapRef.current?.remove();
       mapRef.current = null;
@@ -235,9 +249,9 @@ export default function ConstituencyMap({
   // ─── React to overlay changes ───────────────────────────────────
   useEffect(() => {
     const map = mapRef.current;
-    if (!map) return;
+    if (!map || previewMode) return;
     updateOverlays(map);
-  }, [activeOverlays, updateOverlays]);
+  }, [activeOverlays, updateOverlays, previewMode]);
 
   // ─── React to flyTo ─────────────────────────────────────────────
   useEffect(() => {

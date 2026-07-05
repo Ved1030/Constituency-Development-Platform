@@ -8,16 +8,15 @@ import {
   Menu,
   Settings as SettingsIcon,
   LogOut,
-  Globe,
   ChevronDown,
   User,
   HelpCircle,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
 import { LanguageSelector } from "@/components/common/LanguageSelector";
+import { useAuth } from "@/context/AuthContext";
 
 interface TopNavbarProps {
   title: string;
@@ -27,6 +26,7 @@ interface TopNavbarProps {
 export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
   const router = useRouter();
   const { t } = useTranslation();
+  const { user, logout, getUserInitials } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -148,10 +148,10 @@ export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
               className="flex items-center gap-2 rounded-xl py-1.5 pl-1.5 pr-2 transition-colors hover:bg-muted"
             >
               <div className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xs font-bold text-white shadow-md shadow-primary/20">
-                RS
+                {getUserInitials()}
               </div>
               <div className="hidden text-left md:block">
-                <div className="text-sm font-medium text-foreground">Dr. R. Sharma</div>
+                <div className="text-sm font-medium text-foreground">{user?.name || "MP"}</div>
               </div>
               <ChevronDown className="size-3.5 text-muted-foreground" />
             </button>
@@ -165,8 +165,8 @@ export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
                   className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-card shadow-xl"
                 >
                   <div className="border-b border-border px-4 py-3">
-                    <div className="text-sm font-semibold text-foreground">Dr. Rajesh Sharma</div>
-                    <div className="text-xs text-muted-foreground">MP, North Chennai</div>
+                    <div className="text-sm font-semibold text-foreground">{user?.name}</div>
+                    <div className="text-xs text-muted-foreground">MP, {user?.constituency}</div>
                   </div>
                   <div className="p-1.5">
                     {[
@@ -188,8 +188,8 @@ export function TopNavbar({ title, onMenuClick }: TopNavbarProps) {
                   <div className="border-t border-border p-1.5">
                     <button
                       onClick={() => {
-                        toast.success("Signed out");
-                        router.push("/login");
+                        setProfileOpen(false);
+                        logout();
                       }}
                       className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-destructive transition-colors hover:bg-destructive/5"
                     >

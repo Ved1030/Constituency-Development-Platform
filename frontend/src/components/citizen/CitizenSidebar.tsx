@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
+import { useAuth } from "@/context/AuthContext";
 
 interface SidebarLink {
   href: string;
@@ -52,6 +53,7 @@ export function CitizenSidebar({
   const pathname = usePathname();
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const { t } = useTranslation();
+  const { user, logout, getUserInitials } = useAuth();
 
   const sidebarSections: SidebarSection[] = [
     {
@@ -207,20 +209,23 @@ export function CitizenSidebar({
           )}
         >
           <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xs font-bold text-white shadow-md shadow-primary/20">
-            AK
+            {getUserInitials()}
           </div>
           {!collapsed && (
             <div className="min-w-0 flex-1">
               <div className="truncate text-sm font-medium text-foreground">
-                Arun Kumar
+                {user?.name || "Citizen"}
               </div>
               <div className="truncate text-xs text-muted-foreground">
-                Ward 7, Chennai
+                {user?.constituency}, {user?.district}
               </div>
             </div>
           )}
           {!collapsed && (
-            <button className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive">
+            <button
+              onClick={logout}
+              className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+            >
               <LogOut className="size-4" />
             </button>
           )}

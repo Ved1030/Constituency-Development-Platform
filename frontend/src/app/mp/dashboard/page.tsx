@@ -37,6 +37,7 @@ import {
 } from "recharts";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
+import DashboardMapPreview from "@/components/map/DashboardMapPreview";
 import {
   executiveOverview,
   departmentPerformance,
@@ -45,7 +46,6 @@ import {
   recentProjects,
   sectorSpending,
   complaintHotspots,
-  villages,
 } from "@/data/mock-mp";
 
 const riskColors: Record<string, { bg: string; text: string; dot: string }> = {
@@ -240,87 +240,7 @@ export default function MPDashboardPage() {
             {t("mp.dashboard.fullDigitalTwin")} <ArrowRight className="size-3" />
           </button>
         </div>
-        <div className="relative h-80 overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/50">
-          {/* Grid */}
-          <svg className="absolute inset-0 h-full w-full opacity-10" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid-dash" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid-dash)" />
-          </svg>
-
-          {/* Constituency outline */}
-          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 800 320">
-            <path
-              d="M150,50 Q250,30 400,60 Q520,90 580,160 Q600,220 530,270 Q400,300 280,260 Q160,220 130,150 Q120,90 150,50 Z"
-              fill="rgba(21,101,192,0.05)"
-              stroke="rgba(21,101,192,0.3)"
-              strokeWidth="1.5"
-              strokeDasharray="6 3"
-            />
-          </svg>
-
-          {/* Village dots */}
-          {villages.map((v, i) => {
-            const x = 15 + ((v.lng - 80.26) * 10000) % 70;
-            const y = 10 + ((v.lat - 13.07) * 6000) % 70;
-            const intensity = v.complaints / 634;
-            return (
-              <div
-                key={v.id}
-                className="absolute group cursor-pointer"
-                style={{ left: `${x}%`, top: `${y}%` }}
-              >
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full blur-lg"
-                  style={{
-                    width: `${20 + intensity * 30}px`,
-                    height: `${20 + intensity * 30}px`,
-                    backgroundColor: intensity > 0.7 ? "#dc2626" : intensity > 0.4 ? "#f59e0b" : "#16a34a",
-                    opacity: 0.3,
-                  }}
-                />
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 size-2.5 rounded-full border-2 border-white"
-                  style={{ backgroundColor: intensity > 0.7 ? "#dc2626" : intensity > 0.4 ? "#f59e0b" : "#16a34a" }}
-                />
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10">
-                  <div className="rounded-lg bg-card border border-border px-3 py-2 shadow-xl whitespace-nowrap">
-                    <div className="text-xs font-semibold text-foreground">{v.name}</div>
-                    <div className="text-[10px] text-muted-foreground">{v.complaints} complaints | {v.population.toLocaleString("en-IN")} pop</div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Filter chips */}
-          <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-            {[t("mp.dashboard.roads"), t("mp.dashboard.schools"), t("mp.dashboard.hospitals"), t("mp.dashboard.water"), t("mp.dashboard.electricity"), "Projects"].map((layer) => (
-              <button key={layer} className="rounded-full bg-white/80 border border-border px-2.5 py-1 text-[10px] text-muted-foreground hover:text-foreground hover:bg-white transition-colors backdrop-blur-sm shadow-sm">
-                {layer}
-              </button>
-            ))}
-          </div>
-
-          {/* Legend */}
-          <div className="absolute bottom-3 left-3 flex items-center gap-4 rounded-lg bg-white/90 border border-border px-4 py-2 backdrop-blur-sm shadow-sm">
-            <div className="flex items-center gap-1.5">
-              <div className="size-2 rounded-full bg-red-500" />
-              <span className="text-[10px] text-muted-foreground">{t("common.high")}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="size-2 rounded-full bg-amber-500" />
-              <span className="text-[10px] text-muted-foreground">{t("common.medium")}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="size-2 rounded-full bg-emerald-500" />
-              <span className="text-[10px] text-muted-foreground">{t("common.low")}</span>
-            </div>
-          </div>
-        </div>
+        <DashboardMapPreview />
       </motion.div>
 
       {/* ═══ SECTION 4: Top AI Insights ═══ */}

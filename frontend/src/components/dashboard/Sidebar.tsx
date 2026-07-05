@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
+import { useAuth } from "@/context/AuthContext";
 
 interface SidebarLink {
   href: string;
@@ -41,7 +42,7 @@ const sectionColors: Record<string, string> = {
   "GEOSPATIAL": "text-emerald-600/60",
   "PROJECTS": "text-amber-600/60",
   "DEPARTMENTS": "text-cyan-600/60",
-  "ADMIN": "text-muted-foreground/60",
+  "SETTINGS": "text-muted-foreground/60",
 };
 
 const sectionKeys: Record<string, string> = {
@@ -51,7 +52,7 @@ const sectionKeys: Record<string, string> = {
   "GEOSPATIAL": "mp.sidebar.geospatial",
   "PROJECTS": "mp.sidebar.projects",
   "DEPARTMENTS": "mp.sidebar.departments",
-  "ADMIN": "mp.sidebar.admin",
+  "SETTINGS": "mp.sidebar.settings",
 };
 
 interface MPSidebarProps {
@@ -65,6 +66,7 @@ export function MPSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: MP
   const pathname = usePathname();
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const { t } = useTranslation();
+  const { user, logout, getUserInitials } = useAuth();
 
   const mpSidebarLinks: SidebarLink[] = [
     { href: "/mp/dashboard", label: t("mp.sidebar.dashboard"), icon: LayoutDashboard, section: "OVERVIEW" },
@@ -80,7 +82,7 @@ export function MPSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: MP
     { href: "/mp/budget", label: t("mp.sidebar.budgetOptimizer"), icon: IndianRupee, section: "PROJECTS" },
     { href: "/mp/project-monitoring", label: t("mp.sidebar.projectMonitoring"), icon: FolderKanban, section: "PROJECTS" },
     { href: "/mp/departments", label: t("mp.sidebar.departmentsSectors"), icon: Building2, section: "DEPARTMENTS" },
-    { href: "/mp/settings", label: t("mp.sidebar.settingsReports"), icon: Settings, section: "ADMIN" },
+    { href: "/mp/settings", label: t("mp.sidebar.settingsReports"), icon: Settings, section: "SETTINGS" },
   ];
 
   const sections = mpSidebarLinks.reduce<Record<string, SidebarLink[]>>((acc, link) => {
@@ -189,16 +191,19 @@ export function MPSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: MP
           )}
         >
           <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xs font-bold text-white shadow-md shadow-primary/20">
-            RS
+            {getUserInitials()}
           </div>
           {!collapsed && (
             <div className="min-w-0 flex-1">
-              <div className="truncate text-sm font-medium text-foreground">Dr. Rajesh Sharma</div>
-              <div className="truncate text-xs text-muted-foreground">MP, North Chennai</div>
+              <div className="truncate text-sm font-medium text-foreground">{user?.name || "MP"}</div>
+              <div className="truncate text-xs text-muted-foreground">MP, {user?.constituency}</div>
             </div>
           )}
           {!collapsed && (
-            <button className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive">
+            <button
+              onClick={logout}
+              className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+            >
               <LogOut className="size-4" />
             </button>
           )}

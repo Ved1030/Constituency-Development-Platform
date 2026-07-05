@@ -10,6 +10,7 @@ import "./globals.css";
 import { LayoutShell } from "@/components/layout/LayoutShell";
 import { Toaster } from "react-hot-toast";
 import { I18nProvider } from "@/hooks/i18n-provider";
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
   title: {
@@ -43,7 +44,9 @@ export default function RootLayout({
     <html lang="en" className="h-full antialiased" data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <I18nProvider>
-          <LayoutShell>{children}</LayoutShell>
+          <AuthProvider>
+            <LayoutShell>{children}</LayoutShell>
+          </AuthProvider>
         </I18nProvider>
         <Toaster
           position="top-right"

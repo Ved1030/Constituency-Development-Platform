@@ -101,9 +101,7 @@ export default function ConstituencyTwinPage() {
           onToggle={() => setFilterPanelOpen(!filterPanelOpen)}
         />
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="relative min-h-[500px] flex-1 overflow-hidden rounded-2xl border border-border bg-card"
         >
           <ConstituencyMap
@@ -162,7 +160,7 @@ export default function ConstituencyTwinPage() {
               {filtered.length} complaint{filtered.length !== 1 ? "s" : ""}
             </span>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       <ComplaintDrawer
