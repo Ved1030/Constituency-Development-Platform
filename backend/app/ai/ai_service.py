@@ -341,10 +341,10 @@ class AIService:
     @staticmethod
     async def speech_to_text(
         audio_bytes: bytes,
-        language_code: str = "hi-IN",
+        language_code: str = "auto",
         audio_format: str = "wav",
     ) -> Dict[str, Any]:
-        """Transcribe audio to text using Sarvam STT."""
+        """Transcribe audio to text using Sarvam STT with auto language detection."""
         t0 = time.perf_counter()
         log_ai_step("stt_start", lang=language_code, audio_bytes=len(audio_bytes))
 
@@ -355,16 +355,20 @@ class AIService:
         )
 
         latency = (time.perf_counter() - t0) * 1000
+
+        # Extract detected language from provider raw response
+        detected_lang = resp.raw.get("language_code", language_code) if resp.raw else language_code
+
         log_ai_step(
             "stt_done",
-            lang=language_code,
+            lang=detected_lang,
             transcript_length=len(resp.content),
             latency_ms=round(latency),
         )
 
         return {
             "transcript": resp.content,
-            "language": language_code,
+            "language": detected_lang,
             "success": resp.success,
             "error": resp.error,
         }

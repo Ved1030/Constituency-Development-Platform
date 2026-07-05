@@ -2,10 +2,9 @@
 AI-powered speech processing.
 
 Provides:
-- Speech-to-text (STT) using Sarvam Saarika model
+- Speech-to-text (STT) using Sarvam Saarika model with auto language detection
 - Text-to-speech (TTS) using Sarvam Bulbul model
-- Language detection from audio
-- Translation of transcripts to English
+- Translation of transcripts (on-demand only)
 - Full voice complaint processing pipeline
 
 Every error path returns an `error_stage` key so the API layer
@@ -84,16 +83,23 @@ def _make_error(stage: str, message: str, details: Optional[str] = None) -> Dict
 
 async def speech_to_text(
     audio_bytes: bytes,
-    language_code: str = "hi-IN",
+    language_code: str = "auto",
     audio_format: str = "wav",
 ) -> Dict[str, Any]:
     """
     Transcribe audio to text using Sarvam STT (Saarika model).
-    Returns dict with: transcript, language, success, error, error_stage.
+
+    When language_code is "auto" (the default), Sarvam automatically detects
+    the spoken language and returns it in the response.  The transcript is
+    ALWAYS in the original spoken language — no translation is performed.
+
+    Returns dict with: transcript, language, language_code, confidence, success, error, error_stage.
     """
+    is_auto = language_code.strip().lower() in ("auto", "")
+
     logger.info(
-        "STT request | lang=%s | bytes=%d | format=%s",
-        language_code, len(audio_bytes), audio_format,
+        "STT request | lang=%s (auto=%s) | bytes=%d | format=%s",
+        language_code, is_auto, len(audio_bytes), audio_format,
     )
 
     t0 = time.perf_counter()
@@ -105,7 +111,9 @@ async def speech_to_text(
         return {
             "success": False,
             "transcript": "",
-            "language": language_code,
+            "language": "Unknown",
+            "language_code": "unknown",
+            "confidence": 0.0,
             "error_stage": "stt_exception",
             "error": f"Speech-to-text service error: {type(exc).__name__}: {exc}",
         }
@@ -119,7 +127,9 @@ async def speech_to_text(
         return {
             "success": False,
             "transcript": "",
-            "language": language_code,
+            "language": "Unknown",
+            "language_code": "unknown",
+            "confidence": 0.0,
             "error_stage": "stt",
             "error": f"Speech recognition failed: {raw_error}",
         }
@@ -130,19 +140,31 @@ async def speech_to_text(
         return {
             "success": False,
             "transcript": "",
-            "language": language_code,
+            "language": "Unknown",
+            "language_code": "unknown",
+            "confidence": 0.0,
             "error_stage": "stt_empty",
             "error": "No speech detected in the audio. Please try speaking louder or closer to the microphone.",
         }
 
+    # Sarvam returns the detected language_code in the result
+    detected_lang_code = result.get("language", "unknown")
+    detected_lang_name = _get_language_name(detected_lang_code)
+
+    # Estimate confidence based on transcript quality when Sarvam doesn't
+    # provide an explicit confidence score.
+    confidence = _estimate_confidence(transcript, detected_lang_code)
+
     logger.info(
-        "STT success | lang=%s | chars=%d | %.0fms",
-        language_code, len(transcript), latency,
+        "STT success | detected_lang=%s (%s) | confidence=%.2f | chars=%d | %.0fms",
+        detected_lang_name, detected_lang_code, confidence, len(transcript), latency,
     )
     return {
         "success": True,
         "transcript": transcript,
-        "language": language_code,
+        "language": detected_lang_name,
+        "language_code": detected_lang_code,
+        "confidence": confidence,
     }
 
 
@@ -179,12 +201,14 @@ async def translate_to_english(
 
 
 # ---------------------------------------------------------------------------
-# Language detection via LLM
+# Language detection via LLM (used for text-only detection, not primary)
 # ---------------------------------------------------------------------------
 
 async def detect_language_from_text(text: str) -> Dict[str, Any]:
+    """Detect language from text using LLM.  Used as a fallback only — Sarvam
+    STT auto-detection is the primary method."""
     if not text or not text.strip():
-        return {"language": "English", "language_code": "en-IN", "confidence": 0.0, "success": False}
+        return {"language": "Unknown", "language_code": "unknown", "confidence": 0.0, "success": False}
 
     prompt = (
         f"Identify the language of this text. Return ONLY a JSON object:\n"
@@ -202,19 +226,19 @@ async def detect_language_from_text(text: str) -> Dict[str, Any]:
         )
     except Exception as exc:
         logger.warning("Language detection failed: %s", exc)
-        return {"language": "Hindi", "language_code": "hi-IN", "confidence": 0.3, "success": False}
+        return {"language": "Unknown", "language_code": "unknown", "confidence": 0.0, "success": False}
 
     try:
         parsed = json.loads(result.strip().strip("`"))
         return {
-            "language": parsed.get("language", "Hindi"),
-            "language_code": parsed.get("language_code", "hi-IN"),
+            "language": parsed.get("language", "Unknown"),
+            "language_code": parsed.get("language_code", "unknown"),
             "confidence": float(parsed.get("confidence", 0.5)),
             "success": True,
         }
     except (json.JSONDecodeError, TypeError, ValueError) as exc:
         logger.warning("Language detection JSON parse failed: %s", exc)
-        return {"language": "Hindi", "language_code": "hi-IN", "confidence": 0.3, "success": False}
+        return {"language": "Unknown", "language_code": "unknown", "confidence": 0.0, "success": False}
 
 
 # ---------------------------------------------------------------------------
@@ -229,74 +253,83 @@ async def process_voice_complaint(
 ) -> Dict[str, Any]:
     """
     End-to-end voice complaint processing pipeline.
+
+    The pipeline:
+      1. Sends audio to Sarvam STT with auto language detection
+      2. Sarvam detects the language and returns transcript in original language
+      3. NO automatic translation — transcript stays in the spoken language
+      4. Returns original transcript + detected language + confidence
+
     Each step propagates error_stage on failure.
     """
     t0 = time.perf_counter()
 
-    if not language_code:
-        language_code = "hi-IN"
+    # Default to auto-detection — never force a language
+    if not language_code or language_code.strip().lower() in ("auto", ""):
+        language_code = "auto"
+
+    # Calculate audio metrics for logging
+    audio_size_mb = len(audio_bytes) / (1024 * 1024)
+    audio_duration = speech_duration or 0.0
 
     logger.info(
-        "Pipeline start | format=%s | lang_hint=%s | audio_bytes=%d | duration=%.1fs",
-        audio_format, language_code, len(audio_bytes), speech_duration or 0,
+        "=== PIPELINE START ===\n"
+        "  Request ID      : pl-%d\n"
+        "  Audio format    : %s\n"
+        "  Audio size      : %.4f MB (%d bytes)\n"
+        "  Audio duration  : %.1fs\n"
+        "  Language hint   : %s\n"
+        "  Pipeline        : STT (auto-detect) → NO translation",
+        int(t0 * 1000), audio_format, audio_size_mb, len(audio_bytes),
+        audio_duration, language_code,
     )
 
-    # Step 1: Transcribe
-    logger.info("Step 1/3: Calling Sarvam STT...")
+    # Step 1: Transcribe with auto language detection
+    logger.info("Step 1/2: Calling Sarvam STT with auto language detection...")
     stt_result = await speech_to_text(audio_bytes, language_code, audio_format)
 
     if not stt_result.get("success"):
-        logger.error("Pipeline failed at STT | stage=%s | error=%s", stt_result.get("error_stage"), stt_result.get("error"))
+        logger.error(
+            "Pipeline failed at STT | stage=%s | error=%s",
+            stt_result.get("error_stage"), stt_result.get("error"),
+        )
         return {
             "original_text": "",
             "english_translation": "",
-            "language": _get_language_name(language_code),
-            "language_code": language_code,
+            "language": "Unknown",
+            "language_code": "unknown",
             "confidence": 0.0,
-            "speech_duration_seconds": speech_duration or 0.0,
+            "speech_duration_seconds": audio_duration,
             "success": False,
             "error_stage": stt_result.get("error_stage", "stt"),
             "error": stt_result.get("error", "Speech recognition failed"),
         }
 
     transcript = stt_result.get("transcript", "")
-    logger.info("Step 1/3: STT complete | chars=%d", len(transcript))
+    detected_lang_code = stt_result.get("language_code", "unknown")
+    detected_lang_name = stt_result.get("language", "Unknown")
+    confidence = stt_result.get("confidence", 0.0)
 
-    # Step 2: Detect language
-    logger.info("Step 2/3: Detecting language from transcript...")
-    try:
-        lang_detection = await detect_language_from_text(transcript)
-    except Exception as exc:
-        logger.warning("Language detection failed, using hint: %s", exc)
-        lang_detection = {"language_code": language_code, "language": _get_language_name(language_code), "confidence": 0.3}
+    logger.info(
+        "Step 1/2: STT complete | detected=%s (%s) | confidence=%.2f | chars=%d",
+        detected_lang_name, detected_lang_code, confidence, len(transcript),
+    )
 
-    detected_lang_code = lang_detection.get("language_code", language_code)
-    detected_lang_name = lang_detection.get("language", _get_language_name(language_code))
-    detected_confidence = lang_detection.get("confidence", 0.5)
-    logger.info("Step 2/3: Language detected | lang=%s | confidence=%.2f", detected_lang_name, detected_confidence)
-
-    # Step 3: Translate to English
+    # Step 2: NO automatic translation — transcript stays in original language
+    # Translation is only performed if explicitly requested by the user
     english_translation = ""
-    if detected_lang_code not in ("en-IN", "en"):
-        logger.info("Step 3/3: Translating %s → English...", detected_lang_name)
-        try:
-            translation_result = await translate_to_english(transcript, detected_lang_code)
-        except Exception as exc:
-            logger.error("Translation crashed: %s", exc)
-            translation_result = {"translated_text": transcript, "success": False, "error": str(exc)}
-
-        english_translation = translation_result.get("translated_text", "")
-        if not translation_result.get("success"):
-            logger.warning("Translation incomplete, using original transcript as fallback")
-        logger.info("Step 3/3: Translation done | chars=%d", len(english_translation))
-    else:
-        english_translation = transcript
-        logger.info("Step 3/3: Language is English, skipping translation")
+    logger.info("Step 2/2: Skipping auto-translation — transcript kept in original language (%s)", detected_lang_name)
 
     total_time = time.perf_counter() - t0
     logger.info(
-        "Pipeline COMPLETE | lang=%s | confidence=%.2f | transcript_chars=%d | translation_chars=%d | total=%.2fs",
-        detected_lang_name, detected_confidence, len(transcript), len(english_translation), total_time,
+        "=== PIPELINE COMPLETE ===\n"
+        "  Detected language : %s (%s)\n"
+        "  Confidence       : %.2f\n"
+        "  Transcript chars : %d\n"
+        "  Translation      : NONE (on-demand only)\n"
+        "  Total latency    : %.2fs",
+        detected_lang_name, detected_lang_code, confidence,
+        len(transcript), total_time,
     )
 
     return {
@@ -304,8 +337,8 @@ async def process_voice_complaint(
         "english_translation": english_translation,
         "language": detected_lang_name,
         "language_code": detected_lang_code,
-        "confidence": detected_confidence,
-        "speech_duration_seconds": speech_duration or 0.0,
+        "confidence": confidence,
+        "speech_duration_seconds": audio_duration,
         "success": True,
     }
 
@@ -317,3 +350,56 @@ async def process_voice_complaint(
 def _get_language_name(code: str) -> str:
     info = _LANG_CODE_MAP.get(code)
     return info["name"] if info else code
+
+
+def _estimate_confidence(transcript: str, language_code: str) -> float:
+    """Estimate transcription confidence from transcript quality metrics.
+
+    Sarvam STT does not always return an explicit confidence score, so we
+    estimate one from observable properties of the transcript:
+
+    - **Length**: Longer transcripts imply the model found more speech to
+      decode, which generally correlates with higher confidence.
+    - **Language code presence**: If Sarvam returned a valid language code,
+      the model was confident enough to commit to a language.
+    - **Character diversity**: A transcript with reasonable character
+      diversity (not just repeated characters) suggests genuine speech.
+
+    The score is in the range [0.3, 1.0].  The floor of 0.3 indicates that
+    STT was successful but with limited data; the ceiling of 1.0 represents
+    a long, diverse transcript with a valid language code.
+    """
+    if not transcript or not transcript.strip():
+        return 0.0
+
+    score = 0.3  # base score for any successful transcription
+
+    # Length component: longer transcripts → higher confidence (max +0.35)
+    char_count = len(transcript.strip())
+    if char_count > 200:
+        score += 0.35
+    elif char_count > 100:
+        score += 0.28
+    elif char_count > 50:
+        score += 0.20
+    elif char_count > 20:
+        score += 0.12
+    elif char_count > 5:
+        score += 0.05
+
+    # Language code component: valid detected code → more confidence (+0.15)
+    if language_code and language_code != "unknown" and language_code != "auto":
+        score += 0.15
+
+    # Character diversity component: more unique chars → better quality (+0.20)
+    if char_count > 0:
+        unique_chars = len(set(transcript.strip()))
+        diversity_ratio = unique_chars / char_count
+        if diversity_ratio > 0.5:
+            score += 0.20
+        elif diversity_ratio > 0.3:
+            score += 0.12
+        elif diversity_ratio > 0.15:
+            score += 0.06
+
+    return min(1.0, round(score, 2))

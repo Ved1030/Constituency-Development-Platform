@@ -119,10 +119,14 @@ class AIProvider(ABC):
         self,
         audio_bytes: bytes,
         *,
-        language_code: str = "hi-IN",
+        language_code: str = "auto",
         audio_format: str = "wav",
     ) -> AIResponse:
-        """Transcribe audio to text."""
+        """Transcribe audio to text.
+
+        When language_code is "auto", the provider auto-detects the spoken
+        language and returns the detected code in ``raw["language_code"]``.
+        """
         ...
 
     # -- Text-to-speech -----------------------------------------------------

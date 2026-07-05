@@ -338,29 +338,32 @@ class SarvamProvider(AIProvider):
         self,
         audio_bytes: bytes,
         *,
-        language_code: str = "hi-IN",
+        language_code: str = "auto",
         audio_format: str = "wav",
     ) -> AIResponse:
         t0 = time.perf_counter()
-        lang = _normalise_lang_code(language_code)
+        is_auto = language_code.strip().lower() in ("auto", "")
+        lang = "auto" if is_auto else _normalise_lang_code(language_code)
 
         logger.info(
             "Calling Sarvam\n"
             "  Endpoint : %s\n"
             "  Method   : POST (multipart)\n"
             "  Model    : %s\n"
-            "  Payload  : lang=%s, audio_bytes=%d, format=%s",
-            self.STT_ENDPOINT, self.STT_MODEL, lang, len(audio_bytes), audio_format,
+            "  Payload  : lang=%s (auto=%s), audio_bytes=%d, format=%s",
+            self.STT_ENDPOINT, self.STT_MODEL, lang, is_auto, len(audio_bytes), audio_format,
         )
 
         try:
             files = {
                 "file": (f"audio.{audio_format}", audio_bytes, f"audio/{audio_format}"),
             }
-            data_payload = {
-                "model": self.STT_MODEL,
-                "language_code": lang,
-            }
+            # When language_code is "auto", omit it from the payload so Sarvam
+            # auto-detects the spoken language.  Only send it when explicitly
+            # specified (e.g. user selected a language before recording).
+            data_payload: Dict[str, str] = {"model": self.STT_MODEL}
+            if not is_auto:
+                data_payload["language_code"] = lang
 
             data = await self._post_multipart(
                 self.STT_ENDPOINT,
@@ -370,15 +373,17 @@ class SarvamProvider(AIProvider):
             latency = (time.perf_counter() - t0) * 1000
 
             transcript = data.get("transcript", "")
+            detected_lang = data.get("language_code", lang if not is_auto else "")
+
             logger.info(
-                "Sarvam STT OK | model=%s | lang=%s | chars=%d | %.0fms",
-                self.STT_MODEL, lang, len(transcript), latency,
+                "Sarvam STT OK | model=%s | requested_lang=%s | detected_lang=%s | chars=%d | latency=%.0fms",
+                self.STT_MODEL, lang, detected_lang, len(transcript), latency,
             )
 
             return AIResponse(
                 success=True,
                 content=transcript,
-                raw=data,
+                raw={"language_code": detected_lang, "raw_sarvam_response": data},
                 model=self.STT_MODEL,
                 latency_ms=latency,
             )
