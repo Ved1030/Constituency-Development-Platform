@@ -1,7 +1,7 @@
 /**
  * API client for the Complaint feature.
  *
- * Communicates with the backend at /api/v1/complaints.
+ * Uses the centralized API client — never hardcodes URLs.
  */
 
 import type {
@@ -12,9 +12,7 @@ import type {
   ComplaintSubmitResponse,
 } from "@/types/complaint";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL
-  ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
-  : "/api/v1";
+import { API_BASE } from "@/services/api/client";
 
 class ComplaintAPIError extends Error {
   status: number;
@@ -51,8 +49,6 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   return data as T;
 }
 
-// ─── Submit Complaint ─────────────────────────────────────────────────
-
 export async function submitComplaint(
   payload: ComplaintCreateRequest
 ): Promise<ComplaintSubmitResponse> {
@@ -62,13 +58,9 @@ export async function submitComplaint(
   });
 }
 
-// ─── Get Complaint ────────────────────────────────────────────────────
-
 export async function getComplaint(uid: string): Promise<Complaint> {
   return request<Complaint>(`/complaints/${uid}`);
 }
-
-// ─── List Complaints ──────────────────────────────────────────────────
 
 export async function listComplaints(params: {
   page?: number;
@@ -89,8 +81,6 @@ export async function listComplaints(params: {
   const query = searchParams.toString();
   return request<ComplaintListResponse>(`/complaints${query ? `?${query}` : ""}`);
 }
-
-// ─── Get Stats ────────────────────────────────────────────────────────
 
 export async function getComplaintStats(): Promise<ComplaintStatsResponse> {
   return request<ComplaintStatsResponse>("/complaints/stats");

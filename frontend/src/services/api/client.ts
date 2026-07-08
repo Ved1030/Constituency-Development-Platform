@@ -1,6 +1,29 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL
-  ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
-  : "/api/v1";
+/**
+ * Centralized API client.
+ *
+ * ALL backend requests MUST go through this module.
+ * The base URL comes from NEXT_PUBLIC_API_URL — never hardcode a URL.
+ */
+
+function getBaseUrl(): string {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!envUrl) {
+    if (typeof window === "undefined") {
+      // Server-side: safe to throw during build
+      throw new Error(
+        "NEXT_PUBLIC_API_URL is not set. Add it to .env.local or your hosting provider's environment variables."
+      );
+    }
+    // Client-side fallback for local dev only
+    console.warn("NEXT_PUBLIC_API_URL not set — falling back to relative /api/v1");
+    return "/api/v1";
+  }
+  return `${envUrl.replace(/\/+$/, "")}/api/v1`;
+}
+
+const API_BASE = getBaseUrl();
+
+export { API_BASE };
 
 export class APIError extends Error {
   status: number;

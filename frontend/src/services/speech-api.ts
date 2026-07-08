@@ -1,7 +1,7 @@
 /**
  * API client for Speech processing.
  *
- * Communicates with the backend at /api/v1/speech.
+ * Uses the centralized API client — never hardcodes URLs.
  * Parses structured error responses (stage, message, details, suggestion).
  */
 
@@ -11,9 +11,7 @@ import type {
   BackgroundClassificationResult,
 } from "@/types/speech";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL
-  ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
-  : "/api/v1";
+import { API_BASE } from "@/services/api/client";
 
 // ─── Structured API Error ─────────────────────────────────────────────
 
@@ -38,7 +36,6 @@ export class SpeechAPIError extends Error {
     this.status = params.status;
   }
 
-  /** User-friendly description combining stage + message + suggestion */
   get userMessage(): string {
     let msg = this.message;
     if (this.suggestion) {
@@ -55,7 +52,6 @@ export async function transcribeAudio(
   languageCode?: string,
   durationSeconds?: number,
 ): Promise<TranscriptionResult> {
-  // Pre-upload validation
   if (!audioBlob || audioBlob.size === 0) {
     throw new SpeechAPIError({
       stage: "validation",
@@ -92,12 +88,11 @@ export async function transcribeAudio(
       body: formData,
     });
   } catch (err: any) {
-    // Network failure
     if (err.name === "TypeError" && err.message.includes("fetch")) {
       throw new SpeechAPIError({
         stage: "network",
         message: "Cannot connect to the server.",
-        suggestion: "Make sure the backend server is running on port 8000.",
+        suggestion: "Check that the backend is running and NEXT_PUBLIC_API_URL is set.",
         status: 0,
       });
     }
@@ -108,7 +103,6 @@ export async function transcribeAudio(
     });
   }
 
-  // Parse response body
   let body: any;
   try {
     body = await res.json();
@@ -120,7 +114,6 @@ export async function transcribeAudio(
     });
   }
 
-  // HTTP error — try to extract structured error
   if (!res.ok) {
     throw new SpeechAPIError({
       stage: body.stage || "server",
@@ -131,7 +124,6 @@ export async function transcribeAudio(
     });
   }
 
-  // Success with error in body
   if (body.success === false) {
     throw new SpeechAPIError({
       stage: body.stage || body.error_stage || "unknown",
