@@ -4,6 +4,9 @@ import { ProblemSolution } from "@/components/landing/ProblemSolution";
 import { Features } from "@/components/landing/Features";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { PlatformPreview } from "@/components/landing/PlatformPreview";
+import { WhyChoose } from "@/components/landing/WhyChoose";
+import { Multilingual } from "@/components/landing/Multilingual";
+import { Testimonials } from "@/components/landing/Testimonials";
 import { CTA } from "@/components/landing/CTA";
 
 export default function LandingPage() {
@@ -15,6 +18,9 @@ export default function LandingPage() {
       <Features />
       <HowItWorks />
       <PlatformPreview />
+      <WhyChoose />
+      <Multilingual />
+      <Testimonials />
       <CTA />
     </>
   );

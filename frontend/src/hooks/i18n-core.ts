@@ -57,7 +57,9 @@ export function useTranslation() {
     return {
       locale: "en",
       setLocale: () => {},
-      t: (key: string) => key,
+      t: (key: string) => {
+        return key;
+      },
     };
   }
   return ctx;

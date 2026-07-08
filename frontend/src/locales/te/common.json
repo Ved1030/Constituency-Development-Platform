@@ -151,7 +151,20 @@
     "communityDriven": "సమాజం ద్వారా నడిచే",
     "citizensServed": "సేవ అందించిన పౌరులు",
     "villages": "గ్రామాలు",
-    "aiAccuracy": "AI ఖచ్చితత్వం"
+    "aiAccuracy": "AI ఖచ్చితత్వం",
+    "backToLogin": "Back to Login",
+    "checkEmailConfirmation": "Check your email for confirmation",
+    "checkYourEmail": "Check Your Email",
+    "enterEmail": "Please enter your email",
+    "fillRequiredFields": "Please fill in all required fields",
+    "forgotPasswordError": "Failed to send reset link. Please try again.",
+    "forgotPasswordSubtitle": "Enter your email and we'll send you a link to reset your password.",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "resetLinkSent": "We've sent a password reset link to",
+    "sendResetLink": "Send Reset Link",
+    "sending": "Sending...",
+    "signupError": "Failed to create account. Please try again."
   },
   "landing": {
     "aiPoweredTag": "AI-ఆధారిత పాలన వేదిక",
@@ -232,7 +245,42 @@
     "previewAIPredictions": "AI అంచనాలు",
     "previewForecastNeeds": "అభివృద్ధి అవసరాలను అంచనా వేయండి",
     "previewCitizenFeedback": "పౌర ప్రతిస్పందన",
-    "previewNLPInsights": "NLP-ఆధారిత అంతర్దృష్టులు"
+    "previewNLPInsights": "NLP-ఆధారిత అంతర్దృష్టులు",
+    "feature1Title": "AI Complaint Intelligence",
+    "feature1Description": "Automatically clusters and prioritizes complaints using AI to help MPs address the most critical issues first.",
+    "feature2Title": "Digital Twin",
+    "feature2Description": "Visualize constituency issues on an interactive GIS map with real-time data overlays and spatial analytics.",
+    "feature3Title": "Need vs Spend",
+    "feature3Description": "Compare citizen demand against government expenditure. AI identifies gaps and recommends reallocations.",
+    "feature4Title": "Social Intelligence",
+    "feature4Description": "Monitor real-time discussions across social platforms to understand citizen sentiment and emerging issues.",
+    "feature5Title": "AI Recommendations",
+    "feature5Description": "Receive evidence-based policy recommendations powered by machine learning and constituency data analysis.",
+    "feature6Title": "Multilingual Governance",
+    "feature6Description": "Support all major Indian languages with AI-powered translation, enabling inclusive citizen participation.",
+    "howItWorksTag": "How It Works",
+    "howItWorksTitle": "Simple Steps to Smarter Governance",
+    "howItWorksSubtitle": "From citizen feedback to AI-powered decisions in four easy steps.",
+    "step1Title": "Citizen Reports",
+    "step1Description": "Citizens submit complaints and feedback through voice, text, or photo in any Indian language.",
+    "step2Title": "AI Analysis",
+    "step2Description": "Our AI engine classifies, prioritizes, and routes issues to the appropriate departments instantly.",
+    "step3Title": "MP Dashboard",
+    "step3Description": "MPs access real-time dashboards with AI insights, priority rankings, and impact simulations.",
+    "step4Title": "Action & Resolution",
+    "step4Description": "Track development projects, measure impact, and close the feedback loop with citizens.",
+    "step5Title": "Community Voting",
+    "step5Description": "Citizens vote on development proposals, ensuring democratic priority setting at the grassroots.",
+    "step6Title": "Predictive Analytics",
+    "step6Description": "AI forecasts future needs and identifies emerging issues before they become critical problems.",
+    "ctaTitle": "Ready to Transform Your Constituency?",
+    "ctaSubtitle": "Join thousands of citizens and representatives using AI-powered governance.",
+    "ctaBenefit1": "AI-powered complaint classification",
+    "ctaBenefit2": "Real-time constituency analytics",
+    "ctaBenefit3": "Multilingual citizen engagement",
+    "ctaBenefit4": "Predictive development insights",
+    "ctaStartTrial": "Get Started Free",
+    "ctaScheduleDemo": "Schedule a Demo"
   },
   "footer": {
     "description": "AI మరియు రియల్-టైమ్ అనలిటిక్స్ శక్తి ద్వారా పౌర గళాలను డేటా-ఆధారిత అభివృద్ధి నిర్ణయాలుగా మార్చడం.",
@@ -349,7 +397,17 @@
       "previous": "మునుపటి",
       "next": "తదుపరి",
       "submitting": "సమర్పిస్తోంది...",
-      "submitComplaint": "ఫిర్యాదు సమర్పించండి"
+      "submitComplaint": "ఫిర్యాదు సమర్పించండి",
+      "selected": "Selected",
+      "status": "Status",
+      "yes": "Yes",
+      "no": "No",
+      "verified": "Verified",
+      "complaintRegistered": "Complaint registered successfully",
+      "yourIdIs": "Your complaint ID is",
+      "redirecting": "Redirecting to complaints...",
+      "enterAddressFallback": "Enter an address or landmark",
+      "notCaptured": "Not captured"
     },
     "voting": {
       "communityVoting": "సమాజం ఓటింగ్",
@@ -418,7 +476,13 @@
       "topContributor": "టాప్ సహకారి",
       "topContributorDesc": "500+ సమాజ పాయింట్లు",
       "superVoter": "సూపర్ ఓటర్",
-      "superVoterDesc": "20+ ప్రతిపాదనలపై ఓటు వేశారు"
+      "superVoterDesc": "20+ ప్రతిపాదనలపై ఓటు వేశారు",
+      "signOut": "Sign Out",
+      "resolutionRate": "Resolution Rate",
+      "resolved": "Resolved",
+      "pushEmail": "Push & Email",
+      "sms": "SMS",
+      "off": "Off"
     },
     "tracking": {
       "trackYourComplaints": "మీ ఫిర్యాదులను ట్రాక్ చేయండి",
@@ -433,7 +497,8 @@
       "aiStatus": "AI స్థితి",
       "analyzing": "విశ్లేషిస్తోంది...",
       "verifiedClean": "ధృవీకరించబడింది & స్వచ్ఛం",
-      "complaintTimeline": "ఫిర్యాదు టైమ్‌లైన్"
+      "complaintTimeline": "ఫిర్యాదు టైమ్‌లైన్",
+      "noComplaintsFound": "No complaints found"
     },
     "projects": {
       "developmentProjects": "అభివృద్ధి ప్రాజెక్టులు",
@@ -447,7 +512,7 @@
     },
     "nearby": {
       "nearbyIssues": "సమీపంలోని సమస్యలు",
-      "openIssuesNearYou": "{count} మీ సమీపంలో తెరిచిన సమస్యలు \u00b7 {critical} క్లిష్టమైనవి",
+      "openIssuesNearYou": "{count} మీ సమీపంలో తెరిచిన సమస్యలు · {critical} క్లిష్టమైనవి",
       "searchNearby": "సమీపంలోని సమస్యలను శోధించండి...",
       "noIssuesFound": "సమస్యలు కనుగొనబడలేదు",
       "tryAdjustingFilters": "మీ ఫిల్టర్లను సర్దుబాటు చేయడానికి ప్రయత్నించండి"
@@ -547,7 +612,7 @@
       "online": "ఆన్‌లైన్",
       "poweredBy": "నియోజకవర్గ తెలివి ఇంజిన్ ద్వారా శక్తివంతం",
       "whatCanIHelp": "నేను మీకు ఎలా సహాయం చేయగలను?",
-      "askAnything": "మీ నియోజకవర్గం గురించి నన్ను ఏదైనా అడగండి \u2014 మౌలిక సదుపాయాలు, బడ్జెట్, ఫిర్యాదులు, ప్రాజెక్టులు లేదా విధానం.",
+      "askAnything": "మీ నియోజకవర్గం గురించి నన్ను ఏదైనా అడగండి — మౌలిక సదుపాయాలు, బడ్జెట్, ఫిర్యాదులు, ప్రాజెక్టులు లేదా విధానం.",
       "analyzingData": "నియోజకవర్గ డేటాను విశ్లేషిస్తోంది...",
       "sources": "మూలాలు",
       "constituencyContext": "నియోజకవర్గ సందర్భం",
@@ -691,7 +756,7 @@
       "complaints": "ఫిర్యాదులు",
       "avgDays": "సగటు రోజులు",
       "resolutionTime": "పరిష్కార సమయం",
-      "budgetLakh": "బడ్జెట్: \u20b9{value} లక్ష",
+      "budgetLakh": "బడ్జెట్: ₹{value} లక్ష",
       "resolved": "{count} పరిష్కరించబడింది",
       "aiRisk": "AI ప్రమాదం: {level}",
       "satisfaction": "సంతృప్తి: {value}%",
@@ -759,7 +824,7 @@
       "high": "అధికం",
       "medium": "మధ్యస్థం",
       "govtOfTN": "తమిళనాడు ప్రభుత్వం",
-      "constituencyDevDivision": "నియోజకవర్గ అభివృద్ధి విభాగం \u00b7 ఉత్తర చెన్నై"
+      "constituencyDevDivision": "నియోజకవర్గ అభివృద్ధి విభాగం · ఉత్తర చెన్నై"
     },
     "settings": {
       "settingsReports": "సెట్టింగ్‌లు & నివేదికలు",

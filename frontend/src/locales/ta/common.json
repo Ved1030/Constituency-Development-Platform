@@ -151,7 +151,20 @@
     "communityDriven": "சமூக இயக்கம்",
     "citizensServed": "சேவை செய்யப்பட்ட குடிமக்கள்",
     "villages": "கிராமங்கள்",
-    "aiAccuracy": "AI துல்லியம்"
+    "aiAccuracy": "AI துல்லியம்",
+    "backToLogin": "Back to Login",
+    "checkEmailConfirmation": "Check your email for confirmation",
+    "checkYourEmail": "Check Your Email",
+    "enterEmail": "Please enter your email",
+    "fillRequiredFields": "Please fill in all required fields",
+    "forgotPasswordError": "Failed to send reset link. Please try again.",
+    "forgotPasswordSubtitle": "Enter your email and we'll send you a link to reset your password.",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "resetLinkSent": "We've sent a password reset link to",
+    "sendResetLink": "Send Reset Link",
+    "sending": "Sending...",
+    "signupError": "Failed to create account. Please try again."
   },
   "landing": {
     "aiPoweredTag": "AI இயக்கும் ஆட்சி தளம்",
@@ -232,7 +245,42 @@
     "previewAIPredictions": "AI கணிப்புகள்",
     "previewForecastNeeds": "வளர்ச்சி தேவைகளை கணிக்கவும்",
     "previewCitizenFeedback": "குடிமக்கள் கருத்து",
-    "previewNLPInsights": "NLP-இயக்கப்படும் நுண்ணறிவுகள்"
+    "previewNLPInsights": "NLP-இயக்கப்படும் நுண்ணறிவுகள்",
+    "feature1Title": "AI Complaint Intelligence",
+    "feature1Description": "Automatically clusters and prioritizes complaints using AI to help MPs address the most critical issues first.",
+    "feature2Title": "Digital Twin",
+    "feature2Description": "Visualize constituency issues on an interactive GIS map with real-time data overlays and spatial analytics.",
+    "feature3Title": "Need vs Spend",
+    "feature3Description": "Compare citizen demand against government expenditure. AI identifies gaps and recommends reallocations.",
+    "feature4Title": "Social Intelligence",
+    "feature4Description": "Monitor real-time discussions across social platforms to understand citizen sentiment and emerging issues.",
+    "feature5Title": "AI Recommendations",
+    "feature5Description": "Receive evidence-based policy recommendations powered by machine learning and constituency data analysis.",
+    "feature6Title": "Multilingual Governance",
+    "feature6Description": "Support all major Indian languages with AI-powered translation, enabling inclusive citizen participation.",
+    "howItWorksTag": "How It Works",
+    "howItWorksTitle": "Simple Steps to Smarter Governance",
+    "howItWorksSubtitle": "From citizen feedback to AI-powered decisions in four easy steps.",
+    "step1Title": "Citizen Reports",
+    "step1Description": "Citizens submit complaints and feedback through voice, text, or photo in any Indian language.",
+    "step2Title": "AI Analysis",
+    "step2Description": "Our AI engine classifies, prioritizes, and routes issues to the appropriate departments instantly.",
+    "step3Title": "MP Dashboard",
+    "step3Description": "MPs access real-time dashboards with AI insights, priority rankings, and impact simulations.",
+    "step4Title": "Action & Resolution",
+    "step4Description": "Track development projects, measure impact, and close the feedback loop with citizens.",
+    "step5Title": "Community Voting",
+    "step5Description": "Citizens vote on development proposals, ensuring democratic priority setting at the grassroots.",
+    "step6Title": "Predictive Analytics",
+    "step6Description": "AI forecasts future needs and identifies emerging issues before they become critical problems.",
+    "ctaTitle": "Ready to Transform Your Constituency?",
+    "ctaSubtitle": "Join thousands of citizens and representatives using AI-powered governance.",
+    "ctaBenefit1": "AI-powered complaint classification",
+    "ctaBenefit2": "Real-time constituency analytics",
+    "ctaBenefit3": "Multilingual citizen engagement",
+    "ctaBenefit4": "Predictive development insights",
+    "ctaStartTrial": "Get Started Free",
+    "ctaScheduleDemo": "Schedule a Demo"
   },
   "footer": {
     "description": "AI மற்றும் நிகழ்நேர பகுப்பாய்வின் வலிமை மூலம் குடிமக்களின் குரல்களை தர அடிப்படையிலான வளர்ச்சி முடிவுகளாக மாற்றியமைக்கிறது.",
@@ -349,7 +397,17 @@
       "previous": "முந்தைய",
       "next": "அடுத்து",
       "submitting": "சமர்ப்பிக்கிறது...",
-      "submitComplaint": "புகாரைச் சமர்ப்பி"
+      "submitComplaint": "புகாரைச் சமர்ப்பி",
+      "selected": "Selected",
+      "status": "Status",
+      "yes": "Yes",
+      "no": "No",
+      "verified": "Verified",
+      "complaintRegistered": "Complaint registered successfully",
+      "yourIdIs": "Your complaint ID is",
+      "redirecting": "Redirecting to complaints...",
+      "enterAddressFallback": "Enter an address or landmark",
+      "notCaptured": "Not captured"
     },
     "voting": {
       "communityVoting": "சமூக வாக்கெடுப்பு",
@@ -418,7 +476,13 @@
       "topContributor": "சிறந்த பங்களிப்பாளர்",
       "topContributorDesc": "500+ சமூக புள்ளிகள்",
       "superVoter": "சூப்பர் வாக்காளர்",
-      "superVoterDesc": "20+ திட்டங்களில் வாக்களித்தவர்"
+      "superVoterDesc": "20+ திட்டங்களில் வாக்களித்தவர்",
+      "signOut": "Sign Out",
+      "resolutionRate": "Resolution Rate",
+      "resolved": "Resolved",
+      "pushEmail": "Push & Email",
+      "sms": "SMS",
+      "off": "Off"
     },
     "tracking": {
       "trackYourComplaints": "உங்கள் புகார்களைக் கண்காணியுங்கள்",
@@ -433,7 +497,8 @@
       "aiStatus": "AI நிலை",
       "analyzing": "பகுப்பாய்வு செய்கிறது...",
       "verifiedClean": "சரிபார்க்கப்பட்டது & சுத்தம்",
-      "complaintTimeline": "புகார் காலவரிசை"
+      "complaintTimeline": "புகார் காலவரிசை",
+      "noComplaintsFound": "No complaints found"
     },
     "projects": {
       "developmentProjects": "வளர்ச்சி திட்டங்கள்",
@@ -447,7 +512,7 @@
     },
     "nearby": {
       "nearbyIssues": "அருகிலுள்ள பிரச்சனைகள்",
-      "openIssuesNearYou": "உங்கள் அருகில் {count} திறந்த பிரச்சனைகள் \u00b7 {critical} முக்கியமான",
+      "openIssuesNearYou": "உங்கள் அருகில் {count} திறந்த பிரச்சனைகள் · {critical} முக்கியமான",
       "searchNearby": "அருகிலுள்ள பிரச்சனைகளைத் தேடுங்கள்...",
       "noIssuesFound": "பிரச்சனைகள் எதுவும் கிடைக்கவில்லை",
       "tryAdjustingFilters": "உங்கள் வடிகட்டிகளை சரிசெய்ய முயற்சிக்கவும்"
@@ -547,7 +612,7 @@
       "online": "நிகழ்நிலை",
       "poweredBy": "தொகுதி நுண்ணறிவு இயந்திரத்தால் இயக்கப்படுகிறது",
       "whatCanIHelp": "உங்களுக்கு எதில் உதவ முடியும்?",
-      "askAnything": "உங்கள் தொகுதி பற்றி எதையும் கேளுங்கள் \u2014 உள்கட்டமைப்பு, நிதி, புகார்கள், திட்டங்கள் அல்லது கொள்கை.",
+      "askAnything": "உங்கள் தொகுதி பற்றி எதையும் கேளுங்கள் — உள்கட்டமைப்பு, நிதி, புகார்கள், திட்டங்கள் அல்லது கொள்கை.",
       "analyzingData": "தொகுதி தரவை பகுப்பாய்வு செய்கிறது...",
       "sources": "ஆதாரங்கள்",
       "constituencyContext": "தொகுதி சூழல்",
@@ -691,7 +756,7 @@
       "complaints": "புகார்கள்",
       "avgDays": "சராசரி நாட்கள்",
       "resolutionTime": "தீர்வு நேரம்",
-      "budgetLakh": "நிதி: \u20b9{value} லட்சம்",
+      "budgetLakh": "நிதி: ₹{value} லட்சம்",
       "resolved": "{count} தீர்க்கப்பட்டது",
       "aiRisk": "AI ஆபத்து: {level}",
       "satisfaction": "திருப்தி: {value}%",
@@ -759,7 +824,7 @@
       "high": "உயர்",
       "medium": "நடுத்தரம்",
       "govtOfTN": "தமிழ்நாடு அரசு",
-      "constituencyDevDivision": "தொகுதி வளர்ச்சி பிரிவு \u00b7 வட சென்னை"
+      "constituencyDevDivision": "தொகுதி வளர்ச்சி பிரிவு · வட சென்னை"
     },
     "settings": {
       "settingsReports": "அமைப்புகள் & அறிக்கைகள்",

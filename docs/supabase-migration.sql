@@ -99,41 +99,35 @@ CREATE POLICY "Service role can read all profiles"
   FOR SELECT
   USING (true);
 
--- 6. Seed MP accounts
+-- 6. Auto-promote MP accounts on profile creation
 -- ---------------------------------------------------------------------------
--- These users must already exist in Supabase Auth (Authentication > Users).
--- After creating them via the signup page or manually, run this to set their role.
---
--- IMPORTANT: First create these users via your app's signup page,
--- then come back and run the UPDATE statements below.
---
--- If you haven't created the users yet, use the Supabase dashboard:
---   Authentication > Users > Invite / Add user
--- or sign up through the app with these email addresses.
+-- When a user signs up with one of the official MP email addresses, this trigger
+-- automatically sets their role to 'mp'.
+CREATE OR REPLACE FUNCTION public.handle_mp_promotion()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER SET search_path = ''
+AS $$
+BEGIN
+  IF NEW.email IN ('mp.northchennai@gov.in', 'mp.mumbai@gov.in', 'mp.surat@gov.in') THEN
+    NEW.role := 'mp';
+  END IF;
+  RETURN NEW;
+END;
+$$;
 
--- After the users exist in auth.users, promote them to MP:
--- (Uncomment and run after creating the users)
+DROP TRIGGER IF EXISTS on_profile_mp_promotion ON public.profiles;
+CREATE TRIGGER on_profile_mp_promotion
+  BEFORE INSERT ON public.profiles
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_mp_promotion();
 
--- UPDATE public.profiles
--- SET role = 'mp'
--- WHERE email IN (
---   'mp.northchennai@gov.in',
---   'mp.mumbai@gov.in',
---   'mp.surat@gov.in'
--- );
-
--- Or use this safer version that only updates if the profile exists:
+-- Also promote existing profiles matching MP emails (idempotent — safe to run anytime)
 DO $$
 BEGIN
-  IF EXISTS (SELECT 1 FROM public.profiles WHERE email = 'mp.northchennai@gov.in') THEN
-    UPDATE public.profiles SET role = 'mp' WHERE email = 'mp.northchennai@gov.in';
-  END IF;
-  IF EXISTS (SELECT 1 FROM public.profiles WHERE email = 'mp.mumbai@gov.in') THEN
-    UPDATE public.profiles SET role = 'mp' WHERE email = 'mp.mumbai@gov.in';
-  END IF;
-  IF EXISTS (SELECT 1 FROM public.profiles WHERE email = 'mp.surat@gov.in') THEN
-    UPDATE public.profiles SET role = 'mp' WHERE email = 'mp.surat@gov.in';
-  END IF;
+  UPDATE public.profiles SET role = 'mp'
+  WHERE email IN ('mp.northchennai@gov.in', 'mp.mumbai@gov.in', 'mp.surat@gov.in')
+    AND role IS DISTINCT FROM 'mp';
 END;
 $$;
 

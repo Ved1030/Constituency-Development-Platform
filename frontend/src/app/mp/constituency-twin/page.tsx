@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import type L from "leaflet";
 import type { DigitalTwinComplaint, FilterState, OverlayLayer, SearchResult } from "@/types/digital-twin";
@@ -8,12 +9,13 @@ import { CONSTITUENCY_CENTER, CONSTITUENCY_ZOOM } from "@/types/digital-twin";
 import { fetchDigitalTwin } from "@/services/api/digital-twin";
 import { useAuth } from "@/context/AuthContext";
 import { getConstituency } from "@/data/constituencies";
-import ConstituencyMap from "@/components/map/ConstituencyMap";
 import RightIntelligencePanel from "@/components/map/RightIntelligencePanel";
 import FilterPanel from "@/components/map/FilterPanel";
 import MapControls from "@/components/map/MapControls";
 import MapSearch from "@/components/map/MapSearch";
 import SummaryCards from "@/components/map/SummaryCards";
+
+const ConstituencyMap = dynamic(() => import("@/components/map/ConstituencyMap"), { ssr: false });
 
 const defaultFilters: FilterState = {
   priorities: [],

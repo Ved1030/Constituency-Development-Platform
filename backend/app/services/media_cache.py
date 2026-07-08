@@ -94,7 +94,7 @@ def download_media(url: str, category: str = "Roads") -> str:
 
         # Write to disk
         local_path.write_bytes(resp.content)
-        logger.debug("Cached media: %s (%d bytes)", filename, len(resp.content))
+        logger.info("Cached media: %s (%d bytes)", filename, len(resp.content))
         return filename
 
     except Exception as exc:

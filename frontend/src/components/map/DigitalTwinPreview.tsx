@@ -1,14 +1,15 @@
 "use client";
 
 import { useMemo, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Map, Loader2 } from "lucide-react";
-import type L from "leaflet";
 import type { DigitalTwinComplaint } from "@/types/digital-twin";
 import { fetchDigitalTwin } from "@/services/api/digital-twin";
 import { useConstituency } from "@/context/ConstituencyContext";
-import ConstituencyMap from "@/components/map/ConstituencyMap";
+
+const ConstituencyMap = dynamic(() => import("@/components/map/ConstituencyMap"), { ssr: false });
 
 export function DigitalTwinPreview() {
   const router = useRouter();

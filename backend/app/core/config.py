@@ -18,15 +18,12 @@ class Settings(BaseSettings):
     API_V1_PREFIX: str = "/api/v1"
 
     # -- CORS ---------------------------------------------------------------
-    BACKEND_CORS_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "https://constituency-development-platform.vercel.app",
-    ]
+    # Origins come from env. Production origin is added in main.py.
+    BACKEND_CORS_ORIGINS: List[str] = []
     FRONTEND_URL: Optional[str] = None
 
     # -- Database (PostgreSQL via Supabase) ---------------------------------
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/cdp"
+    DATABASE_URL: str = ""
     SUPABASE_URL: Optional[str] = None
     SUPABASE_ANON_KEY: Optional[str] = None
     SUPABASE_SERVICE_ROLE_KEY: Optional[str] = None

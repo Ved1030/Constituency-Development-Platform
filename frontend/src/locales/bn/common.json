@@ -151,7 +151,20 @@
     "communityDriven": "কমিউনিটি-চালিত",
     "citizensServed": "নাগরিক সেবাপ্রাপ্ত",
     "villages": "গ্রাম",
-    "aiAccuracy": "AI নির্ভুলতা"
+    "aiAccuracy": "AI নির্ভুলতা",
+    "backToLogin": "Back to Login",
+    "checkEmailConfirmation": "Check your email for confirmation",
+    "checkYourEmail": "Check Your Email",
+    "enterEmail": "Please enter your email",
+    "fillRequiredFields": "Please fill in all required fields",
+    "forgotPasswordError": "Failed to send reset link. Please try again.",
+    "forgotPasswordSubtitle": "Enter your email and we'll send you a link to reset your password.",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "resetLinkSent": "We've sent a password reset link to",
+    "sendResetLink": "Send Reset Link",
+    "sending": "Sending...",
+    "signupError": "Failed to create account. Please try again."
   },
   "landing": {
     "aiPoweredTag": "AI-চালিত শাসন প্ল্যাটফর্ম",
@@ -232,7 +245,42 @@
     "previewAIPredictions": "AI পূর্বাভাস",
     "previewForecastNeeds": "উন্নয়নের চাহিদা পূর্বাভাস দিন",
     "previewCitizenFeedback": "নাগরিক প্রতিক্রিয়া",
-    "previewNLPInsights": "NLP-চালিত অন্তর্দৃষ্টি"
+    "previewNLPInsights": "NLP-চালিত অন্তর্দৃষ্টি",
+    "feature1Title": "AI Complaint Intelligence",
+    "feature1Description": "Automatically clusters and prioritizes complaints using AI to help MPs address the most critical issues first.",
+    "feature2Title": "Digital Twin",
+    "feature2Description": "Visualize constituency issues on an interactive GIS map with real-time data overlays and spatial analytics.",
+    "feature3Title": "Need vs Spend",
+    "feature3Description": "Compare citizen demand against government expenditure. AI identifies gaps and recommends reallocations.",
+    "feature4Title": "Social Intelligence",
+    "feature4Description": "Monitor real-time discussions across social platforms to understand citizen sentiment and emerging issues.",
+    "feature5Title": "AI Recommendations",
+    "feature5Description": "Receive evidence-based policy recommendations powered by machine learning and constituency data analysis.",
+    "feature6Title": "Multilingual Governance",
+    "feature6Description": "Support all major Indian languages with AI-powered translation, enabling inclusive citizen participation.",
+    "howItWorksTag": "How It Works",
+    "howItWorksTitle": "Simple Steps to Smarter Governance",
+    "howItWorksSubtitle": "From citizen feedback to AI-powered decisions in four easy steps.",
+    "step1Title": "Citizen Reports",
+    "step1Description": "Citizens submit complaints and feedback through voice, text, or photo in any Indian language.",
+    "step2Title": "AI Analysis",
+    "step2Description": "Our AI engine classifies, prioritizes, and routes issues to the appropriate departments instantly.",
+    "step3Title": "MP Dashboard",
+    "step3Description": "MPs access real-time dashboards with AI insights, priority rankings, and impact simulations.",
+    "step4Title": "Action & Resolution",
+    "step4Description": "Track development projects, measure impact, and close the feedback loop with citizens.",
+    "step5Title": "Community Voting",
+    "step5Description": "Citizens vote on development proposals, ensuring democratic priority setting at the grassroots.",
+    "step6Title": "Predictive Analytics",
+    "step6Description": "AI forecasts future needs and identifies emerging issues before they become critical problems.",
+    "ctaTitle": "Ready to Transform Your Constituency?",
+    "ctaSubtitle": "Join thousands of citizens and representatives using AI-powered governance.",
+    "ctaBenefit1": "AI-powered complaint classification",
+    "ctaBenefit2": "Real-time constituency analytics",
+    "ctaBenefit3": "Multilingual citizen engagement",
+    "ctaBenefit4": "Predictive development insights",
+    "ctaStartTrial": "Get Started Free",
+    "ctaScheduleDemo": "Schedule a Demo"
   },
   "footer": {
     "description": "AI এবং রিয়েল-টাইম বিশ্লেষণের শক্তির মাধ্যমে নাগরিকদের কণ্ঠস্বরকে ডেটা-চালিত উন্নয়ন সিদ্ধান্তে রূপান্তরিত করছি।",
@@ -349,7 +397,17 @@
       "previous": "পূর্ববর্তী",
       "next": "পরবর্তী",
       "submitting": "জমা হচ্ছে...",
-      "submitComplaint": "অভিযোগ জমা দিন"
+      "submitComplaint": "অভিযোগ জমা দিন",
+      "selected": "Selected",
+      "status": "Status",
+      "yes": "Yes",
+      "no": "No",
+      "verified": "Verified",
+      "complaintRegistered": "Complaint registered successfully",
+      "yourIdIs": "Your complaint ID is",
+      "redirecting": "Redirecting to complaints...",
+      "enterAddressFallback": "Enter an address or landmark",
+      "notCaptured": "Not captured"
     },
     "voting": {
       "communityVoting": "কমিউনিটি ভোটিং",
@@ -418,7 +476,13 @@
       "topContributor": "শীর্ষ অবদানকারী",
       "topContributorDesc": "৫০০+ কমিউনিটি পয়েন্ট",
       "superVoter": "সুপার ভোটার",
-      "superVoterDesc": "২০+ প্রস্তাবে ভোট দিয়েছেন"
+      "superVoterDesc": "২০+ প্রস্তাবে ভোট দিয়েছেন",
+      "signOut": "Sign Out",
+      "resolutionRate": "Resolution Rate",
+      "resolved": "Resolved",
+      "pushEmail": "Push & Email",
+      "sms": "SMS",
+      "off": "Off"
     },
     "tracking": {
       "trackYourComplaints": "আপনার অভিযোগ ট্র্যাক করুন",
@@ -433,7 +497,8 @@
       "aiStatus": "AI অবস্থা",
       "analyzing": "বিশ্লেষণ করা হচ্ছে...",
       "verifiedClean": "যাচাইকৃত ও পরিষ্কার",
-      "complaintTimeline": "অভিযোগ সময়রেখা"
+      "complaintTimeline": "অভিযোগ সময়রেখা",
+      "noComplaintsFound": "No complaints found"
     },
     "projects": {
       "developmentProjects": "উন্নয়ন প্রকল্প",
@@ -447,7 +512,7 @@
     },
     "nearby": {
       "nearbyIssues": "কাছাকাছি সমস্যা",
-      "openIssuesNearYou": "আপনার কাছে {count}টি খোলা সমস্যা \u00b7 {critical}টি জরুরি",
+      "openIssuesNearYou": "আপনার কাছে {count}টি খোলা সমস্যা · {critical}টি জরুরি",
       "searchNearby": "কাছাকাছি সমস্যা অনুসন্ধান করুন...",
       "noIssuesFound": "কোনো সমস্যা পাওয়া যায়নি",
       "tryAdjustingFilters": "আপনার ফিল্টার সামঞ্জস্য করে দেখুন"
@@ -547,7 +612,7 @@
       "online": "অনলাইন",
       "poweredBy": "নির্বাচনী এলাকার বুদ্ধিমত্তা ইঞ্জিন দ্বারা চালিত",
       "whatCanIHelp": "আমি আপনাকে কীভাবে সাহায্য করতে পারি?",
-      "askAnything": "আপনার নির্বাচনী এলাকা সম্পর্কে যেকোনো কিছু জিজ্ঞাসা করুন \u2014 অবকাঠামো, বাজেট, অভিযোগ, প্রকল্প বা নীতি।",
+      "askAnything": "আপনার নির্বাচনী এলাকা সম্পর্কে যেকোনো কিছু জিজ্ঞাসা করুন — অবকাঠামো, বাজেট, অভিযোগ, প্রকল্প বা নীতি।",
       "analyzingData": "নির্বাচনী এলাকার তথ্য বিশ্লেষণ করা হচ্ছে...",
       "sources": "উৎস",
       "constituencyContext": "নির্বাচনী এলাকার প্রসঙ্গ",
@@ -691,7 +756,7 @@
       "complaints": "অভিযোগ",
       "avgDays": "গড় দিন",
       "resolutionTime": "সমাধান সময়",
-      "budgetLakh": "বাজেট: \u20b9{value} লাখ",
+      "budgetLakh": "বাজেট: ₹{value} লাখ",
       "resolved": "{count}টি সমাধান হয়েছে",
       "aiRisk": "AI ঝুঁকি: {level}",
       "satisfaction": "সন্তুষ্টি: {value}%",
@@ -759,7 +824,7 @@
       "high": "উচ্চ",
       "medium": "মাঝারি",
       "govtOfTN": "তামিলনাড়ু সরকার",
-      "constituencyDevDivision": "নির্বাচনী উন্নয়ন বিভাগ \u00b7 উত্তর চেন্নাই"
+      "constituencyDevDivision": "নির্বাচনী উন্নয়ন বিভাগ · উত্তর চেন্নাই"
     },
     "settings": {
       "settingsReports": "সেটিংস ও প্রতিবেদন",

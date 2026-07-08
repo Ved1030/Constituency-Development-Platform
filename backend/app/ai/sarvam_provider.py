@@ -116,7 +116,7 @@ class SarvamProvider(AIProvider):
             raise
 
         latency = (time.perf_counter() - t0) * 1000
-        logger.debug("Sarvam %s | %.0fms", path, latency)
+        logger.info("Sarvam %s | %.0fms", path, latency)
         return data
 
     async def _post_multipart(
@@ -194,7 +194,7 @@ class SarvamProvider(AIProvider):
             raise
 
         latency = (time.perf_counter() - t0) * 1000
-        logger.debug("Sarvam multipart %s | %.0fms", path, latency)
+        logger.info("Sarvam multipart %s | %.0fms", path, latency)
         return result
 
     # -- Text generation (chat completions) ---------------------------------

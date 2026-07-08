@@ -26,15 +26,19 @@ from contextlib import asynccontextmanager
 from typing import Any, Generator, Literal
 
 from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core.config import settings
 from app.core.exceptions import CDPException
 from app.core.logger import setup_logging
 from app.database.base import Base
-from app.database.session import engine, async_session_factory
+from app.database.session import engine
 from app.middleware.logging_middleware import LoggingMiddleware
+from app.middleware.security_headers import SecurityHeadersMiddleware
+from app.middleware.rate_limiter import RateLimiterMiddleware
 from app.api import api_router
 
 # Import models so they register with Base.metadata
@@ -133,10 +137,20 @@ app = FastAPI(
 # an exception in an inner middleware prevents CORS headers from being set.
 # ---------------------------------------------------------------------------
 
-allow_origins = [
-    "https://constituency-development-platform.vercel.app",
-    "http://localhost:3000",
-]
+allow_origins = list(settings.BACKEND_CORS_ORIGINS)
+
+# Always allow production origin
+production_origin = "https://constituency-development-platform.vercel.app"
+if production_origin not in allow_origins:
+    allow_origins.append(production_origin)
+
+# Allow localhost for development if not in production
+if settings.DEBUG:
+    dev_origins = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    for o in dev_origins:
+        if o not in allow_origins:
+            allow_origins.append(o)
+
 if settings.FRONTEND_URL and settings.FRONTEND_URL not in allow_origins:
     allow_origins.append(settings.FRONTEND_URL)
 
@@ -150,6 +164,11 @@ app.add_middleware(
 )
 
 app.add_middleware(LoggingMiddleware)
+app.add_middleware(SecurityHeadersMiddleware)
+
+# Rate limiter (disabled in debug/dev mode to avoid friction during development)
+if not settings.DEBUG:
+    app.add_middleware(RateLimiterMiddleware, max_requests=200, window_seconds=60)
 
 # ---------------------------------------------------------------------------
 # Global exception handlers
@@ -175,22 +194,48 @@ async def cdp_exception_handler(request: Request, exc: CDPException):
     )
 
 
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    """Catch-all for unhandled exceptions – never crash."""
-    logger.error(
-        "Unhandled exception: %s | path=%s\n%s",
-        str(exc),
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """Handle Pydantic/FastAPI validation errors (422)."""
+    errors = exc.errors()
+    detail = [
+        {"field": e.get("loc", ["unknown"])[-1], "message": e.get("msg", "Invalid value"), "type": e.get("type", "")}
+        for e in errors
+    ]
+    logger.warning(
+        "Validation error: %s | path=%s",
+        detail,
         request.url.path,
-        traceback.format_exc(),
-        extra={"endpoint": str(request.url.path), "method": request.method, "status_code": 500},
+        extra={"endpoint": str(request.url.path), "method": request.method, "status_code": 422},
     )
     return JSONResponse(
-        status_code=500,
+        status_code=422,
         content={
             "error": True,
-            "message": "An internal server error occurred",
-            "detail": {},
+            "message": "Validation failed",
+            "detail": detail,
+        },
+    )
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    """Handle all HTTP exceptions — always return JSON."""
+    status_code = exc.status_code
+    detail = exc.detail if isinstance(exc.detail, str) else "HTTP error occurred"
+    logger.warning(
+        "HTTP %d: %s | path=%s",
+        status_code,
+        detail,
+        request.url.path,
+        extra={"endpoint": str(request.url.path), "method": request.method, "status_code": status_code},
+    )
+    return JSONResponse(
+        status_code=status_code,
+        content={
+            "error": True,
+            "message": detail,
+            "detail": {"path": request.url.path, "method": request.method},
         },
     )
 

@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useCallback, useRef, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Loader2 } from "lucide-react";
 import type L from "leaflet";
 import type { DigitalTwinComplaint } from "@/types/digital-twin";
 import { fetchDigitalTwin } from "@/services/api/digital-twin";
-import ConstituencyMap from "@/components/map/ConstituencyMap";
+
+const ConstituencyMap = dynamic(() => import("@/components/map/ConstituencyMap"), { ssr: false });
 
 interface DashboardMapPreviewProps {
   constituency?: string;

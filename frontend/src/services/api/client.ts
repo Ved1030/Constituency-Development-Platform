@@ -5,17 +5,16 @@
  * The base URL comes from NEXT_PUBLIC_API_URL — never hardcode a URL.
  */
 
+const REQUEST_TIMEOUT = 30000;
+
 function getBaseUrl(): string {
   const envUrl = process.env.NEXT_PUBLIC_API_URL;
   if (!envUrl) {
     if (typeof window === "undefined") {
-      // Server-side: safe to throw during build
       throw new Error(
         "NEXT_PUBLIC_API_URL is not set. Add it to .env.local or your hosting provider's environment variables."
       );
     }
-    // Client-side fallback for local dev only
-    console.warn("NEXT_PUBLIC_API_URL not set — falling back to relative /api/v1");
     return "/api/v1";
   }
   return `${envUrl.replace(/\/+$/, "")}/api/v1`;
@@ -37,27 +36,60 @@ export class APIError extends Error {
   }
 }
 
-async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+async function request<T>(
+  path: string,
+  options: RequestInit = {},
+  retries = 1
+): Promise<T> {
   const url = `${API_BASE}${path}`;
-  const res = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-    ...options,
-  });
 
-  const data = await res.json();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
 
-  if (!res.ok) {
-    throw new APIError(
-      data.message || `Request failed: ${res.status}`,
-      res.status,
-      data.detail
-    );
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+      signal: controller.signal,
+      ...options,
+    });
+
+    clearTimeout(timeoutId);
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new APIError(
+        data.message || `Request failed: ${res.status}`,
+        res.status,
+        data.detail
+      );
+    }
+
+    return data as T;
+  } catch (err: unknown) {
+    clearTimeout(timeoutId);
+
+    if (err instanceof APIError) throw err;
+
+    if (retries > 0) {
+      return request<T>(path, options, retries - 1);
+    }
+
+    if (err instanceof DOMException && err.name === "AbortError") {
+      throw new APIError(
+        "Request timed out. Please try again.",
+        408,
+        { timeout: REQUEST_TIMEOUT }
+      );
+    }
+
+    const message =
+      err instanceof Error ? err.message : "An unexpected network error occurred";
+    throw new APIError(message, 0, { originalError: message });
   }
-
-  return data as T;
 }
 
 export async function apiGet<T>(

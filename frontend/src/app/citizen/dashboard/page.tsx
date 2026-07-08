@@ -15,12 +15,15 @@ import {
   ChevronRight,
   Star,
   ArrowUpRight,
+  AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/use-translation";
 import { useAuth } from "@/context/AuthContext";
 import { fetchMyDashboardStats, fetchMyComplaints } from "@/services/supabase/complaints";
+import { CardSkeleton, ListSkeleton } from "@/components/common/LoadingSkeleton";
+import { APIErrorDisplay } from "@/components/common/APIErrorDisplay";
 
 const statusColors: Record<string, string> = {
   pending: "bg-gray-100 text-gray-700",
@@ -48,11 +51,13 @@ export default function CitizenDashboardPage() {
   } | null>(null);
   const [recentComplaints, setRecentComplaints] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Load data from Supabase on mount
   useEffect(() => {
     if (!user) return;
     setLoading(true);
+    setError(null);
     Promise.all([
       fetchMyDashboardStats(user.id),
       fetchMyComplaints(user.id),
@@ -70,7 +75,9 @@ export default function CitizenDashboardPage() {
           createdAt: c.created_at,
         })));
       })
-      .catch(() => {})
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Failed to load dashboard data");
+      })
       .finally(() => setLoading(false));
   }, [user]);
 
@@ -158,23 +165,29 @@ export default function CitizenDashboardPage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {kpiCards.map((kpi, i) => (
-          <motion.div
-            key={kpi.label}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.08 }}
-            className="rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
-          >
-            <div className={cn("flex size-11 items-center justify-center rounded-xl", kpi.bg)}>
-              <kpi.icon className={cn("size-5", kpi.color)} />
-            </div>
-            <div className="mt-3">
-              <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
-              <div className="mt-0.5 text-sm text-muted-foreground">{kpi.label}</div>
-            </div>
-          </motion.div>
-        ))}
+        {loading ? (
+          <div className="col-span-full grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <CardSkeleton count={4} />
+          </div>
+        ) : (
+          kpiCards.map((kpi, i) => (
+            <motion.div
+              key={kpi.label}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              className="rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
+            >
+              <div className={cn("flex size-11 items-center justify-center rounded-xl", kpi.bg)}>
+                <kpi.icon className={cn("size-5", kpi.color)} />
+              </div>
+              <div className="mt-3">
+                <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+                <div className="mt-0.5 text-sm text-muted-foreground">{kpi.label}</div>
+              </div>
+            </motion.div>
+          ))
+        )}
       </div>
 
       {/* Quick Actions */}
@@ -222,7 +235,37 @@ export default function CitizenDashboardPage() {
               </Link>
             </div>
             {loading ? (
-              <div className="py-8 text-center text-sm text-muted-foreground">Loading...</div>
+              <ListSkeleton items={4} />
+            ) : error ? (
+              <APIErrorDisplay
+                error={new Error(error)}
+                onRetry={() => {
+                  if (!user) return;
+                  setLoading(true);
+                  setError(null);
+                  Promise.all([
+                    fetchMyDashboardStats(user.id),
+                    fetchMyComplaints(user.id),
+                  ])
+                    .then(([s, complaints]) => {
+                      setStats(s);
+                      setRecentComplaints(complaints.slice(0, 5).map((c: any) => ({
+                        id: c.complaint_uid,
+                        title: c.title,
+                        status: c.status,
+                        severity: c.severity,
+                        location: c.village || c.nearest_landmark || "Unknown",
+                        upvotes: 0,
+                        comments: 0,
+                        createdAt: c.created_at,
+                      })));
+                    })
+                    .catch((err) => {
+                      setError(err instanceof Error ? err.message : "Failed to load dashboard data");
+                    })
+                    .finally(() => setLoading(false));
+                }}
+              />
             ) : recentComplaints.length === 0 ? (
               <div className="py-8 text-center text-sm text-muted-foreground">{t("citizen.complaints.noComplaintsYet")}</div>
             ) : (

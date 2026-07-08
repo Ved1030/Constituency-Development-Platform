@@ -151,7 +151,20 @@
     "communityDriven": "समुदाय संचालित",
     "citizensServed": "नागरिक सेवा किए",
     "villages": "गांव",
-    "aiAccuracy": "AI सटिकता"
+    "aiAccuracy": "AI सटिकता",
+    "backToLogin": "Back to Login",
+    "checkEmailConfirmation": "Check your email for confirmation",
+    "checkYourEmail": "Check Your Email",
+    "enterEmail": "Please enter your email",
+    "fillRequiredFields": "Please fill in all required fields",
+    "forgotPasswordError": "Failed to send reset link. Please try again.",
+    "forgotPasswordSubtitle": "Enter your email and we'll send you a link to reset your password.",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "resetLinkSent": "We've sent a password reset link to",
+    "sendResetLink": "Send Reset Link",
+    "sending": "Sending...",
+    "signupError": "Failed to create account. Please try again."
   },
   "landing": {
     "aiPoweredTag": "AI-संचालित शासन मंच",
@@ -232,7 +245,42 @@
     "previewAIPredictions": "AI भविष्यवाणियां",
     "previewForecastNeeds": "विकास आवश्यकताओं की भविष्यवाणी",
     "previewCitizenFeedback": "नागरिक प्रतिक्रिया",
-    "previewNLPInsights": "NLP-संचालित अंतर्दृष्टि"
+    "previewNLPInsights": "NLP-संचालित अंतर्दृष्टि",
+    "feature1Title": "AI Complaint Intelligence",
+    "feature1Description": "Automatically clusters and prioritizes complaints using AI to help MPs address the most critical issues first.",
+    "feature2Title": "Digital Twin",
+    "feature2Description": "Visualize constituency issues on an interactive GIS map with real-time data overlays and spatial analytics.",
+    "feature3Title": "Need vs Spend",
+    "feature3Description": "Compare citizen demand against government expenditure. AI identifies gaps and recommends reallocations.",
+    "feature4Title": "Social Intelligence",
+    "feature4Description": "Monitor real-time discussions across social platforms to understand citizen sentiment and emerging issues.",
+    "feature5Title": "AI Recommendations",
+    "feature5Description": "Receive evidence-based policy recommendations powered by machine learning and constituency data analysis.",
+    "feature6Title": "Multilingual Governance",
+    "feature6Description": "Support all major Indian languages with AI-powered translation, enabling inclusive citizen participation.",
+    "howItWorksTag": "How It Works",
+    "howItWorksTitle": "Simple Steps to Smarter Governance",
+    "howItWorksSubtitle": "From citizen feedback to AI-powered decisions in four easy steps.",
+    "step1Title": "Citizen Reports",
+    "step1Description": "Citizens submit complaints and feedback through voice, text, or photo in any Indian language.",
+    "step2Title": "AI Analysis",
+    "step2Description": "Our AI engine classifies, prioritizes, and routes issues to the appropriate departments instantly.",
+    "step3Title": "MP Dashboard",
+    "step3Description": "MPs access real-time dashboards with AI insights, priority rankings, and impact simulations.",
+    "step4Title": "Action & Resolution",
+    "step4Description": "Track development projects, measure impact, and close the feedback loop with citizens.",
+    "step5Title": "Community Voting",
+    "step5Description": "Citizens vote on development proposals, ensuring democratic priority setting at the grassroots.",
+    "step6Title": "Predictive Analytics",
+    "step6Description": "AI forecasts future needs and identifies emerging issues before they become critical problems.",
+    "ctaTitle": "Ready to Transform Your Constituency?",
+    "ctaSubtitle": "Join thousands of citizens and representatives using AI-powered governance.",
+    "ctaBenefit1": "AI-powered complaint classification",
+    "ctaBenefit2": "Real-time constituency analytics",
+    "ctaBenefit3": "Multilingual citizen engagement",
+    "ctaBenefit4": "Predictive development insights",
+    "ctaStartTrial": "Get Started Free",
+    "ctaScheduleDemo": "Schedule a Demo"
   },
   "footer": {
     "description": "नागरिकों की आवाजें को AI और रियल-टाइम विश्लेषण की शक्ति से डेटा-ड्रिवेन विकास में बदलना।",
@@ -349,7 +397,17 @@
       "previous": "पहला",
       "next": "अगला",
       "submitting": "जमा हो रहा है...",
-      "submitComplaint": "शिकायत जमा करें"
+      "submitComplaint": "शिकायत जमा करें",
+      "selected": "Selected",
+      "status": "Status",
+      "yes": "Yes",
+      "no": "No",
+      "verified": "Verified",
+      "complaintRegistered": "Complaint registered successfully",
+      "yourIdIs": "Your complaint ID is",
+      "redirecting": "Redirecting to complaints...",
+      "enterAddressFallback": "Enter an address or landmark",
+      "notCaptured": "Not captured"
     },
     "voting": {
       "communityVoting": "समुदाय मतदान",
@@ -418,7 +476,13 @@
       "topContributor": "शीर्ष योगदाता",
       "topContributorDesc": "500+ समुदाय अंक",
       "superVoter": "सुपर मतदानदाता",
-      "superVoterDesc": "20+ प्रस्तावों पर मतदान डाला"
+      "superVoterDesc": "20+ प्रस्तावों पर मतदान डाला",
+      "signOut": "Sign Out",
+      "resolutionRate": "Resolution Rate",
+      "resolved": "Resolved",
+      "pushEmail": "Push & Email",
+      "sms": "SMS",
+      "off": "Off"
     },
     "tracking": {
       "trackYourComplaints": "अपनी शिकायतें ट्रैक करें",
@@ -433,7 +497,8 @@
       "aiStatus": "AI स्थिति",
       "analyzing": "विश्लेषण हो रहा है...",
       "verifiedClean": "सत्यापित और स्वच्छ",
-      "complaintTimeline": "शिकायत समयरेखा"
+      "complaintTimeline": "शिकायत समयरेखा",
+      "noComplaintsFound": "No complaints found"
     },
     "projects": {
       "developmentProjects": "विकास परियोजना",
@@ -447,7 +512,7 @@
     },
     "nearby": {
       "nearbyIssues": "पास के समस्या",
-      "openIssuesNearYou": "{count} आपके पास खुले समस्या \u00b7 {critical} गंभीर",
+      "openIssuesNearYou": "{count} आपके पास खुले समस्या · {critical} गंभीर",
       "searchNearby": "पास के समस्या खोजें...",
       "noIssuesFound": "कोई समस्या नहीं मिली",
       "tryAdjustingFilters": "अपने फिल्टर समायोजित करें"
@@ -759,7 +824,7 @@
       "high": "उच्च",
       "medium": "मध्यम",
       "govtOfTN": "तमिलनाडु सरकार",
-      "constituencyDevDivision": "निर्वाचन क्षेत्र विकास प्रभाग \u00b7 उत्तर चेन्नै"
+      "constituencyDevDivision": "निर्वाचन क्षेत्र विकास प्रभाग · उत्तर चेन्नै"
     },
     "settings": {
       "settingsReports": "सेटिंग्स और रिपोर्ट",

@@ -396,6 +396,7 @@ export default function ConstituencyMap({
     if (!container) return;
 
     let cancelled = false;
+    const mounted = { current: true };
 
     const tryInit = () => {
       if (cancelled || mapRef.current) return;
@@ -424,11 +425,12 @@ export default function ConstituencyMap({
       mapRef.current = map;
 
       map.on("zoomend", () => {
+        if (!mounted.current) return;
         setCurrentZoom(map.getZoom());
       });
 
       setTimeout(() => {
-        if (cancelled) return;
+        if (cancelled || !mounted.current) return;
         map.invalidateSize();
         loadGeoJson(map);
         updateMarkers(map);
@@ -439,9 +441,13 @@ export default function ConstituencyMap({
     const timer = setTimeout(tryInit, 100);
     return () => {
       cancelled = true;
+      mounted.current = false;
       clearTimeout(timer);
-      mapRef.current?.remove();
-      mapRef.current = null;
+      if (mapRef.current) {
+        mapRef.current.off();
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

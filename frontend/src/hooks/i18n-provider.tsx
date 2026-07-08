@@ -65,7 +65,9 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       if (value === undefined) {
         value = getNestedValue(translations["en"] as NestedMessages, key);
       }
-      if (value === undefined) return key;
+      if (value === undefined) {
+        return key;
+      }
       if (params) {
         Object.entries(params).forEach(([k, v]) => {
           value = value!.replace(new RegExp(`\\{${k}\\}`, "g"), String(v));
