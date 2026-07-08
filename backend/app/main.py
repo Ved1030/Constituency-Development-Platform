@@ -54,8 +54,6 @@ from app.models import (  # noqa: F401
 
 # ---------------------------------------------------------------------------
 # Fix: typing-inspection 0.4.2 does not recursively flatten nested Literal types
-# (e.g. Literal[Literal['a','b'], Literal['c','d']]). This breaks pydantic's
-# OpenAPI schema generation via CoreSchemaOrFieldType.
 # ---------------------------------------------------------------------------
 try:
     import typing_inspection.introspection as _tii
@@ -65,7 +63,6 @@ try:
     _original_get_literal_values = _tii.get_literal_values
 
     def _is_nested_literal(value: Any) -> bool:
-        """Check if a value is a nested Literal (Literal inside Literal)."""
         return hasattr(value, "__origin__") and getattr(value, "__origin__", None) is Literal
 
     def _patched_get_literal_values(
@@ -92,7 +89,7 @@ try:
     _tii.get_literal_values = _patched_get_literal_values
     _pjs.get_literal_values = _patched_get_literal_values
 except Exception:
-    pass  # Non-critical fix, skip if typing-inspection version differs
+    pass
 
 # ---------------------------------------------------------------------------
 # Initialize logging
@@ -108,12 +105,10 @@ logger = logging.getLogger("app")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup / shutdown lifecycle."""
-    # Create all tables via ORM metadata (PostgreSQL compatible)
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database tables created/verified")
     yield
-    # Shutdown
     await engine.dispose()
 
 
@@ -131,9 +126,12 @@ app = FastAPI(
 )
 
 # ---------------------------------------------------------------------------
-# Middleware (order matters: last added = first executed)
+# Middleware — CORSMiddleware MUST be first (outermost layer).
+#
+# In Starlette, add_middleware(A) then add_middleware(B) creates A(B(app)).
+# The outermost layer runs first on every request. If CORS is not outermost,
+# an exception in an inner middleware prevents CORS headers from being set.
 # ---------------------------------------------------------------------------
-app.add_middleware(LoggingMiddleware)
 
 allow_origins = [
     "https://constituency-development-platform.vercel.app",
@@ -150,6 +148,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.add_middleware(LoggingMiddleware)
 
 # ---------------------------------------------------------------------------
 # Global exception handlers
