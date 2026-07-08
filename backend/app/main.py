@@ -57,42 +57,42 @@ from app.models import (  # noqa: F401
 # (e.g. Literal[Literal['a','b'], Literal['c','d']]). This breaks pydantic's
 # OpenAPI schema generation via CoreSchemaOrFieldType.
 # ---------------------------------------------------------------------------
-import typing_inspection.introspection as _tii
-import pydantic.json_schema as _pjs
-from pydantic_core import core_schema
+try:
+    import typing_inspection.introspection as _tii
+    import pydantic.json_schema as _pjs
+    from pydantic_core import core_schema  # noqa: F401
 
-_original_get_literal_values = _tii.get_literal_values
+    _original_get_literal_values = _tii.get_literal_values
 
+    def _is_nested_literal(value: Any) -> bool:
+        """Check if a value is a nested Literal (Literal inside Literal)."""
+        return hasattr(value, "__origin__") and getattr(value, "__origin__", None) is Literal
 
-def _is_nested_literal(value: Any) -> bool:
-    """Check if a value is a nested Literal (Literal inside Literal)."""
-    return hasattr(value, "__origin__") and getattr(value, "__origin__", None) is Literal
+    def _patched_get_literal_values(
+        annotation: Any,
+        /,
+        *,
+        type_check: bool = False,
+        unpack_type_aliases: str = "eager",
+    ) -> Generator[Any, None, None]:
+        for value in _original_get_literal_values(
+            annotation,
+            type_check=type_check,
+            unpack_type_aliases=unpack_type_aliases,
+        ):
+            if _is_nested_literal(value):
+                yield from _patched_get_literal_values(
+                    value,
+                    type_check=type_check,
+                    unpack_type_aliases=unpack_type_aliases,
+                )
+            else:
+                yield value
 
-
-def _patched_get_literal_values(
-    annotation: Any,
-    /,
-    *,
-    type_check: bool = False,
-    unpack_type_aliases: str = "eager",
-) -> Generator[Any, None, None]:
-    for value in _original_get_literal_values(
-        annotation,
-        type_check=type_check,
-        unpack_type_aliases=unpack_type_aliases,
-    ):
-        if _is_nested_literal(value):
-            yield from _patched_get_literal_values(
-                value,
-                type_check=type_check,
-                unpack_type_aliases=unpack_type_aliases,
-            )
-        else:
-            yield value
-
-
-_tii.get_literal_values = _patched_get_literal_values
-_pjs.get_literal_values = _patched_get_literal_values
+    _tii.get_literal_values = _patched_get_literal_values
+    _pjs.get_literal_values = _patched_get_literal_values
+except Exception:
+    pass  # Non-critical fix, skip if typing-inspection version differs
 
 # ---------------------------------------------------------------------------
 # Initialize logging
@@ -121,10 +121,12 @@ async def lifespan(app: FastAPI):
 # Create FastAPI app
 # ---------------------------------------------------------------------------
 app = FastAPI(
-    title=settings.PROJECT_NAME,
+    title="Constituency Development Platform API",
     description="Constituency Development Platform API – scalable AI SaaS backend",
     version=settings.VERSION,
-    openapi_url=f"{settings.API_V1_PREFIX}/openapi.json",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
     lifespan=lifespan,
 )
 
@@ -143,6 +145,7 @@ if settings.FRONTEND_URL and settings.FRONTEND_URL not in allow_origins:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allow_origins,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
