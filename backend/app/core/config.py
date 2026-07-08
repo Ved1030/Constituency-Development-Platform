@@ -20,8 +20,11 @@ class Settings(BaseSettings):
     # -- CORS ---------------------------------------------------------------
     BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000"]
 
-    # -- Database -----------------------------------------------------------
-    DATABASE_URL: str = "sqlite+aiosqlite:///./cdp.db"
+    # -- Database (PostgreSQL via Supabase) ---------------------------------
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/cdp"
+    SUPABASE_URL: Optional[str] = None
+    SUPABASE_ANON_KEY: Optional[str] = None
+    SUPABASE_SERVICE_ROLE_KEY: Optional[str] = None
     DATABASE_ECHO: bool = False
 
     # -- AI Provider --------------------------------------------------------

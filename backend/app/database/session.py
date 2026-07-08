@@ -2,6 +2,7 @@
 Async SQLAlchemy database session and engine setup.
 
 Provides get_db() dependency for FastAPI endpoints.
+Uses asyncpg for PostgreSQL (Supabase) with connection pooling.
 """
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -12,6 +13,9 @@ engine = create_async_engine(
     settings.DATABASE_URL,
     echo=settings.DATABASE_ECHO,
     future=True,
+    pool_pre_ping=True,
+    pool_size=20,
+    max_overflow=10,
 )
 
 async_session_factory = async_sessionmaker(

@@ -1,19 +1,19 @@
 export type UserRole = "citizen" | "mp";
 
-export interface User {
+export interface Profile {
   id: string;
-  name: string;
+  full_name: string;
   email: string;
-  password: string;
-  role: UserRole;
+  phone: string;
   constituency: string;
-  state: string;
-  district: string;
-  profilePhoto: string;
+  role: UserRole;
+  avatar_url: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface AuthState {
-  user: User | null;
+  user: Profile | null;
   isAuthenticated: boolean;
   isLoading: boolean;
 }
@@ -23,9 +23,10 @@ export interface LoginCredentials {
   password: string;
 }
 
-export interface AuthService {
-  login(credentials: LoginCredentials): Promise<User>;
-  logout(): void;
-  getCurrentUser(): User | null;
-  isAuthenticated(): boolean;
+export interface SignupData {
+  email: string;
+  password: string;
+  full_name: string;
+  phone?: string;
+  constituency?: string;
 }

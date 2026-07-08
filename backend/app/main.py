@@ -51,7 +51,6 @@ from app.models import (  # noqa: F401
     SchoolInfrastructure,
     TransportData,
 )
-from app.services.seed_service import ensure_column_exists
 
 # ---------------------------------------------------------------------------
 # Fix: typing-inspection 0.4.2 does not recursively flatten nested Literal types
@@ -109,13 +108,10 @@ logger = logging.getLogger("app")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup / shutdown lifecycle."""
-    # Create all tables
+    # Create all tables via ORM metadata (PostgreSQL compatible)
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database tables created/verified")
-    # Ensure constituency_name column exists (SQLite-safe ALTER TABLE)
-    async with async_session_factory() as db:
-        await ensure_column_exists(db)
     yield
     # Shutdown
     await engine.dispose()

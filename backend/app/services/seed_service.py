@@ -121,15 +121,6 @@ def _generate_gps(constituency: Dict) -> tuple:
     return round(lat, 6), round(lng, 6)
 
 
-async def ensure_column_exists(db: AsyncSession):
-    """Add constituency_name column if not exists (SQLite-safe)."""
-    try:
-        await db.execute(text("ALTER TABLE complaints ADD COLUMN constituency_name VARCHAR(200)"))
-        await db.commit()
-    except Exception:
-        await db.rollback()
-
-
 async def count_existing(db: AsyncSession, constituency: str) -> int:
     result = await db.execute(
         select(func.count(Complaint.id)).where(Complaint.constituency_name == constituency)
@@ -139,8 +130,6 @@ async def count_existing(db: AsyncSession, constituency: str) -> int:
 
 async def seed_constituency(db: AsyncSession, constituency_name: str, min_count: int = 25, max_count: int = 40) -> Dict:
     """Seed demo complaints for a constituency. Returns summary."""
-    await ensure_column_exists(db)
-
     existing = await count_existing(db, constituency_name)
     if existing >= min_count:
         return {"constituency": constituency_name, "existing": existing, "created": 0, "message": "Sufficient data already exists"}

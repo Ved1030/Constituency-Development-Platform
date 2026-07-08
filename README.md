@@ -23,6 +23,11 @@ AI-Powered Decision Support System for MPs.
 
 ## Getting Started
 
+### Prerequisites
+- Node.js 20+
+- Python 3.13+
+- A Supabase project (free tier works)
+
 ### Frontend
 ```bash
 cd frontend
@@ -42,6 +47,68 @@ uvicorn app.main:app --reload   # → http://localhost:8000
 ### API Docs
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
+
+## Authentication Setup
+
+This app uses **Supabase Auth** for authentication. No mock auth remains.
+
+### 1. Supabase Project
+Create a free project at [supabase.com](https://supabase.com).
+
+### 2. Database Migration
+Open your Supabase project's **SQL Editor** and run the full migration at:
+```
+docs/supabase-migration.sql
+```
+This creates:
+- `profiles` table (linked to `auth.users`)
+- Auto-create profile on signup (trigger)
+- `updated_at` trigger
+- Row-Level Security (RLS) policies
+- Indexes on email, role, and constituency
+- MP seed data (safe — only updates if profiles exist)
+
+### 3. Environment Variables
+
+**Frontend** (`frontend/.env.local`):
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+
+**Backend** (`backend/.env`):
+```env
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+DATABASE_URL=postgresql+asyncpg://postgres:password@db.your-project.supabase.co:5432/postgres
+```
+
+### 4. Disable Email Confirmation (Recommended)
+In your Supabase dashboard:
+1. Go to **Authentication → Settings**
+2. Turn **OFF** "Confirm email"
+3. Click **Save**
+
+This allows users to sign in immediately after signup without email verification.
+
+### 5. Seed MP Accounts
+After the first user with an MP email signs up via the app, run this in Supabase SQL Editor to promote them:
+```sql
+UPDATE public.profiles SET role = 'mp'
+WHERE email IN ('mp.northchennai@gov.in', 'mp.mumbai@gov.in', 'mp.surat@gov.in');
+```
+Or use the migration script's built-in safe version (already handles existence checks).
+
+### Role System
+- **No role selection during signup** — all users default to `citizen`
+- **MP access** determined by email whitelist in the `profiles` table
+- After login, users are redirected to `/mp/dashboard` (if `role = 'mp'`) or `/citizen/dashboard` (default)
+
+### Route Protection
+- `/citizen/*` routes — require authentication, accessible by all authenticated users
+- `/mp/*` routes — require authentication + `role = 'mp'`
+- `/login`, `/register`, `/forgot-password` — public; authenticated users are redirected to their dashboard
 
 ## Project Structure
 

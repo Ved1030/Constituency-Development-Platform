@@ -1,5 +1,5 @@
 """
-Seed script: populates cdp.db with sample complaints and issue clusters
+Seed script: populates PostgreSQL (Supabase) with sample complaints and issue clusters
 for the North Chennai constituency.
 
 Usage:

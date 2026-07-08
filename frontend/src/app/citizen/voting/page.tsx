@@ -15,29 +15,7 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { VotingCard } from "@/components/citizen/VotingCard";
 import { useTranslation } from "@/hooks/use-translation";
-
-const citizenUser = {
-  id: "CIT-001",
-  name: "Arun Kumar",
-  email: "arun.kumar@email.com",
-  phone: "+91 98765 43210",
-  avatar: "",
-  address: "42, Gandhi Nagar, Ward 7",
-  constituency: "North Chennai",
-  district: "Chennai",
-  state: "Tamil Nadu",
-  pincode: "600001",
-  preferredLanguage: "Tamil",
-  totalComplaints: 12,
-  resolvedComplaints: 9,
-  participationScore: 845,
-  badges: [
-    { id: "b1", label: "Early Adopter", icon: "Zap" },
-    { id: "b2", label: "Problem Solver", icon: "CheckCircle" },
-    { id: "b3", label: "Voice of the Month", icon: "Award" },
-    { id: "b4", label: "Top Contributor", icon: "Star" },
-  ],
-};
+import { useAuth } from "@/context/AuthContext";
 
 const votingItems = [
   {
@@ -135,6 +113,7 @@ const votingItems = [
 
 export default function VotingPage() {
   const { t } = useTranslation();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("all");
 
   const tabFilters = [
@@ -163,7 +142,7 @@ export default function VotingPage() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Users className="size-3" />
-            <span className="font-medium text-foreground">{citizenUser.participationScore}</span> {t("common.pts")}
+            <span className="font-medium text-foreground">845</span> {t("common.pts")}
           </div>
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <ThumbsUp className="size-3" />

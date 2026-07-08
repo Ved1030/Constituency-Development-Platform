@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Bell,
@@ -12,60 +12,38 @@ import {
   Smartphone,
   Mail,
   Activity,
-  BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ProfileCard } from "@/components/citizen/ProfileCard";
 import { useTranslation } from "@/hooks/use-translation";
-
-const citizenUser = {
-  id: "CIT-001",
-  name: "Arun Kumar",
-  email: "arun.kumar@email.com",
-  phone: "+91 98765 43210",
-  avatar: "",
-  address: "42, Gandhi Nagar, Ward 7",
-  constituency: "North Chennai",
-  district: "Chennai",
-  state: "Tamil Nadu",
-  pincode: "600001",
-  preferredLanguage: "Tamil",
-  totalComplaints: 12,
-  resolvedComplaints: 9,
-  participationScore: 845,
-  badges: [
-    { id: "b1", label: "Early Adopter", icon: "Zap" },
-    { id: "b2", label: "Problem Solver", icon: "CheckCircle" },
-    { id: "b3", label: "Voice of the Month", icon: "Award" },
-    { id: "b4", label: "Top Contributor", icon: "Star" },
-  ],
-};
-
-const contributionGraph = [
-  { month: "Aug", complaints: 2, votes: 5 },
-  { month: "Sep", complaints: 1, votes: 3 },
-  { month: "Oct", complaints: 3, votes: 7 },
-  { month: "Nov", complaints: 2, votes: 4 },
-  { month: "Dec", complaints: 3, votes: 6 },
-  { month: "Jan", complaints: 1, votes: 8 },
-];
+import { useAuth } from "@/context/AuthContext";
+import { fetchMyDashboardStats } from "@/services/supabase/complaints";
 
 export default function ProfilePage() {
   const { t } = useTranslation();
+  const { user, logout } = useAuth();
+  const [stats, setStats] = useState({ totalComplaints: 0, resolvedComplaints: 0, participationScore: 0 });
   const [darkMode, setDarkMode] = useState(false);
   const [mobileAlerts, setMobileAlerts] = useState(true);
 
-  const totalInteractions = contributionGraph.reduce((acc, m) => acc + m.complaints + m.votes, 0);
-  const maxComplaints = Math.max(...contributionGraph.map((m) => m.complaints));
-  const maxVotes = Math.max(...contributionGraph.map((m) => m.votes));
+  useEffect(() => {
+    if (user) {
+      fetchMyDashboardStats(user.id)
+        .then((s) => setStats({ totalComplaints: s.totalComplaints, resolvedComplaints: s.resolvedComplaints, participationScore: s.participationScore }))
+        .catch(() => {});
+    }
+  }, [user]);
+
+  const userName = user?.full_name || "Citizen";
+  const userEmail = user?.email || "";
+  const userConstituency = user?.constituency || "";
+  const initials = userName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2);
 
   const settingsSections = [
     {
       title: t("citizen.profile.preferences"),
       items: [
-        { icon: Globe, label: t("citizen.profile.language"), value: citizenUser.preferredLanguage },
+        { icon: Globe, label: t("citizen.profile.language"), value: "English" },
         { icon: Bell, label: t("citizen.profile.notifications"), value: t("citizen.profile.pushEmail") },
         { icon: Moon, label: t("citizen.profile.darkMode"), value: t("citizen.profile.off"), toggle: true },
         { icon: Smartphone, label: t("citizen.profile.mobileAlerts"), value: t("citizen.profile.sms"), toggle: true },
@@ -80,105 +58,69 @@ export default function ProfilePage() {
     },
   ];
 
-  const achievements = [
-    { label: t("citizen.profile.earlyAdopter"), description: t("citizen.profile.joinedFirst1000"), progress: 100, color: "bg-primary" },
-    { label: t("citizen.profile.problemSolver"), description: t("citizen.profile.complaintsResolved10"), progress: 90, color: "bg-success" },
-    { label: t("citizen.profile.voiceOfMonth"), description: t("citizen.profile.mostUpvoted"), progress: 100, color: "bg-amber-500" },
-    { label: t("citizen.profile.topContributor"), description: t("citizen.profile.communityPoints500"), progress: 84, color: "bg-purple-500" },
-    { label: t("citizen.profile.superVoter"), description: t("citizen.profile.votedOn20"), progress: 35, color: "bg-blue-500" },
-  ];
+  const handleLogout = async () => {
+    await logout();
+  };
 
   return (
     <div className="p-4 lg:p-6 space-y-6">
-      <ProfileCard user={citizenUser} />
+      {/* Profile Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="rounded-2xl border border-border bg-card p-6"
+      >
+        <div className="flex flex-col items-center text-center sm:flex-row sm:text-left sm:items-start gap-5">
+          <div className="flex size-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-lg font-bold text-white shadow-md">
+            {initials}
+          </div>
+          <div className="flex-1 min-w-0">
+            <h2 className="text-xl font-bold text-foreground">{userName}</h2>
+            <p className="text-sm text-muted-foreground">{userConstituency}</p>
+            <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">
+              {userEmail && (
+                <span className="flex items-center gap-1">
+                  <Mail className="size-3" />
+                  {userEmail}
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-1 rounded-xl bg-primary/5 px-5 py-3">
+            <span className="text-2xl font-bold text-primary">{stats.participationScore}</span>
+            <span className="text-[11px] font-medium text-muted-foreground">Score</span>
+          </div>
+        </div>
+      </motion.div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
+          {/* Activity Overview */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="rounded-2xl border border-border bg-card p-6"
           >
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <Activity className="size-5 text-primary" />
-                <h3 className="text-sm font-semibold text-foreground">{t("citizen.profile.activityOverview")}</h3>
-              </div>
-              <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <span className="size-2 rounded-full bg-primary" />
-                  {t("citizen.profile.complaints")}
-                </span>
-                <span className="flex items-center gap-1">
-                  <span className="size-2 rounded-full bg-accent" />
-                  {t("citizen.profile.votes")}
-                </span>
-              </div>
+            <div className="flex items-center gap-3 mb-6">
+              <Activity className="size-5 text-primary" />
+              <h3 className="text-sm font-semibold text-foreground">{t("citizen.profile.activityOverview")}</h3>
             </div>
-
-            <div className="flex items-end gap-3 h-32">
-              {contributionGraph.map((month) => (
-                <div key={month.month} className="flex flex-1 flex-col items-center gap-1">
-                  <div className="flex flex-1 w-full items-end gap-0.5">
-                    <div
-                      className="flex-1 rounded-t-sm bg-primary/70 transition-all hover:bg-primary"
-                      style={{ height: `${(month.complaints / maxComplaints) * 100}%` }}
-                    />
-                    <div
-                      className="flex-1 rounded-t-sm bg-accent/70 transition-all hover:bg-accent"
-                      style={{ height: `${(month.votes / maxVotes) * 100}%` }}
-                    />
-                  </div>
-                  <span className="text-[10px] text-muted-foreground">{month.month}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-4 grid grid-cols-3 gap-4 rounded-xl bg-muted/50 p-4">
+            <div className="grid grid-cols-3 gap-4 rounded-xl bg-muted/50 p-4">
               <div className="text-center">
-                <div className="text-lg font-bold text-foreground">{totalInteractions}</div>
-                <div className="text-[11px] text-muted-foreground">{t("citizen.profile.totalActivities")}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-bold text-primary">{citizenUser.totalComplaints}</div>
+                <div className="text-lg font-bold text-foreground">{stats.totalComplaints}</div>
                 <div className="text-[11px] text-muted-foreground">{t("citizen.profile.complaints")}</div>
               </div>
               <div className="text-center">
-                <div className="text-lg font-bold text-accent">33</div>
-                <div className="text-[11px] text-muted-foreground">{t("citizen.profile.votesCast")}</div>
+                <div className="text-lg font-bold text-success">{stats.resolvedComplaints}</div>
+                <div className="text-[11px] text-muted-foreground">{t("citizen.profile.resolved")}</div>
               </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="rounded-2xl border border-border bg-card p-6"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <BarChart3 className="size-5 text-primary" />
-              <h3 className="text-sm font-semibold text-foreground">{t("citizen.profile.achievements")}</h3>
-            </div>
-            <div className="space-y-4">
-              {achievements.map((achievement) => (
-                <div key={achievement.label} className="flex items-center gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-foreground">{achievement.label}</span>
-                      <span className="text-xs text-muted-foreground">{achievement.progress}%</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">{achievement.description}</p>
-                    <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
-                      <div
-                        className={cn("h-full rounded-full transition-all", achievement.color)}
-                        style={{ width: `${achievement.progress}%` }}
-                      />
-                    </div>
-                  </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-primary">
+                  {stats.totalComplaints > 0 ? Math.round((stats.resolvedComplaints / stats.totalComplaints) * 100) : 0}%
                 </div>
-              ))}
+                <div className="text-[11px] text-muted-foreground">{t("citizen.profile.resolutionRate")}</div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -240,7 +182,11 @@ export default function ProfilePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <Button variant="outline" className="w-full gap-2 text-destructive hover:text-destructive hover:bg-destructive/5 border-destructive/30">
+            <Button
+              variant="outline"
+              className="w-full gap-2 text-destructive hover:text-destructive hover:bg-destructive/5 border-destructive/30"
+              onClick={handleLogout}
+            >
               <LogOut className="size-4" />
               {t("citizen.profile.signOut")}
             </Button>

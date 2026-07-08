@@ -47,6 +47,7 @@ import { useReverseGeocoding } from "@/hooks/use-reverse-geocoding";
 import { useBackgroundClassification } from "@/hooks/use-background-classification";
 import { submitComplaint } from "@/services/complaint-api";
 import { useTranslation } from "@/hooks/use-translation";
+import { useAuth } from "@/context/AuthContext";
 import type {
   AIPreview,
   ComplaintCategory,
@@ -199,6 +200,7 @@ function clientSideAIPreview(
 export default function NewComplaintPage() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [category, setCategory] = useState<CategoryValue | null>(null);
   const [title, setTitle] = useState("");
@@ -353,8 +355,8 @@ export default function NewComplaintPage() {
           video_url: null,
           text_description: description,
         },
-        citizen_id: "CIT-001",
-        citizen_name: "Arun Kumar",
+        citizen_id: user?.id || "anonymous",
+        citizen_name: user?.full_name || "Anonymous",
         manual_ward: null,
         manual_village: null,
         original_language: originalLanguage,

@@ -38,7 +38,7 @@ interface TopNavbarProps {
 export function TopNavbar({ onMenuClick }: TopNavbarProps) {
   const router = useRouter();
   const { t } = useTranslation();
-  const { user, getUserInitials } = useAuth();
+  const { user, getUserInitials, logout } = useAuth();
   const { selectedConstituency, setConstituency, constituencyList, data } = useConstituency();
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
@@ -46,8 +46,8 @@ export function TopNavbar({ onMenuClick }: TopNavbarProps) {
   const [constituencyOpen, setConstituencyOpen] = useState(false);
 
   const initials = user ? getUserInitials() : "RS";
-  const displayName = user?.name?.split(" ").map((n: string) => n[0]).join(".") || "R. Sharma";
-  const fullName = user?.name || "Dr. Rajesh Sharma";
+  const displayName = user?.full_name?.split(" ").map((n: string) => n[0]).join(".") || "R. Sharma";
+  const fullName = user?.full_name || "Dr. Rajesh Sharma";
 
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-card/80 backdrop-blur-xl">
@@ -309,9 +309,9 @@ export function TopNavbar({ onMenuClick }: TopNavbarProps) {
                   </div>
                   <div className="border-t border-border p-1.5">
                     <button
-                      onClick={() => {
+                      onClick={async () => {
+                        await logout();
                         toast.success("Signed out");
-                        router.push("/login");
                       }}
                       className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs text-destructive transition-colors hover:bg-destructive/5"
                     >

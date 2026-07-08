@@ -243,7 +243,7 @@ export function MPSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: MP
           {!collapsed && (
             <div className="min-w-0 flex-1">
               <div className="truncate text-xs font-medium text-white/90">
-                {user?.name || "MP"}
+                {user?.full_name || "MP"}
               </div>
               <div className="truncate text-[10px] text-white/40">
                 MP, {user?.constituency}

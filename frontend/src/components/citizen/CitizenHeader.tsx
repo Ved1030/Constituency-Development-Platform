@@ -17,7 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { citizenUser, notifications } from "@/data/mock-citizen";
+import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "@/hooks/use-translation";
 
 interface CitizenHeaderProps {
@@ -32,7 +32,8 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
   const [profileOpen, setProfileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const { user, getUserInitials, logout } = useAuth();
+  const unreadCount = 0;
 
   const languages = [
     { code: "en", label: "English" },
@@ -167,7 +168,7 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                     <span className="text-xs text-primary cursor-pointer">{t("citizen.header.markAllRead")}</span>
                   </div>
                   <div className="max-h-72 overflow-y-auto">
-                    {notifications.slice(0, 5).map((notif) => (
+                    {[].slice(0, 5).map((notif: any) => (
                       <div
                         key={notif.id}
                         className={cn(
@@ -199,7 +200,7 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
           {/* Citizen Score */}
           <div className="hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-50 to-amber-100/50 px-3 py-1.5 md:flex">
             <Star className="size-3.5 fill-amber-500 text-amber-500" />
-            <span className="text-xs font-bold text-amber-700">{citizenUser.participationScore}</span>
+            <span className="text-xs font-bold text-amber-700">0</span>
           </div>
 
           {/* Profile Dropdown */}
@@ -213,10 +214,10 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
               className="flex items-center gap-2 rounded-xl py-1.5 pl-1.5 pr-2 transition-colors hover:bg-muted"
             >
               <div className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xs font-bold text-white shadow-md shadow-primary/20">
-                AK
+                {getUserInitials()}
               </div>
               <div className="hidden text-left md:block">
-                <div className="text-sm font-medium text-foreground">Arun</div>
+                <div className="text-sm font-medium text-foreground">{user?.full_name?.split(" ")[0] || "User"}</div>
               </div>
               <ChevronDown className="size-3.5 text-muted-foreground" />
             </button>
@@ -230,8 +231,8 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                   className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-card shadow-xl"
                 >
                   <div className="border-b border-border px-4 py-3">
-                    <div className="text-sm font-semibold text-foreground">{citizenUser.name}</div>
-                    <div className="text-xs text-muted-foreground">{citizenUser.email}</div>
+                    <div className="text-sm font-semibold text-foreground">{user?.full_name || "User"}</div>
+                    <div className="text-xs text-muted-foreground">{user?.email || ""}</div>
                   </div>
                   <div className="p-1.5">
                     {[
@@ -251,7 +252,10 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                     ))}
                   </div>
                   <div className="border-t border-border p-1.5">
-                    <button className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-destructive transition-colors hover:bg-destructive/5">
+                    <button
+                      onClick={async () => { await logout(); }}
+                      className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-destructive transition-colors hover:bg-destructive/5"
+                    >
                       <LogOut className="size-4" />
                       {t("common.signOut")}
                     </button>

@@ -1,5 +1,5 @@
 """
-ETL Pipeline: Import all CSV/XLSX datasets from backend/datasets/ into SQLite.
+ETL Pipeline: Import all CSV/XLSX datasets from backend/datasets/ into PostgreSQL.
 
 Run:  python -m app.etl.import_datasets
       (from the backend/ directory with venv activated)
@@ -55,8 +55,8 @@ def _clean_str(v):
     return s.title() if s.lower() != s else s
 
 
-def bulk_insert_sqlite(conn, table_name, rows, chunk=500):
-    """Insert rows using executemany with dict params."""
+def bulk_insert(conn, table_name, rows, chunk=500):
+    """Insert rows using executemany with dict params (PostgreSQL-compatible)."""
     if not rows:
         return
     keys = list(rows[0].keys())
@@ -345,8 +345,7 @@ ALL_MODELS = [
 
 
 def main():
-    db_url = settings.DATABASE_URL
-    db_url = db_url.replace("sqlite+aiosqlite:///", "sqlite:///")
+    db_url = settings.DATABASE_URL.replace("postgresql+asyncpg://", "postgresql+psycopg2://")
     logger.info("Connecting to: %s", db_url)
 
     sync_engine = sa.create_engine(db_url)
@@ -357,9 +356,6 @@ def main():
 
     # Step 2: Clear existing data
     with sync_engine.begin() as conn:
-        conn.execute(sa.text("PRAGMA journal_mode=WAL"))
-        conn.execute(sa.text("PRAGMA synchronous=OFF"))
-        conn.execute(sa.text("PRAGMA foreign_keys=OFF"))
         for model in ALL_MODELS:
             try:
                 conn.execute(sa.text(f'DELETE FROM "{model.__tablename__}"'))
@@ -373,7 +369,7 @@ def main():
             model_class, rows = fn()
             table_name = model_class.__tablename__
             with sync_engine.begin() as conn:
-                bulk_insert_sqlite(conn, table_name, rows)
+                bulk_insert(conn, table_name, rows)
             logger.info("  -> %s rows", len(rows))
         except Exception as e:
             logger.error("  FAILED: %s", e)
