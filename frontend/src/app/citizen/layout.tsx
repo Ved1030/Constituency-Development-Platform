@@ -6,8 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CitizenSidebar } from "@/components/citizen/CitizenSidebar";
 import { CitizenHeader } from "@/components/citizen/CitizenHeader";
 import { useTranslation } from "@/hooks/use-translation";
-import { useAuth } from "@/context/AuthContext";
-import { Loader2 } from "lucide-react";
 
 export default function CitizenLayout({
   children,
@@ -16,7 +14,6 @@ export default function CitizenLayout({
 }) {
   const pathname = usePathname();
   const { t } = useTranslation();
-  const { user, isLoading } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -35,18 +32,6 @@ export default function CitizenLayout({
   };
 
   const pageTitle = pageTitles[pathname] || t("citizen.portal");
-
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="size-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (!user || user.role !== "citizen") {
-    return null;
-  }
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)]">

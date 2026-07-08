@@ -14,10 +14,11 @@ import {
   Settings,
   HelpCircle,
   LogOut,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { citizenUser, notifications } from "@/data/mock-citizen";
 import { useTranslation } from "@/hooks/use-translation";
-import { useAuth } from "@/context/AuthContext";
 
 interface CitizenHeaderProps {
   onMenuClick: () => void;
@@ -26,13 +27,12 @@ interface CitizenHeaderProps {
 
 export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
   const { t, locale, setLocale } = useTranslation();
-  const { user, logout, getUserInitials } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
 
-  const unreadCount = 3; // Mock notification count
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const languages = [
     { code: "en", label: "English" },
@@ -167,11 +167,7 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                     <span className="text-xs text-primary cursor-pointer">{t("citizen.header.markAllRead")}</span>
                   </div>
                   <div className="max-h-72 overflow-y-auto">
-                    {[
-                      { id: "1", title: "Complaint Update", message: "Your complaint has been assigned to Junior Engineer.", read: false },
-                      { id: "2", title: "Community Voting", message: "Solar Street Lights proposal is now open.", read: false },
-                      { id: "3", title: "Achievement Unlocked!", message: "You've earned the Top Contributor badge.", read: true },
-                    ].map((notif) => (
+                    {notifications.slice(0, 5).map((notif) => (
                       <div
                         key={notif.id}
                         className={cn(
@@ -203,7 +199,7 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
           {/* Citizen Score */}
           <div className="hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-50 to-amber-100/50 px-3 py-1.5 md:flex">
             <Star className="size-3.5 fill-amber-500 text-amber-500" />
-            <span className="text-xs font-bold text-amber-700">845</span>
+            <span className="text-xs font-bold text-amber-700">{citizenUser.participationScore}</span>
           </div>
 
           {/* Profile Dropdown */}
@@ -217,10 +213,10 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
               className="flex items-center gap-2 rounded-xl py-1.5 pl-1.5 pr-2 transition-colors hover:bg-muted"
             >
               <div className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xs font-bold text-white shadow-md shadow-primary/20">
-                {getUserInitials()}
+                AK
               </div>
               <div className="hidden text-left md:block">
-                <div className="text-sm font-medium text-foreground">{user?.name || "Citizen"}</div>
+                <div className="text-sm font-medium text-foreground">Arun</div>
               </div>
               <ChevronDown className="size-3.5 text-muted-foreground" />
             </button>
@@ -234,8 +230,8 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                   className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-card shadow-xl"
                 >
                   <div className="border-b border-border px-4 py-3">
-                    <div className="text-sm font-semibold text-foreground">{user?.name}</div>
-                    <div className="text-xs text-muted-foreground">{user?.constituency}, {user?.district}</div>
+                    <div className="text-sm font-semibold text-foreground">{citizenUser.name}</div>
+                    <div className="text-xs text-muted-foreground">{citizenUser.email}</div>
                   </div>
                   <div className="p-1.5">
                     {[
@@ -255,13 +251,7 @@ export function CitizenHeader({ onMenuClick, title }: CitizenHeaderProps) {
                     ))}
                   </div>
                   <div className="border-t border-border p-1.5">
-                    <button
-                      onClick={() => {
-                        setProfileOpen(false);
-                        logout();
-                      }}
-                      className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-destructive transition-colors hover:bg-destructive/5"
-                    >
+                    <button className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-destructive transition-colors hover:bg-destructive/5">
                       <LogOut className="size-4" />
                       {t("common.signOut")}
                     </button>

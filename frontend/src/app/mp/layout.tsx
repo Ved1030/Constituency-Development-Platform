@@ -6,8 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MPSidebar } from "@/components/dashboard/Sidebar";
 import { TopNavbar } from "@/components/dashboard/TopNavbar";
 import { useTranslation } from "@/hooks/use-translation";
-import { useAuth } from "@/context/AuthContext";
-import { Loader2 } from "lucide-react";
 
 export default function MPLayout({
   children,
@@ -16,7 +14,6 @@ export default function MPLayout({
 }) {
   const pathname = usePathname();
   const { t } = useTranslation();
-  const { user, isLoading } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -38,18 +35,6 @@ export default function MPLayout({
   };
 
   const pageTitle = pageTitles[pathname] || t("mp.portal");
-
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="size-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (!user || user.role !== "mp") {
-    return null;
-  }
 
   return (
     <div className="flex min-h-screen bg-background">

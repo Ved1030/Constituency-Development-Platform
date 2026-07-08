@@ -4,18 +4,26 @@ import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SocialLoginButtons } from "./SocialLoginButtons";
+import { RoleSelector } from "./RoleSelector";
 import { useTranslation } from "@/hooks/use-translation";
-import { useAuth } from "@/context/AuthContext";
+
+const MOCK_USERS = [
+  { email: "citizen@demo.com", password: "123456", role: "citizen" as const },
+  { email: "mp@demo.com", password: "123456", role: "mp" as const },
+  { email: "admin@demo.com", password: "123456", role: "admin" as const },
+];
 
 export function LoginForm() {
+  const router = useRouter();
   const { t } = useTranslation();
-  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [role, setRole] = useState<"citizen" | "mp" | "admin">("citizen");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,13 +32,24 @@ export function LoginForm() {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      await login(email, password);
-      toast.success(t("auth.signedInSuccessfully"));
-    } catch {
+    await new Promise((r) => setTimeout(r, 800));
+
+    const user = MOCK_USERS.find(
+      (u) => u.email === email && u.password === password
+    );
+
+    if (!user) {
       toast.error(t("auth.invalidCredentials"));
-    } finally {
       setLoading(false);
+      return;
+    }
+
+    toast.success(t("auth.signedInSuccessfully"));
+
+    if (user.role === "mp" || user.role === "admin") {
+      router.push("/mp/dashboard");
+    } else {
+      router.push("/citizen/dashboard");
     }
   };
 
@@ -48,6 +67,8 @@ export function LoginForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
+        <RoleSelector value={role} onChange={setRole} />
+
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">{t("auth.email")}</label>
           <div className="relative">

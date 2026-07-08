@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { RoleSelector } from "./RoleSelector";
 import { useTranslation } from "@/hooks/use-translation";
 
 const states = [
@@ -22,6 +23,7 @@ export function RegisterForm() {
   const router = useRouter();
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState<"citizen" | "mp" | "admin">("citizen");
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -53,6 +55,8 @@ export function RegisterForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <RoleSelector value={role} onChange={setRole} />
+
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">{t("auth.fullName")}</label>
           <div className="relative">
