@@ -12,7 +12,9 @@ import type {
   ComplaintSubmitResponse,
 } from "@/types/complaint";
 
-const API_BASE = "/api/v1";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL
+  ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
+  : "/api/v1";
 
 class ComplaintAPIError extends Error {
   status: number;
