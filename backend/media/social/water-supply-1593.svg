@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2b6cb0"/>
+      <stop offset="100%" stop-color="#325eb0"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#63b3ed" opacity="0.8"/>
+  <rect x="669" y="221" width="163" height="90" rx="6" fill="#63b3ed" opacity="0.11056191257952822"/>
+  <circle cx="91" cy="108" r="87" fill="#63b3ed" opacity="0.1229804688347135"/>
+  <rect x="87" y="389" width="86" height="81" rx="6" fill="#63b3ed" opacity="0.14858247920973378"/>
+  <circle cx="400" cy="270" r="50" fill="#63b3ed" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#63b3ed" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Water Crisis Alert</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(214, 60%, 25%)"/>
+  <circle cx="521" cy="322" r="53" fill="hsl(254, 70%, 45%)" opacity="0.22975642760758896"/><circle cx="409" cy="291" r="52" fill="hsl(254, 70%, 45%)" opacity="0.17500779148077444"/><circle cx="366" cy="137" r="50" fill="hsl(254, 70%, 45%)" opacity="0.11451452643754706"/><circle cx="643" cy="476" r="58" fill="hsl(254, 70%, 45%)" opacity="0.1601509038384462"/><circle cx="722" cy="0" r="52" fill="hsl(254, 70%, 45%)" opacity="0.1933218652884415"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Education-Kodungaiyur</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

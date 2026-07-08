@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg0" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2b6cb0"/>
+      <stop offset="50%" stop-color="#3182ce" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#2b6cb0"/>
+    </linearGradient>
+    <pattern id="grid0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" opacity="0.03"/></pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg0)"/>
+  <rect width="100%" height="100%" fill="url(#grid0)"/>
+  <rect x="431" y="135" width="145" height="73" rx="8" fill="#3182ce" opacity="0.08"/>
+  <circle cx="337" cy="426" r="135" fill="#3182ce" opacity="0.12"/>
+  <rect x="177" y="549" width="192" height="176" rx="8" fill="#3182ce" opacity="0.06"/>
+  <rect x="576" y="307" width="221" height="182" rx="8" fill="#3182ce" opacity="0.12"/>
+  <circle cx="264" cy="226" r="133" fill="#3182ce" opacity="0.08"/>
+  <rect x="80" y="482" width="61" height="189" rx="8" fill="#3182ce" opacity="0.11"/>
+  <circle cx="561" cy="137" r="107" fill="#3182ce" opacity="0.11"/>
+  <circle cx="428" cy="473" r="132" fill="#3182ce" opacity="0.09"/>
+  <rect x="418" y="145" width="205" height="162" rx="8" fill="#3182ce" opacity="0.06"/>
+  <circle cx="613" cy="223" r="46" fill="none" stroke="#3182ce" stroke-width="2" opacity="0.12"/>
+  <circle cx="490" cy="61" r="31" fill="none" stroke="#3182ce" stroke-width="2" opacity="0.12"/>
+  <circle cx="714" cy="435" r="66" fill="none" stroke="#3182ce" stroke-width="2" opacity="0.12"/>
+  <circle cx="457" cy="291" r="78" fill="none" stroke="#3182ce" stroke-width="2" opacity="0.12"/>
+  <circle cx="578" cy="330" r="73" fill="none" stroke="#3182ce" stroke-width="2" opacity="0.12"/>
+  <circle cx="626" cy="129" r="27" fill="none" stroke="#3182ce" stroke-width="2" opacity="0.12"/>
+  <rect x="0" y="0" width="800" height="8" fill="#3182ce" opacity="0.7"/>
+  <circle cx="400" cy="260" r="60" fill="#3182ce" opacity="0.12"/>
+  <circle cx="400" cy="260" r="35" fill="#3182ce" opacity="0.25"/>
+  <text x="50%" y="335" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Water Crisis</text>
+  <text x="50%" y="360" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Constituency #1 · Demo Image</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.25"/>
+  <text x="50%" y="586" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="white" opacity="0.5">Category: Water · MP Portal Demo</text>
+  <rect x="660" y="16" width="124" height="28" rx="14" fill="#3182ce" opacity="0.2"/>
+  <text x="722" y="34" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#3182ce" opacity="0.8">Water</text>
+</svg>

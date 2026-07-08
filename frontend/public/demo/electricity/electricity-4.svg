@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a202c"/>
+      <stop offset="50%" stop-color="#2d3748" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#1a202c"/>
+    </linearGradient>
+    <pattern id="grid3" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" opacity="0.03"/></pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg3)"/>
+  <rect width="100%" height="100%" fill="url(#grid3)"/>
+  <rect x="578" y="337" width="147" height="151" rx="8" fill="#2d3748" opacity="0.13"/>
+  <rect x="467" y="57" width="111" height="75" rx="8" fill="#2d3748" opacity="0.08"/>
+  <circle cx="218" cy="232" r="80" fill="#2d3748" opacity="0.09"/>
+  <rect x="232" y="290" width="75" height="239" rx="8" fill="#2d3748" opacity="0.14"/>
+  <rect x="744" y="178" width="77" height="247" rx="8" fill="#2d3748" opacity="0.14"/>
+  <rect x="112" y="412" width="181" height="106" rx="8" fill="#2d3748" opacity="0.07"/>
+  <rect x="597" y="19" width="177" height="64" rx="8" fill="#2d3748" opacity="0.14"/>
+  <rect x="591" y="128" width="100" height="225" rx="8" fill="#2d3748" opacity="0.11"/>
+  <rect x="514" y="378" width="202" height="218" rx="8" fill="#2d3748" opacity="0.06"/>
+  <circle cx="470" cy="174" r="112" fill="#2d3748" opacity="0.1"/>
+  <circle cx="238" cy="304" r="58" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.12"/>
+  <circle cx="235" cy="433" r="38" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.12"/>
+  <circle cx="555" cy="512" r="59" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.12"/>
+  <circle cx="139" cy="503" r="52" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.12"/>
+  <circle cx="399" cy="488" r="53" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.12"/>
+  <circle cx="499" cy="108" r="69" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.12"/>
+  <rect x="0" y="0" width="800" height="8" fill="#2d3748" opacity="0.7"/>
+  <circle cx="400" cy="260" r="60" fill="#2d3748" opacity="0.12"/>
+  <circle cx="400" cy="260" r="35" fill="#2d3748" opacity="0.25"/>
+  <text x="50%" y="335" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Power Outage</text>
+  <text x="50%" y="360" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Constituency #4 · Demo Image</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.25"/>
+  <text x="50%" y="586" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="white" opacity="0.5">Category: Electricity · MP Portal Demo</text>
+  <rect x="660" y="16" width="124" height="28" rx="14" fill="#2d3748" opacity="0.2"/>
+  <text x="722" y="34" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#2d3748" opacity="0.8">Electricity</text>
+</svg>

@@ -2,9 +2,21 @@
 
 import { motion } from "framer-motion";
 import { FolderKanban, Clock, CheckCircle2, AlertCircle, TrendingUp, MapPin, IndianRupee } from "lucide-react";
-import { priorityProjects } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
+
+const priorityProjects = [
+  { id: "PRJ-001", name: "Gandhi Nagar Drainage Overhaul", category: "Sanitation", village: "Gandhi Nagar", budget: 4500000, spent: 3200000, progress: 71, status: "on-track", priority: 1, startDate: "2024-08-15", endDate: "2025-06-30" },
+  { id: "PRJ-002", name: "School Road Reconstruction", category: "Roads", village: "Ward 5 Central", budget: 3200000, spent: 1800000, progress: 56, status: "delayed", priority: 2, startDate: "2024-09-01", endDate: "2025-04-30" },
+  { id: "PRJ-003", name: "Solar Street Light Installation", category: "Electricity", village: "Multiple", budget: 2800000, spent: 2100000, progress: 75, status: "on-track", priority: 3, startDate: "2024-10-15", endDate: "2025-03-31" },
+  { id: "PRJ-004", name: "PHC Medicine Stock Replenishment", category: "Healthcare", village: "Multiple", budget: 1200000, spent: 1200000, progress: 100, status: "completed", priority: 4, startDate: "2024-11-01", endDate: "2025-01-15" },
+  { id: "PRJ-005", name: "Krishna Nagar Sewage Line", category: "Sanitation", village: "Krishna Nagar", budget: 5800000, spent: 2900000, progress: 50, status: "at-risk", priority: 5, startDate: "2024-07-01", endDate: "2025-08-31" },
+  { id: "PRJ-006", name: "Anganwadi Renovation Phase 2", category: "Education", village: "Ramesh Nagar", budget: 1800000, spent: 900000, progress: 50, status: "on-track", priority: 6, startDate: "2024-12-01", endDate: "2025-05-31" },
+  { id: "PRJ-007", name: "Velachery Water Tank Upgrade", category: "Water", village: "Velachery", budget: 3500000, spent: 1200000, progress: 34, status: "delayed", priority: 7, startDate: "2024-11-15", endDate: "2025-07-31" },
+  { id: "PRJ-008", name: "T Nagar Park Development", category: "Infrastructure", village: "T Nagar", budget: 2200000, spent: 1800000, progress: 82, status: "on-track", priority: 8, startDate: "2024-09-01", endDate: "2025-04-15" },
+  { id: "PRJ-009", name: "Adyar Bridge Repair", category: "Roads", village: "Adyar East", budget: 6200000, spent: 4800000, progress: 77, status: "on-track", priority: 9, startDate: "2024-06-01", endDate: "2025-03-31" },
+  { id: "PRJ-010", name: "Sholinganallur Park Revival", category: "Infrastructure", village: "Sholinganallur", budget: 1500000, spent: 600000, progress: 40, status: "at-risk", priority: 10, startDate: "2024-12-15", endDate: "2025-06-30" },
+];
 
 export default function ProjectMonitoringPage() {
   const { t } = useTranslation();

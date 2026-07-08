@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(257, 60%, 25%)"/>
+  <line x1="521" y1="533" x2="556" y2="47" stroke="hsl(297, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="59" y1="343" x2="532" y2="279" stroke="hsl(297, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="782" y1="463" x2="209" y2="35" stroke="hsl(297, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="41" y1="166" x2="462" y2="38" stroke="hsl(297, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="434" y1="129" x2="383" y2="559" stroke="hsl(297, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="120" y1="304" x2="170" y2="528" stroke="hsl(297, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Housing-Kasimedu</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

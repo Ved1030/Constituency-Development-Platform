@@ -12,8 +12,16 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { developmentProjects } from "@/data/mock-citizen";
 import { useTranslation } from "@/hooks/use-translation";
+
+const developmentProjects = [
+  { id: "PRJ-001", name: "Gandhi Nagar Drainage Overhaul", description: "Complete drainage system replacement to prevent waterlogging", category: "Sanitation", village: "Gandhi Nagar", budget: 4500000, spent: 3200000, progress: 71, status: "on-track" as const, startDate: "2024-08-15", endDate: "2025-06-30", department: "Corporation Water Board" },
+  { id: "PRJ-002", name: "School Road Reconstruction", description: "Full road reconstruction with proper drainage and footpaths", category: "Roads", village: "Ward 5 Central", budget: 3200000, spent: 1800000, progress: 56, status: "delayed" as const, startDate: "2024-09-01", endDate: "2025-04-30", department: "Corporation Roads Division" },
+  { id: "PRJ-003", name: "Solar Street Light Installation", description: "150 solar LED street lights across 5 wards", category: "Electricity", village: "Multiple Wards", budget: 2800000, spent: 2100000, progress: 75, status: "on-track" as const, startDate: "2024-10-15", endDate: "2025-03-31", department: "Electricity Board" },
+  { id: "PRJ-004", name: "PHC Medicine Stock Replenishment", description: "Restocking all essential medicines at 12 health centers", category: "Healthcare", village: "Multiple Wards", budget: 1200000, spent: 1200000, progress: 100, status: "completed" as const, startDate: "2024-11-01", endDate: "2025-01-15", department: "Health Department" },
+  { id: "PRJ-005", name: "Krishna Nagar Sewage Line", description: "Underground sewage network for the entire colony", category: "Sanitation", village: "Krishna Nagar", budget: 5800000, spent: 2900000, progress: 50, status: "delayed" as const, startDate: "2024-07-01", endDate: "2025-08-31", department: "Corporation Water Board" },
+  { id: "PRJ-006", name: "Anganwadi Renovation Phase 2", description: "Roof repair, furniture replacement, and painting of 8 centers", category: "Education", village: "Ramesh Nagar", budget: 1800000, spent: 900000, progress: 50, status: "on-track" as const, startDate: "2024-12-01", endDate: "2025-05-31", department: "Education Department" },
+];
 
 const statusConfig: Record<string, { labelKey: string; color: string; bg: string; icon: typeof CheckCircle2 }> = {
   "on-track": { labelKey: "onTrack", color: "text-emerald-700", bg: "bg-emerald-50", icon: CheckCircle2 },

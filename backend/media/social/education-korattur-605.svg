@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(222, 60%, 25%)"/>
+  <rect x="588" y="471" width="115" height="129" rx="8" fill="hsl(262, 70%, 45%)" opacity="0.17424413908262215"/><rect x="61" y="185" width="90" height="120" rx="8" fill="hsl(262, 70%, 45%)" opacity="0.19179348627325338"/><rect x="617" y="223" width="69" height="67" rx="8" fill="hsl(262, 70%, 45%)" opacity="0.1716446759889378"/><rect x="70" y="27" width="135" height="116" rx="8" fill="hsl(262, 70%, 45%)" opacity="0.17131321785761644"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Education-Korattur</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

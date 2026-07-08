@@ -6,7 +6,7 @@ import { ThumbsUp, MessageSquare, Clock, TrendingUp, CheckCircle } from "lucide-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { VotingItem } from "@/data/mock-citizen";
+import type { VotingItem } from "@/types/citizen";
 
 interface VotingCardProps {
   item: VotingItem;

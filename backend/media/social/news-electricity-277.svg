@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(211, 60%, 25%)"/>
+  <rect x="191" y="111" width="144" height="65" rx="8" fill="hsl(251, 70%, 45%)" opacity="0.12572215028959166"/><rect x="602" y="64" width="139" height="120" rx="8" fill="hsl(251, 70%, 45%)" opacity="0.14549507268927434"/><rect x="595" y="319" width="133" height="124" rx="8" fill="hsl(251, 70%, 45%)" opacity="0.1310819557561107"/><rect x="248" y="421" width="99" height="72" rx="8" fill="hsl(251, 70%, 45%)" opacity="0.11076199243494332"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">news-Electricity</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

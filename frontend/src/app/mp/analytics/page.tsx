@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart3,
@@ -7,6 +8,7 @@ import {
   Users,
   MapPin,
   Brain,
+  Loader2,
 } from "lucide-react";
 import {
   BarChart,
@@ -20,37 +22,74 @@ import {
   Area,
   Line,
 } from "recharts";
-import { villages, departments, complaintTrends } from "@/data/mock-mp";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAnalytics } from "@/services/api/analytics";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
 
-const villageData = villages.map((v) => ({
-  name: v.name.length > 10 ? v.name.slice(0, 10) + "..." : v.name,
-  complaints: v.complaints,
-  resolved: v.resolved,
-  satisfaction: v.satisfaction,
-  population: v.population / 1000,
-}));
-
-const deptData = departments.map((d) => ({
-  name: d.name.split(" ")[0],
-  complaints: d.complaints,
-  resolved: d.resolved,
-  satisfaction: d.satisfaction,
-}));
-
-const monthlyTrend = complaintTrends.map((c) => ({
-  ...c,
-  resolutionRate: Math.round((c.resolved / c.total) * 100),
-}));
-
-const satisfactionByVillage = [...villages].sort((a, b) => b.satisfaction - a.satisfaction).slice(0, 8).map((v) => ({
-  name: v.name.length > 10 ? v.name.slice(0, 10) + "..." : v.name,
-  score: v.satisfaction,
-}));
-
 export default function AnalyticsPage() {
   const { t } = useTranslation();
+  const { data: analyticsData, isLoading } = useQuery({
+    queryKey: ["mp-analytics"],
+    queryFn: () => fetchAnalytics(30),
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
+  });
+
+  const villageData = useMemo(() => {
+    if (!analyticsData?.village_breakdown) return [];
+    return analyticsData.village_breakdown.map((v) => ({
+      name: v.village.length > 10 ? v.village.slice(0, 10) + "..." : v.village,
+      complaints: v.total,
+      resolved: 0,
+      satisfaction: 0,
+      population: 0,
+    }));
+  }, [analyticsData]);
+
+  const deptData = useMemo(() => {
+    if (!analyticsData?.department_breakdown) return [];
+    return analyticsData.department_breakdown.map((d) => ({
+      name: d.department.split(" ")[0],
+      complaints: d.total,
+      resolved: d.resolved,
+      satisfaction: Math.round(d.resolution_rate),
+    }));
+  }, [analyticsData]);
+
+  const monthlyTrend = useMemo(() => {
+    if (!analyticsData?.complaint_trends) return [];
+    return analyticsData.complaint_trends.map((c) => ({
+      month: c.date,
+      total: c.count,
+      resolved: 0,
+      critical: 0,
+    }));
+  }, [analyticsData]);
+
+  const satisfactionByVillage = useMemo(() => {
+    if (!analyticsData?.village_breakdown) return [];
+    return [...analyticsData.village_breakdown]
+      .sort((a, b) => {
+        const aRatio = a.total > 0 ? ((a.total - a.critical) / a.total) : 0;
+        const bRatio = b.total > 0 ? ((b.total - b.critical) / b.total) : 0;
+        return bRatio - aRatio;
+      })
+      .slice(0, 8)
+      .map((v) => ({
+        name: v.village.length > 10 ? v.village.slice(0, 10) + "..." : v.village,
+        score: v.total > 0 ? Math.round(((v.total - v.critical) / v.total) * 100) : 0,
+      }));
+  }, [analyticsData]);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <Loader2 className="size-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>

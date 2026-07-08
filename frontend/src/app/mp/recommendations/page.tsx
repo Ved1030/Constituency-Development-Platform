@@ -18,9 +18,75 @@ import {
   Landmark,
   Shield,
 } from "lucide-react";
-import { policyRecommendations } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
+
+const policyRecommendations = [
+  {
+    id: "POL-001",
+    title: "Emergency Water Infrastructure Modernization",
+    department: "Water Supply",
+    priority: "Critical",
+    estimatedBudget: "₹12.5 Cr",
+    timeline: "18 months",
+    beneficiaries: 185000,
+    status: "Under Review",
+    sections: [
+      { heading: "Background", content: "Aging water infrastructure in North Chennai causing frequent pipeline bursts and supply interruptions. 78% of pipelines are over 25 years old." },
+      { heading: "Recommended Actions", content: "Replace 45km of old pipelines, install smart water meters, build 3 new overhead tanks." },
+      { heading: "Budget Breakdown", content: "Pipeline replacement: ₹7.2 Cr, Smart meters: ₹2.8 Cr, Overhead tanks: ₹2.5 Cr" },
+      { heading: "Expected Outcomes", content: "Reduce water loss by 40%, improve supply regularity to 22 hours/day, serve 1.85L citizens." },
+    ],
+  },
+  {
+    id: "POL-002",
+    title: "Road Safety & Infrastructure Overhaul",
+    department: "Roads & Infrastructure",
+    priority: "High",
+    estimatedBudget: "₹8.2 Cr",
+    timeline: "12 months",
+    beneficiaries: 450000,
+    status: "Drafting",
+    sections: [
+      { heading: "Background", content: "2,847 road-related complaints this year. 156 accident hotspots identified. 34% of roads need resurfacing." },
+      { heading: "Recommended Actions", content: "Resurface 120km of roads, install 450 LED streetlights, build 25 pedestrian crossings." },
+      { heading: "Budget Breakdown", content: "Resurfacing: ₹5.2 Cr, Streetlights: ₹1.8 Cr, Crossings: ₹1.2 Cr" },
+      { heading: "Expected Outcomes", content: "Reduce accidents by 35%, improve commute times by 20%, increase citizen satisfaction by 25%." },
+    ],
+  },
+  {
+    id: "POL-003",
+    title: "Smart Sanitation & Waste Management",
+    department: "Sanitation",
+    priority: "High",
+    estimatedBudget: "₹5.8 Cr",
+    timeline: "9 months",
+    beneficiaries: 320000,
+    status: "Approved",
+    sections: [
+      { heading: "Background", content: "Current waste collection covers only 62% of households. Open dumping in 14 locations." },
+      { heading: "Recommended Actions", content: "Door-to-door collection for all 68 panchayats, 3 transfer stations, composting facility." },
+      { heading: "Budget Breakdown", content: "Collection vehicles: ₹2.2 Cr, Transfer stations: ₹2.1 Cr, Composting: ₹1.5 Cr" },
+      { heading: "Expected Outcomes", content: "100% waste collection, 60% recycling rate, elimination of open dumping." },
+    ],
+  },
+  {
+    id: "POL-004",
+    title: "Healthcare Access Expansion",
+    department: "Healthcare",
+    priority: "Medium",
+    estimatedBudget: "₹6.5 Cr",
+    timeline: "24 months",
+    beneficiaries: 280000,
+    status: "Under Review",
+    sections: [
+      { heading: "Background", content: "Only 2 primary health centers for 1.84L population. Average wait time is 45 minutes." },
+      { heading: "Recommended Actions", content: "Build 4 new PHCs, upgrade 2 existing ones, mobile health vans for remote villages." },
+      { heading: "Budget Breakdown", content: "New PHCs: ₹3.6 Cr, Upgrades: ₹1.8 Cr, Mobile vans: ₹1.1 Cr" },
+      { heading: "Expected Outcomes", content: "Coverage for additional 2.8L citizens, reduce wait time to 15 minutes." },
+    ],
+  },
+];
 
 const policyTemplates = [
   {

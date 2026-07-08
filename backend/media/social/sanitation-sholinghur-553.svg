@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(260, 60%, 25%)"/>
+  <rect x="26" y="232" width="77" height="117" rx="8" fill="hsl(300, 70%, 45%)" opacity="0.10399900310848414"/><rect x="394" y="474" width="126" height="145" rx="8" fill="hsl(300, 70%, 45%)" opacity="0.18507994457571086"/><rect x="461" y="89" width="83" height="118" rx="8" fill="hsl(300, 70%, 45%)" opacity="0.19299100943343386"/><rect x="584" y="480" width="63" height="117" rx="8" fill="hsl(300, 70%, 45%)" opacity="0.1266636437671203"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Sanitation-Sholinghur</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

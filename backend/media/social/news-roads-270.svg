@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(222, 60%, 25%)"/>
+  <line x1="366" y1="81" x2="748" y2="306" stroke="hsl(262, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="19" y1="592" x2="658" y2="143" stroke="hsl(262, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="43" y1="495" x2="558" y2="299" stroke="hsl(262, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="272" y1="535" x2="261" y2="445" stroke="hsl(262, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="351" y1="188" x2="698" y2="585" stroke="hsl(262, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="482" y1="590" x2="54" y2="20" stroke="hsl(262, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">news-Roads</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg0" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c53030"/>
+      <stop offset="50%" stop-color="#e53e3e" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#c53030"/>
+    </linearGradient>
+    <pattern id="grid0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" opacity="0.03"/></pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg0)"/>
+  <rect width="100%" height="100%" fill="url(#grid0)"/>
+  <rect x="106" y="238" width="77" height="78" rx="8" fill="#e53e3e" opacity="0.15"/>
+  <rect x="601" y="95" width="132" height="161" rx="8" fill="#e53e3e" opacity="0.11"/>
+  <rect x="24" y="525" width="201" height="180" rx="8" fill="#e53e3e" opacity="0.07"/>
+  <circle cx="769" cy="290" r="127" fill="#e53e3e" opacity="0.06"/>
+  <rect x="321" y="138" width="158" height="63" rx="8" fill="#e53e3e" opacity="0.09"/>
+  <circle cx="572" cy="86" r="177" fill="#e53e3e" opacity="0.13"/>
+  <rect x="664" y="226" width="202" height="181" rx="8" fill="#e53e3e" opacity="0.1"/>
+  <rect x="539" y="11" width="114" height="130" rx="8" fill="#e53e3e" opacity="0.14"/>
+  <circle cx="584" cy="463" r="33" fill="none" stroke="#e53e3e" stroke-width="2" opacity="0.12"/>
+  <circle cx="186" cy="83" r="22" fill="none" stroke="#e53e3e" stroke-width="2" opacity="0.12"/>
+  <circle cx="563" cy="387" r="63" fill="none" stroke="#e53e3e" stroke-width="2" opacity="0.12"/>
+  <rect x="0" y="0" width="800" height="8" fill="#e53e3e" opacity="0.7"/>
+  <circle cx="400" cy="260" r="60" fill="#e53e3e" opacity="0.12"/>
+  <circle cx="400" cy="260" r="35" fill="#e53e3e" opacity="0.25"/>
+  <text x="50%" y="335" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="700" fill="white" opacity="0.9">Pothole Hazard</text>
+  <text x="50%" y="360" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Constituency #1 · Demo Image</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.25"/>
+  <text x="50%" y="586" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="white" opacity="0.5">Category: Potholes · MP Portal Demo</text>
+  <rect x="660" y="16" width="124" height="28" rx="14" fill="#e53e3e" opacity="0.2"/>
+  <text x="722" y="34" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#e53e3e" opacity="0.8">Potholes</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(213, 60%, 25%)"/>
+  <rect x="210" y="181" width="74" height="123" rx="8" fill="hsl(253, 70%, 45%)" opacity="0.11411660294580492"/><rect x="636" y="412" width="70" height="77" rx="8" fill="hsl(253, 70%, 45%)" opacity="0.2317331802082038"/><rect x="539" y="107" width="121" height="79" rx="8" fill="hsl(253, 70%, 45%)" opacity="0.1954160426051298"/><rect x="306" y="356" width="134" height="96" rx="8" fill="hsl(253, 70%, 45%)" opacity="0.1152448621678336"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">video-Garbage</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

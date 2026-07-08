@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(209, 60%, 25%)"/>
+  <circle cx="800" cy="190" r="42" fill="hsl(249, 70%, 45%)" opacity="0.23978407911058408"/><circle cx="634" cy="383" r="39" fill="hsl(249, 70%, 45%)" opacity="0.24792049634123117"/><circle cx="701" cy="132" r="64" fill="hsl(249, 70%, 45%)" opacity="0.23906175694291237"/><circle cx="238" cy="389" r="29" fill="hsl(249, 70%, 45%)" opacity="0.22672760341622097"/><circle cx="708" cy="227" r="49" fill="hsl(249, 70%, 45%)" opacity="0.26180496962839134"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Electricity-Otteri</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(248, 60%, 25%)"/>
+  <rect x="675" y="280" width="71" height="97" rx="8" fill="hsl(288, 70%, 45%)" opacity="0.11299000942991813"/><rect x="409" y="21" width="90" height="130" rx="8" fill="hsl(288, 70%, 45%)" opacity="0.24400123441337013"/><rect x="385" y="474" width="135" height="125" rx="8" fill="hsl(288, 70%, 45%)" opacity="0.22362972640238382"/><rect x="184" y="203" width="92" height="70" rx="8" fill="hsl(288, 70%, 45%)" opacity="0.15039210455098279"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Education-Sewapuri</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

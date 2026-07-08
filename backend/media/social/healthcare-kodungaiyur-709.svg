@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(268, 60%, 25%)"/>
+  <rect x="275" y="27" width="91" height="73" rx="8" fill="hsl(308, 70%, 45%)" opacity="0.12583094923678007"/><rect x="508" y="193" width="67" height="61" rx="8" fill="hsl(308, 70%, 45%)" opacity="0.16285770209152067"/><rect x="554" y="277" width="91" height="106" rx="8" fill="hsl(308, 70%, 45%)" opacity="0.11059309911041268"/><rect x="269" y="462" width="139" height="68" rx="8" fill="hsl(308, 70%, 45%)" opacity="0.2306746269781284"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Healthcare-Kodungaiyur</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

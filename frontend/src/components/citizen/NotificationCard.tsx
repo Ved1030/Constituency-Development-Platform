@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Bell, TriangleAlert, Award, Vote, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { Notification } from "@/data/mock-citizen";
+import type { Notification } from "@/types/citizen";
 
 const typeConfig = {
   status: { icon: Bell, className: "bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" },

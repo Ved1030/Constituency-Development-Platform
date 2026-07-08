@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c53030"/>
+      <stop offset="100%" stop-color="#b22321"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#fc8181" opacity="0.8"/>
+  <rect x="611" y="409" width="155" height="185" rx="6" fill="#fc8181" opacity="0.08286538869456722"/>
+  <circle cx="522" cy="52" r="118" fill="#fc8181" opacity="0.12676249948278887"/>
+  <line x1="676" y1="259" x2="371" y2="281" stroke="#fc8181" stroke-width="1.5" opacity="0.15"/>
+  <rect x="386" y="462" width="72" height="74" rx="6" fill="#fc8181" opacity="0.15300134799625104"/>
+  <line x1="538" y1="287" x2="602" y2="587" stroke="#fc8181" stroke-width="1.5" opacity="0.15"/>
+  <rect x="541" y="190" width="150" height="174" rx="6" fill="#fc8181" opacity="0.05130249348553734"/>
+  <circle cx="586" cy="45" r="146" fill="#fc8181" opacity="0.1109999579880834"/>
+  <circle cx="400" cy="270" r="50" fill="#fc8181" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#fc8181" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Safety Concern</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

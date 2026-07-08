@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(270, 60%, 25%)"/>
+  <circle cx="120" cy="115" r="54" fill="hsl(310, 70%, 45%)" opacity="0.1879895518853273"/><circle cx="438" cy="283" r="70" fill="hsl(310, 70%, 45%)" opacity="0.17169817622982192"/><circle cx="65" cy="319" r="60" fill="hsl(310, 70%, 45%)" opacity="0.26727177307588923"/><circle cx="100" cy="299" r="65" fill="hsl(310, 70%, 45%)" opacity="0.12286267258801185"/><circle cx="99" cy="345" r="27" fill="hsl(310, 70%, 45%)" opacity="0.22609802776950916"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">video-Healthcare</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

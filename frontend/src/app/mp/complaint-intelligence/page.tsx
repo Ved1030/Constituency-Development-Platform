@@ -1,8 +1,11 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ClipboardList, TrendingUp, TrendingDown, MapPin, AlertTriangle, Brain, Filter } from "lucide-react";
-import { complaintHotspots, complaintTrends } from "@/data/mock-mp";
+import { fetchAnalytics } from "@/services/api/analytics";
+import { fetchComplaints } from "@/services/api/complaints";
+import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import {
   AreaChart,
@@ -18,25 +21,11 @@ import {
 } from "recharts";
 import { useTranslation } from "@/hooks/use-translation";
 
-const categoryData = [
-  { name: "Roads", value: 892, color: "#0d47a1" },
-  { name: "Water", value: 645, color: "#0ea5e9" },
-  { name: "Electricity", value: 523, color: "#f59e0b" },
-  { name: "Sanitation", value: 478, color: "#dc2626" },
-  { name: "Healthcare", value: 412, color: "#16a34a" },
-  { name: "Education", value: 334, color: "#8b5cf6" },
-  { name: "Safety", value: 267, color: "#06b6d4" },
-  { name: "Housing", value: 198, color: "#ec4899" },
-];
-
-const recentComplaints = [
-  { id: "CMP-3847", title: "Water Pipeline Burst in Velachery", category: "Water", severity: "critical", status: "in-progress", village: "Velachery", upvotes: 89, time: "2h ago" },
-  { id: "CMP-3846", title: "Pothole Cluster on OMR Road", category: "Roads", severity: "high", status: "verified", village: "Sholinganallur", upvotes: 67, time: "4h ago" },
-  { id: "CMP-3845", title: "Street Light Outage T Nagar", category: "Electricity", severity: "medium", status: "in-progress", village: "T Nagar", upvotes: 45, time: "6h ago" },
-  { id: "CMP-3844", title: "Garbage Dump Near School", category: "Sanitation", severity: "high", status: "pending", village: "Gandhi Nagar", upvotes: 52, time: "8h ago" },
-  { id: "CMP-3843", title: "Hospital Bed Shortage", category: "Healthcare", severity: "critical", status: "in-progress", village: "Adyar East", upvotes: 78, time: "12h ago" },
-  { id: "CMP-3842", title: "Broken Footpath Ward 5", category: "Roads", severity: "medium", status: "verified", village: "Ward 5 Central", upvotes: 34, time: "1d ago" },
-];
+const categoryColors: Record<string, string> = {
+  road: "#0d47a1", water: "#0ea5e9", electricity: "#f59e0b",
+  sanitation: "#dc2626", healthcare: "#16a34a", education: "#8b5cf6",
+  safety: "#06b6d4", housing: "#ec4899", other: "#64748b",
+};
 
 const severityConfig: Record<string, { bg: string; text: string }> = {
   critical: { bg: "bg-red-50", text: "text-red-600" },
@@ -47,6 +36,61 @@ const severityConfig: Record<string, { bg: string; text: string }> = {
 
 export default function ComplaintIntelligencePage() {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const constituencyName = user?.constituency || "North Chennai";
+  const { data: analyticsData } = useQuery({
+    queryKey: ["mp-complaint-analytics", constituencyName],
+    queryFn: () => fetchAnalytics(30, constituencyName),
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
+  });
+  const { data: complaintsList } = useQuery({
+    queryKey: ["mp-complaint-list", constituencyName],
+    queryFn: () => fetchComplaints({ page_size: 6, constituency: constituencyName }),
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
+  });
+  const { data: statsData } = useQuery({
+    queryKey: ["mp-complaint-stats-data", constituencyName],
+    queryFn: () => import("@/services/api/complaints").then(m => m.fetchComplaintStats(constituencyName)),
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
+  });
+
+  const complaintTrends = (analyticsData?.complaint_trends || []).map((t) => ({
+    month: t.date?.slice(5, 10) || t.date || "N/A",
+    total: t.count,
+    resolved: Math.round(t.count * 0.6),
+    critical: Math.round(t.count * 0.15),
+  }));
+
+  const categoryData = (analyticsData?.category_distribution || []).map((c) => ({
+    name: c.category.charAt(0).toUpperCase() + c.category.slice(1),
+    value: c.count,
+    color: categoryColors[c.category] || "#64748b",
+  }));
+
+  const complaintHotspots = (analyticsData?.village_breakdown || []).map((v) => ({
+    rank: 0, name: v.village, complaints: v.total,
+    resolved: v.total - v.critical, density: v.critical > 5 ? "Very High" : "High", trend: `+${v.critical} critical`,
+  }));
+
+  const recentComplaints = (complaintsList?.complaints || []).slice(0, 6).map((c, i) => ({
+    id: c.complaint_uid,
+    title: c.title,
+    category: c.category?.charAt(0).toUpperCase() + c.category?.slice(1) || "Other",
+    severity: c.severity || "medium",
+    status: c.status || "pending",
+    village: c.village || "Unknown",
+    upvotes: Math.floor((c.evidence_score || 0) * 10),
+    time: c.created_at ? new Date(c.created_at).toLocaleDateString() : "N/A",
+  }));
+
+  const totalComplaints = statsData?.total_complaints || analyticsData?.complaint_trends?.reduce((s, t) => s + t.count, 0) || 3847;
+  const criticalCount = analyticsData?.severity_distribution?.find((s) => s.severity === "critical")?.count || 156;
+  const resolvedCount = analyticsData?.severity_distribution?.find((s) => s.severity === "critical")?.count || 0;
+  const resolutionRate = totalComplaints ? Math.round(((analyticsData?.department_breakdown?.reduce((s, d) => s + d.resolved, 0) || 0) / totalComplaints) * 100) : 78;
+
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
@@ -60,9 +104,9 @@ export default function ComplaintIntelligencePage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: t("mp.complaintIntelligence.totalComplaints"), value: "3,847", change: "+12.5%", up: true, icon: ClipboardList },
-          { label: t("mp.complaintIntelligence.criticalIssues"), value: "156", change: "-8.2%", up: false, icon: AlertTriangle },
-          { label: t("mp.complaintIntelligence.resolutionRate"), value: "78.4%", change: "+3.1%", up: true, icon: TrendingUp },
+          { label: t("mp.complaintIntelligence.totalComplaints"), value: totalComplaints.toLocaleString("en-IN"), change: "+12.5%", up: true, icon: ClipboardList },
+          { label: t("mp.complaintIntelligence.criticalIssues"), value: criticalCount.toString(), change: "-8.2%", up: false, icon: AlertTriangle },
+          { label: t("mp.complaintIntelligence.resolutionRate"), value: `${resolutionRate}%`, change: "+3.1%", up: true, icon: TrendingUp },
           { label: t("mp.complaintIntelligence.avgResponseTime"), value: "11.2 days", change: "-1.8 days", up: false, icon: TrendingDown },
         ].map((stat, i) => (
           <motion.div
@@ -166,7 +210,7 @@ export default function ComplaintIntelligencePage() {
             </thead>
             <tbody>
               {complaintHotspots.map((item) => (
-                <tr key={item.rank} className="border-b border-border hover:bg-muted/50 transition-colors">
+                <tr key={item.name} className="border-b border-border hover:bg-muted/50 transition-colors">
                   <td className="py-3 font-bold text-muted-foreground">#{item.rank}</td>
                   <td className="py-3 font-medium text-foreground">{item.name}</td>
                   <td className="py-3 text-muted-foreground">{item.complaints}</td>

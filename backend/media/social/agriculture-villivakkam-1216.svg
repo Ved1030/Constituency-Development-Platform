@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(268, 60%, 25%)"/>
+  <circle cx="126" cy="50" r="32" fill="hsl(308, 70%, 45%)" opacity="0.11289247934604905"/><circle cx="573" cy="102" r="23" fill="hsl(308, 70%, 45%)" opacity="0.27195406884013373"/><circle cx="87" cy="194" r="61" fill="hsl(308, 70%, 45%)" opacity="0.269471659637754"/><circle cx="784" cy="459" r="58" fill="hsl(308, 70%, 45%)" opacity="0.14514344519148642"/><circle cx="397" cy="587" r="43" fill="hsl(308, 70%, 45%)" opacity="0.11403155217011403"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Agriculture-Villivakkam</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

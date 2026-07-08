@@ -29,7 +29,6 @@ import {
   PolarRadiusAxis,
   Radar,
 } from "recharts";
-import { impactProjects } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
 
@@ -46,6 +45,57 @@ const projectColors: Record<string, { bg: string; text: string; border: string; 
   School: { bg: "bg-amber-50 text-amber-600", text: "text-amber-600", border: "border-amber-200", gradient: "from-amber-500 to-orange-500" },
   "Water Tank": { bg: "bg-cyan-50 text-cyan-600", text: "text-cyan-600", border: "border-cyan-200", gradient: "from-cyan-500 to-blue-500" },
 };
+
+const impactProjects = [
+  {
+    id: "IMP-001",
+    name: "Sholinganallur PHC (50-bed)",
+    type: "Hospital",
+    populationCovered: 32000,
+    travelTimeReduction: 42,
+    complaintReduction: 340,
+    budgetUsed: 68000000,
+    roi: 2.8,
+    beneficiaries: 32000,
+    status: "Proposed",
+  },
+  {
+    id: "IMP-002",
+    name: "Velachery Main Road widening",
+    type: "Road",
+    populationCovered: 45000,
+    travelTimeReduction: 15,
+    complaintReduction: 280,
+    budgetUsed: 42000000,
+    roi: 1.9,
+    beneficiaries: 45000,
+    status: "Approved",
+  },
+  {
+    id: "IMP-003",
+    name: "New Primary School Ward 8",
+    type: "School",
+    populationCovered: 8400,
+    travelTimeReduction: 25,
+    complaintReduction: 95,
+    budgetUsed: 18000000,
+    roi: 3.1,
+    beneficiaries: 8400,
+    status: "Proposed",
+  },
+  {
+    id: "IMP-004",
+    name: "Overhead Water Tank Krishna Nagar",
+    type: "Water Tank",
+    populationCovered: 22000,
+    travelTimeReduction: 0,
+    complaintReduction: 420,
+    budgetUsed: 35000000,
+    roi: 2.4,
+    beneficiaries: 22000,
+    status: "In Progress",
+  },
+];
 
 const comparisonData = impactProjects.map((p) => ({
   name: p.name.split(" ").slice(0, 2).join(" "),

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(209, 60%, 25%)"/>
+  <line x1="409" y1="40" x2="602" y2="600" stroke="hsl(249, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="234" y1="528" x2="155" y2="597" stroke="hsl(249, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="550" y1="32" x2="31" y2="70" stroke="hsl(249, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="327" y1="55" x2="31" y2="138" stroke="hsl(249, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="561" y1="302" x2="540" y2="337" stroke="hsl(249, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="730" y1="95" x2="407" y2="490" stroke="hsl(249, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Garbage-Thiruvottiyur</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

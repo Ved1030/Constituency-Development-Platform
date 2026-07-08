@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(269, 60%, 25%)"/>
+  <line x1="578" y1="289" x2="794" y2="349" stroke="hsl(309, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="405" y1="428" x2="91" y2="553" stroke="hsl(309, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="171" y1="238" x2="580" y2="262" stroke="hsl(309, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="81" y1="543" x2="336" y2="413" stroke="hsl(309, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="800" y1="147" x2="368" y2="291" stroke="hsl(309, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="660" y1="202" x2="57" y2="64" stroke="hsl(309, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Water Supply-Thiruvottiyur</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

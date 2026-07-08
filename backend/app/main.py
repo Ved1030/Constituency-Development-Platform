@@ -23,6 +23,7 @@ import logging
 import traceback
 
 from contextlib import asynccontextmanager
+from typing import Any, Generator, Literal
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -32,12 +33,67 @@ from app.core.config import settings
 from app.core.exceptions import CDPException
 from app.core.logger import setup_logging
 from app.database.base import Base
-from app.database.session import engine
+from app.database.session import engine, async_session_factory
 from app.middleware.logging_middleware import LoggingMiddleware
 from app.api import api_router
 
 # Import models so they register with Base.metadata
 from app.models import Complaint, IssueCluster  # noqa: F401
+from app.models import (  # noqa: F401
+    CensusData,
+    EducationSpending,
+    MpladsFundsAllocated,
+    MpladsProject,
+    MpladsSectorAllocation,
+    MpladsStateExpenditure,
+    MpladsUnspentBalance,
+    RoadData,
+    SchoolInfrastructure,
+    TransportData,
+)
+from app.services.seed_service import ensure_column_exists
+
+# ---------------------------------------------------------------------------
+# Fix: typing-inspection 0.4.2 does not recursively flatten nested Literal types
+# (e.g. Literal[Literal['a','b'], Literal['c','d']]). This breaks pydantic's
+# OpenAPI schema generation via CoreSchemaOrFieldType.
+# ---------------------------------------------------------------------------
+import typing_inspection.introspection as _tii
+import pydantic.json_schema as _pjs
+from pydantic_core import core_schema
+
+_original_get_literal_values = _tii.get_literal_values
+
+
+def _is_nested_literal(value: Any) -> bool:
+    """Check if a value is a nested Literal (Literal inside Literal)."""
+    return hasattr(value, "__origin__") and getattr(value, "__origin__", None) is Literal
+
+
+def _patched_get_literal_values(
+    annotation: Any,
+    /,
+    *,
+    type_check: bool = False,
+    unpack_type_aliases: str = "eager",
+) -> Generator[Any, None, None]:
+    for value in _original_get_literal_values(
+        annotation,
+        type_check=type_check,
+        unpack_type_aliases=unpack_type_aliases,
+    ):
+        if _is_nested_literal(value):
+            yield from _patched_get_literal_values(
+                value,
+                type_check=type_check,
+                unpack_type_aliases=unpack_type_aliases,
+            )
+        else:
+            yield value
+
+
+_tii.get_literal_values = _patched_get_literal_values
+_pjs.get_literal_values = _patched_get_literal_values
 
 # ---------------------------------------------------------------------------
 # Initialize logging
@@ -57,6 +113,9 @@ async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database tables created/verified")
+    # Ensure constituency_name column exists (SQLite-safe ALTER TABLE)
+    async with async_session_factory() as db:
+        await ensure_column_exists(db)
     yield
     # Shutdown
     await engine.dispose()

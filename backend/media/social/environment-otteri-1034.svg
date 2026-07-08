@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(204, 60%, 25%)"/>
+  <line x1="647" y1="92" x2="86" y2="97" stroke="hsl(244, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="395" y1="77" x2="238" y2="389" stroke="hsl(244, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="776" y1="236" x2="189" y2="371" stroke="hsl(244, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="333" y1="17" x2="161" y2="60" stroke="hsl(244, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="291" y1="580" x2="468" y2="237" stroke="hsl(244, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="492" y1="474" x2="130" y2="119" stroke="hsl(244, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Environment-Otteri</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

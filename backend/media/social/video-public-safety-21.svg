@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(221, 60%, 25%)"/>
+  <rect x="428" y="353" width="113" height="141" rx="8" fill="hsl(261, 70%, 45%)" opacity="0.14218855106730066"/><rect x="221" y="405" width="120" height="125" rx="8" fill="hsl(261, 70%, 45%)" opacity="0.1275371944588618"/><rect x="540" y="120" width="60" height="61" rx="8" fill="hsl(261, 70%, 45%)" opacity="0.15565700374481617"/><rect x="599" y="219" width="68" height="78" rx="8" fill="hsl(261, 70%, 45%)" opacity="0.21906265327854477"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">video-Public Safety</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

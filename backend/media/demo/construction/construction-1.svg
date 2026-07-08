@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg0" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6b4226"/>
+      <stop offset="50%" stop-color="#8b5e3c" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#6b4226"/>
+    </linearGradient>
+    <pattern id="grid0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" opacity="0.03"/></pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg0)"/>
+  <rect width="100%" height="100%" fill="url(#grid0)"/>
+  <circle cx="472" cy="538" r="148" fill="#8b5e3c" opacity="0.08"/>
+  <rect x="165" y="537" width="103" height="155" rx="8" fill="#8b5e3c" opacity="0.06"/>
+  <circle cx="707" cy="408" r="112" fill="#8b5e3c" opacity="0.12"/>
+  <rect x="375" y="325" width="113" height="140" rx="8" fill="#8b5e3c" opacity="0.07"/>
+  <circle cx="19" cy="101" r="130" fill="#8b5e3c" opacity="0.12"/>
+  <rect x="686" y="69" width="222" height="134" rx="8" fill="#8b5e3c" opacity="0.11"/>
+  <rect x="120" y="432" width="215" height="179" rx="8" fill="#8b5e3c" opacity="0.06"/>
+  <circle cx="418" cy="335" r="117" fill="#8b5e3c" opacity="0.07"/>
+  <rect x="592" y="16" width="213" height="152" rx="8" fill="#8b5e3c" opacity="0.1"/>
+  <circle cx="262" cy="153" r="30" fill="none" stroke="#8b5e3c" stroke-width="2" opacity="0.12"/>
+  <circle cx="595" cy="78" r="41" fill="none" stroke="#8b5e3c" stroke-width="2" opacity="0.12"/>
+  <circle cx="690" cy="61" r="31" fill="none" stroke="#8b5e3c" stroke-width="2" opacity="0.12"/>
+  <circle cx="355" cy="384" r="46" fill="none" stroke="#8b5e3c" stroke-width="2" opacity="0.12"/>
+  <circle cx="737" cy="550" r="45" fill="none" stroke="#8b5e3c" stroke-width="2" opacity="0.12"/>
+  <rect x="0" y="0" width="800" height="8" fill="#8b5e3c" opacity="0.7"/>
+  <circle cx="400" cy="260" r="60" fill="#8b5e3c" opacity="0.12"/>
+  <circle cx="400" cy="260" r="35" fill="#8b5e3c" opacity="0.25"/>
+  <text x="50%" y="335" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="23" font-weight="700" fill="white" opacity="0.9">Construction</text>
+  <text x="50%" y="360" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Constituency #1 · Demo Image</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.25"/>
+  <text x="50%" y="586" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="white" opacity="0.5">Category: Construction · MP Portal Demo</text>
+  <rect x="660" y="16" width="124" height="28" rx="14" fill="#8b5e3c" opacity="0.2"/>
+  <text x="722" y="34" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#8b5e3c" opacity="0.8">Construction</text>
+</svg>

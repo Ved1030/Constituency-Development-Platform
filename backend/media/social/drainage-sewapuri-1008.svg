@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(266, 60%, 25%)"/>
+  <circle cx="455" cy="348" r="25" fill="hsl(306, 70%, 45%)" opacity="0.24163699562358604"/><circle cx="104" cy="51" r="80" fill="hsl(306, 70%, 45%)" opacity="0.2322655092350317"/><circle cx="145" cy="115" r="57" fill="hsl(306, 70%, 45%)" opacity="0.1689555699664928"/><circle cx="11" cy="552" r="70" fill="hsl(306, 70%, 45%)" opacity="0.2736650412198848"/><circle cx="264" cy="227" r="51" fill="hsl(306, 70%, 45%)" opacity="0.12935314705441847"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Drainage-Sewapuri</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

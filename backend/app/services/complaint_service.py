@@ -268,6 +268,7 @@ class ComplaintService:
         category: Optional[str] = None,
         ward: Optional[str] = None,
         village: Optional[str] = None,
+        constituency: Optional[str] = None,
     ) -> Tuple[List[ComplaintResponse], int]:
         """List complaints with optional filters."""
         stmt = select(Complaint)
@@ -285,6 +286,9 @@ class ComplaintService:
         if village:
             stmt = stmt.where(Complaint.village == village)
             count_stmt = count_stmt.where(Complaint.village == village)
+        if constituency:
+            stmt = stmt.where(Complaint.constituency_name == constituency)
+            count_stmt = count_stmt.where(Complaint.constituency_name == constituency)
 
         # Total count
         total_result = await db.execute(count_stmt)
@@ -296,26 +300,41 @@ class ComplaintService:
         result = await db.execute(stmt)
         complaints = result.scalars().all()
 
-        return [ComplaintResponse.model_validate(c) for c in complaints], total
+        def _orm_to_dict(c: Complaint) -> Dict:
+            d = {
+                col.name: getattr(c, col.name)
+                for col in c.__table__.columns
+            }
+            if isinstance(d.get("images"), str):
+                try:
+                    d["images"] = json.loads(d["images"])
+                except (json.JSONDecodeError, TypeError):
+                    d["images"] = None
+            return d
+
+        return [ComplaintResponse.model_validate(_orm_to_dict(c)) for c in complaints], total
 
     # -- Complaint Stats ----------------------------------------------------
     @staticmethod
-    async def get_stats(db: AsyncSession) -> Dict[str, Any]:
+    async def get_stats(db: AsyncSession, constituency: Optional[str] = None) -> Dict[str, Any]:
         """Get complaint statistics."""
-        total = await db.scalar(select(func.count(Complaint.id)))
+        def _filter(q):
+            return q.where(Complaint.constituency_name == constituency) if constituency else q
+
+        total = await db.scalar(_filter(select(func.count(Complaint.id))))
         verified = await db.scalar(
-            select(func.count(Complaint.id)).where(
+            _filter(select(func.count(Complaint.id)).where(
                 Complaint.verification_status == "verified"
-            )
+            ))
         )
         pending = await db.scalar(
-            select(func.count(Complaint.id)).where(Complaint.status == "pending")
+            _filter(select(func.count(Complaint.id)).where(Complaint.status == "pending"))
         )
         resolved = await db.scalar(
-            select(func.count(Complaint.id)).where(Complaint.status == "resolved")
+            _filter(select(func.count(Complaint.id)).where(Complaint.status == "resolved"))
         )
         avg_score = await db.scalar(
-            select(func.avg(Complaint.evidence_score))
+            _filter(select(func.avg(Complaint.evidence_score)))
         )
         cluster_count = await db.scalar(select(func.count(IssueCluster.id)))
 

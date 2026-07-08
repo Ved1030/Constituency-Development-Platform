@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a202c"/>
+      <stop offset="100%" stop-color="#1f103a"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#ecc94b" opacity="0.8"/>
+  <circle cx="212" cy="421" r="125" fill="#ecc94b" opacity="0.1474262721079561"/>
+  <rect x="661" y="456" width="143" height="141" rx="6" fill="#ecc94b" opacity="0.17088397894524948"/>
+  <rect x="70" y="128" width="107" height="148" rx="6" fill="#ecc94b" opacity="0.19232815162117117"/>
+  <circle cx="49" cy="2" r="75" fill="#ecc94b" opacity="0.129784917419845"/>
+  <circle cx="295" cy="562" r="100" fill="#ecc94b" opacity="0.11829906217962334"/>
+  <line x1="447" y1="8" x2="717" y2="149" stroke="#ecc94b" stroke-width="1.5" opacity="0.15"/>
+  <circle cx="400" cy="270" r="50" fill="#ecc94b" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#ecc94b" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Power Outage Report</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(210, 60%, 25%)"/>
+  <line x1="548" y1="329" x2="384" y2="121" stroke="hsl(250, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="598" y1="436" x2="19" y2="581" stroke="hsl(250, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="502" y1="168" x2="167" y2="570" stroke="hsl(250, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="334" y1="38" x2="601" y2="161" stroke="hsl(250, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="473" y1="502" x2="150" y2="398" stroke="hsl(250, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="374" y1="3" x2="524" y2="354" stroke="hsl(250, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Environment-Kasimedu</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

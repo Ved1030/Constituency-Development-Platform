@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="#2d3748"/>
+  <circle cx="381" cy="11" r="90" fill="#ed8936" opacity="0.08"/>
+  <circle cx="199" cy="318" r="48" fill="#ed8936" opacity="0.08"/>
+  <circle cx="458" cy="7" r="79" fill="#ed8936" opacity="0.08"/>
+  <circle cx="256" cy="359" r="94" fill="#ed8936" opacity="0.08"/>
+  <circle cx="400" cy="300" r="45" fill="black" opacity="0.5"/>
+  <polygon points="388,282 388,318 420,300" fill="white" opacity="0.9"/>
+  <text x="50%" y="360" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="white" opacity="0.6">Video Evidence</text>
+  <rect x="0" y="0" width="800" height="4" fill="#ed8936" opacity="0.7"/>
+</svg>

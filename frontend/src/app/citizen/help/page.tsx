@@ -19,9 +19,17 @@ import {
   Globe,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { helpArticles } from "@/data/mock-citizen";
 import { useState } from "react";
 import { useTranslation } from "@/hooks/use-translation";
+
+const helpArticles = [
+  { id: "H01", title: "How to file a complaint?", category: "Getting Started", content: "Navigate to Raise Complaint, select a category, describe the issue with details, add location, and submit. You can also use voice input.", popular: true },
+  { id: "H02", title: "How to track my complaint?", category: "Getting Started", content: "Go to Track Complaint and enter your complaint ID or select from the list. You can see real-time status and timeline.", popular: true },
+  { id: "H03", title: "How does community voting work?", category: "Community", content: "Browse proposals in Community Voting, support proposals you agree with. Top-voted proposals get prioritized by the MP.", popular: true },
+  { id: "H04", title: "What is the citizen score?", category: "Account", content: "Your citizen score reflects your participation — complaints raised, votes cast, and community contributions. Higher scores unlock badges.", popular: false },
+  { id: "H05", title: "How to use voice input?", category: "Getting Started", content: "Click the microphone icon while filing a complaint. Speak in your preferred language and the AI will transcribe it automatically.", popular: true },
+  { id: "H06", title: "How to change language?", category: "Account", content: "Click the globe icon in the top navbar to switch between English, Hindi, Tamil, Telugu, and other supported languages.", popular: false },
+];
 
 export default function HelpPage() {
   const { t } = useTranslation();

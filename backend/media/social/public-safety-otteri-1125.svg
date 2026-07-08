@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(219, 60%, 25%)"/>
+  <rect x="355" y="241" width="133" height="72" rx="8" fill="hsl(259, 70%, 45%)" opacity="0.19967204529864652"/><rect x="673" y="306" width="139" height="88" rx="8" fill="hsl(259, 70%, 45%)" opacity="0.24863744529719384"/><rect x="128" y="436" width="149" height="125" rx="8" fill="hsl(259, 70%, 45%)" opacity="0.17102581038516518"/><rect x="3" y="80" width="117" height="103" rx="8" fill="hsl(259, 70%, 45%)" opacity="0.22438369430123764"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Public Safety-Otteri</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

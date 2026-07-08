@@ -23,6 +23,22 @@ export interface DigitalTwinComplaint {
   voiceNote: string | null;
   ward: string;
   village: string;
+  citizen?: string;
+  rootCause?: string;
+}
+
+export interface AIAnalysis {
+  rootCause: string
+  severity: "critical" | "severe" | "moderate" | "minor"
+  confidence: number
+  predictedSpread: string
+  estimatedCost: number
+  affectedCitizens: number
+  recommendedDepartment: string
+  riskTrend: string
+  expectedEscalation: string
+  summary: string
+  recommendation: string
 }
 
 export interface FilterState {
@@ -114,3 +130,68 @@ export const DEPARTMENTS = [
 // Constituency center for map fallback
 export const CONSTITUENCY_CENTER = { lat: 13.128, lng: 80.288 } as const;
 export const CONSTITUENCY_ZOOM = 12;
+
+export type MediaSource = "citizen" | "officer" | "drone" | "satellite"
+
+export type SocialPlatform = "twitter" | "facebook" | "instagram" | "youtube" | "googleNews" | "reddit"
+
+export interface SocialPost {
+  id: string
+  platform: SocialPlatform
+  displayName: string
+  username: string
+  verified: boolean
+  timestamp: string
+  content: string
+  isVideo: boolean
+  location: string
+  coordinates?: { lat: number; lng: number }
+  likes: number
+  comments: number
+  shares: number
+}
+
+export interface MediaItem {
+  id: string
+  url: string
+  type: "photo" | "video"
+  source: MediaSource
+  caption: string
+  verified: boolean
+  aiQualityScore: number
+  gps: { lat: number; lng: number }
+  timestamp: string
+  metadata?: Record<string, string>
+}
+
+export type TimelineStage =
+  | "citizen_reported"
+  | "votes_increased"
+  | "ai_classified"
+  | "officer_assigned"
+  | "inspection"
+  | "repair_started"
+  | "in_progress"
+  | "resolved"
+  | "citizen_feedback"
+
+export interface TimelineEvent {
+  id: string
+  stage: TimelineStage
+  title: string
+  label?: string
+  description: string
+  timestamp: string
+  actor: string
+  completed?: boolean
+  metadata?: Record<string, string>
+}
+
+export interface AnalyticsData {
+  complaintGrowth: { date: string; value: number }[]
+  votes: { date: string; value: number }[]
+  sentiment: { date: string; value: number }[]
+  departmentResponse: { department: string; avgDays: number; resolved: number }[]
+  budget: { category: string; allocated: number; spent: number }[]
+  aiConfidence: { date: string; value: number }[]
+}

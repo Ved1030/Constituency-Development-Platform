@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a5568"/>
+      <stop offset="100%" stop-color="#3c4154"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#e53e3e" opacity="0.8"/>
+  <circle cx="530" cy="70" r="133" fill="#e53e3e" opacity="0.11792839278507244"/>
+  <line x1="530" y1="196" x2="103" y2="323" stroke="#e53e3e" stroke-width="1.5" opacity="0.15"/>
+  <circle cx="143" cy="410" r="31" fill="#e53e3e" opacity="0.07829096426456439"/>
+  <circle cx="296" cy="111" r="65" fill="#e53e3e" opacity="0.12608009620220056"/>
+  <circle cx="400" cy="270" r="50" fill="#e53e3e" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#e53e3e" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Road Damage Report</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

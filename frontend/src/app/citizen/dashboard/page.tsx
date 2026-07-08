@@ -18,15 +18,138 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/use-translation";
-import {
-  citizenUser,
-  complaints,
-  trendingIssues,
-  schemes,
-  dashboardKPIs,
-  notifications,
-  nearbyIssues,
-} from "@/data/mock-citizen";
+import { useQuery } from "@tanstack/react-query";
+import { fetchComplaintStats, fetchComplaints } from "@/services/api/complaints";
+import type { Complaint } from "@/types/complaint";
+
+const citizenUser = {
+  id: "CIT-001",
+  name: "Arun Kumar",
+  email: "arun.kumar@email.com",
+  phone: "+91 98765 43210",
+  avatar: "",
+  address: "42, Gandhi Nagar, Ward 7",
+  constituency: "North Chennai",
+  district: "Chennai",
+  state: "Tamil Nadu",
+  pincode: "600001",
+  preferredLanguage: "Tamil",
+  totalComplaints: 12,
+  resolvedComplaints: 9,
+  participationScore: 845,
+  badges: [
+    { id: "b1", label: "Early Adopter", icon: "Zap" },
+    { id: "b2", label: "Problem Solver", icon: "CheckCircle" },
+    { id: "b3", label: "Voice of the Month", icon: "Award" },
+    { id: "b4", label: "Top Contributor", icon: "Star" },
+  ],
+};
+
+const trendingIssues = [
+  { id: "t1", title: "Waterlogging in Gandhi Nagar", category: "water", upvotes: 47 },
+  { id: "t2", title: "Potholes on School Road", category: "road", upvotes: 56 },
+  { id: "t3", title: "Open Sewage Krishna Nagar", category: "sanitation", upvotes: 23 },
+  { id: "t4", title: "Irregular Water Supply", category: "water", upvotes: 42 },
+];
+
+const schemes = [
+  { id: "s1", name: "Swachh Bharat Mission", description: "Cleanliness drive and waste management infrastructure", progress: 72, budget: "₹45 Cr", beneficiaries: "1.2 Lakh", deadline: "Mar 2025", status: "active" as const },
+  { id: "s2", name: "AMRUT Scheme", description: "Water supply and sewerage infrastructure development", progress: 58, budget: "₹32 Cr", beneficiaries: "85,000", deadline: "Jun 2025", status: "active" as const },
+  { id: "s3", name: "Smart City Mission", description: "Urban development and digital infrastructure", progress: 44, budget: "₹78 Cr", beneficiaries: "2.5 Lakh", deadline: "Dec 2025", status: "active" as const },
+  { id: "s4", name: "PM Awas Yojana", description: "Affordable housing for urban and rural poor", progress: 81, budget: "₹56 Cr", beneficiaries: "45,000", deadline: "Sep 2025", status: "active" as const },
+  { id: "s5", name: "PM GatiShakti", description: "Multi-modal connectivity and infrastructure planning", progress: 35, budget: "₹120 Cr", beneficiaries: "5 Lakh", deadline: "Dec 2026", status: "active" as const },
+  { id: "s6", name: " Jal Jeevan Mission", description: "Piped water supply to every rural household", progress: 67, budget: "₹42 Cr", beneficiaries: "1.8 Lakh", deadline: "Aug 2025", status: "active" as const },
+];
+
+const notifications = [
+  {
+    id: "NOT-001",
+    title: "Complaint Update",
+    message: "Your complaint CMP-2024-001 has been assigned to Junior Engineer K. Selvam.",
+    type: "status" as const,
+    read: false,
+    createdAt: "2025-01-10T09:30:00",
+  },
+  {
+    id: "NOT-002",
+    title: "New Voting Started",
+    message: "Solar Street Lights proposal is now open for community voting. Cast your vote!",
+    type: "voting" as const,
+    read: false,
+    createdAt: "2025-01-09T14:00:00",
+  },
+  {
+    id: "NOT-003",
+    title: "Achievement Unlocked!",
+    message: "Congratulations! You've earned the 'Top Contributor' badge.",
+    type: "achievement" as const,
+    read: false,
+    createdAt: "2025-01-08T11:45:00",
+  },
+  {
+    id: "NOT-004",
+    title: "Nearby Issue Reported",
+    message: "A critical road cave-in has been reported near Main Market.",
+    type: "alert" as const,
+    read: true,
+    createdAt: "2025-01-07T16:20:00",
+  },
+  {
+    id: "NOT-005",
+    title: "Complaint Resolved",
+    message: "Your complaint CMP-2024-004 about medicine shortage has been resolved.",
+    type: "status" as const,
+    read: true,
+    createdAt: "2025-01-05T10:00:00",
+  },
+  {
+    id: "NOT-006",
+    title: "Community Request",
+    message: "Priya S. from your area needs support for the Road Caving issue.",
+    type: "system" as const,
+    read: true,
+    createdAt: "2025-01-04T08:30:00",
+  },
+  {
+    id: "NOT-007",
+    title: "Budget Update",
+    message: "₹12.5 Lakh allocated for Ward 7 road repairs. Work begins next week.",
+    type: "status" as const,
+    read: false,
+    createdAt: "2025-01-14T08:00:00",
+  },
+  {
+    id: "NOT-008",
+    title: "New Scheme Launched",
+    message: "PM Swachh Bharat 2.0 is now available in your constituency. Apply now!",
+    type: "system" as const,
+    read: true,
+    createdAt: "2025-01-12T10:00:00",
+  },
+];
+
+function mapComplaint(c: Complaint) {
+  return {
+    id: c.complaint_uid,
+    title: c.title,
+    description: c.description || "",
+    category: c.category,
+    status: c.status,
+    severity: c.severity,
+    location: c.village || c.nearest_landmark || "Unknown",
+    lat: c.gps_latitude || 0,
+    lng: c.gps_longitude || 0,
+    createdAt: c.created_at,
+    updatedAt: c.updated_at,
+    upvotes: 0,
+    comments: 0,
+    department: c.department || undefined,
+    officerAssigned: "",
+    expectedResolution: c.estimated_resolution_days ? `${c.estimated_resolution_days} days` : "",
+    tags: c.ai_detected_sector ? [c.ai_detected_sector] : [],
+    progress: c.status === "resolved" ? 100 : c.status === "in-progress" ? 50 : c.status === "verified" ? 25 : 0,
+  };
+}
 
 const statusColors: Record<string, string> = {
   pending: "bg-gray-100 text-gray-700",
@@ -44,7 +167,26 @@ const severityDot: Record<string, string> = {
 
 export default function CitizenDashboardPage() {
   const { t } = useTranslation();
-  const recentComplaints = complaints.slice(0, 5);
+
+  const statsQuery = useQuery({
+    queryKey: ["complaint-stats"],
+    queryFn: () => fetchComplaintStats(),
+    refetchInterval: 5000,
+  });
+
+  const complaintsQuery = useQuery({
+    queryKey: ["complaints"],
+    queryFn: () => fetchComplaints({}),
+    refetchInterval: 5000,
+  });
+
+  const total = statsQuery.data?.total_complaints ?? 0;
+  const resolved = statsQuery.data?.resolved_complaints ?? 0;
+  const pending = statsQuery.data?.pending_complaints ?? 0;
+  const inProgress = total - resolved - pending;
+
+  const apiComplaints = (complaintsQuery.data?.complaints || []).map(mapComplaint);
+  const recentComplaints = apiComplaints.slice(0, 5);
   const recentNotifications = notifications.slice(0, 4);
 
   const quickActions = [
@@ -83,9 +225,9 @@ export default function CitizenDashboardPage() {
   ];
 
   const kpiCards = [
-    { label: t("citizen.dashboard.totalComplaints"), value: dashboardKPIs.totalComplaints, icon: FileText, color: "text-blue-600", bg: "bg-blue-50" },
-    { label: t("citizen.dashboard.resolved"), value: dashboardKPIs.resolvedComplaints, icon: CheckCircle, color: "text-emerald-600", bg: "bg-emerald-50" },
-    { label: t("citizen.dashboard.inProgress"), value: dashboardKPIs.inProgressComplaints, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
+    { label: t("citizen.dashboard.totalComplaints"), value: total, icon: FileText, color: "text-blue-600", bg: "bg-blue-50" },
+    { label: t("citizen.dashboard.resolved"), value: resolved, icon: CheckCircle, color: "text-emerald-600", bg: "bg-emerald-50" },
+    { label: t("citizen.dashboard.inProgress"), value: inProgress, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
     { label: t("citizen.dashboard.communityScore"), value: citizenUser.participationScore, icon: Star, color: "text-purple-600", bg: "bg-purple-50" },
   ];
 
@@ -199,11 +341,11 @@ export default function CitizenDashboardPage() {
                   transition={{ duration: 0.3, delay: i * 0.05 }}
                   className="flex items-center gap-4 rounded-xl border border-border p-4 transition-all hover:bg-muted/30 hover:shadow-sm"
                 >
-                  <div className={cn("size-2.5 shrink-0 rounded-full", severityDot[complaint.severity])} />
+                  <div className={cn("size-2.5 shrink-0 rounded-full", severityDot[complaint.severity] || "bg-gray-400")} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-mono text-muted-foreground">{complaint.id}</span>
-                      <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-semibold", statusColors[complaint.status])}>
+                      <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-semibold", statusColors[complaint.status] || "bg-gray-100 text-gray-700")}>
                         {complaint.status}
                       </span>
                     </div>

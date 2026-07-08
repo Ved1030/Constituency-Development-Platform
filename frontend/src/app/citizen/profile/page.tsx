@@ -18,8 +18,39 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProfileCard } from "@/components/citizen/ProfileCard";
-import { citizenUser, contributionGraph } from "@/data/mock-citizen";
 import { useTranslation } from "@/hooks/use-translation";
+
+const citizenUser = {
+  id: "CIT-001",
+  name: "Arun Kumar",
+  email: "arun.kumar@email.com",
+  phone: "+91 98765 43210",
+  avatar: "",
+  address: "42, Gandhi Nagar, Ward 7",
+  constituency: "North Chennai",
+  district: "Chennai",
+  state: "Tamil Nadu",
+  pincode: "600001",
+  preferredLanguage: "Tamil",
+  totalComplaints: 12,
+  resolvedComplaints: 9,
+  participationScore: 845,
+  badges: [
+    { id: "b1", label: "Early Adopter", icon: "Zap" },
+    { id: "b2", label: "Problem Solver", icon: "CheckCircle" },
+    { id: "b3", label: "Voice of the Month", icon: "Award" },
+    { id: "b4", label: "Top Contributor", icon: "Star" },
+  ],
+};
+
+const contributionGraph = [
+  { month: "Aug", complaints: 2, votes: 5 },
+  { month: "Sep", complaints: 1, votes: 3 },
+  { month: "Oct", complaints: 3, votes: 7 },
+  { month: "Nov", complaints: 2, votes: 4 },
+  { month: "Dec", complaints: 3, votes: 6 },
+  { month: "Jan", complaints: 1, votes: 8 },
+];
 
 export default function ProfilePage() {
   const { t } = useTranslation();

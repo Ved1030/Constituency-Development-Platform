@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2d3748"/>
+      <stop offset="100%" stop-color="#284455"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#ed8936" opacity="0.8"/>
+  <rect x="402" y="90" width="50" height="107" rx="6" fill="#ed8936" opacity="0.15514745219597614"/>
+  <line x1="2" y1="70" x2="184" y2="206" stroke="#ed8936" stroke-width="1.5" opacity="0.15"/>
+  <line x1="130" y1="542" x2="623" y2="391" stroke="#ed8936" stroke-width="1.5" opacity="0.15"/>
+  <circle cx="483" cy="559" r="56" fill="#ed8936" opacity="0.1582629611330997"/>
+  <rect x="661" y="460" width="73" height="177" rx="6" fill="#ed8936" opacity="0.15372742629175726"/>
+  <line x1="690" y1="382" x2="224" y2="553" stroke="#ed8936" stroke-width="1.5" opacity="0.15"/>
+  <line x1="642" y1="591" x2="95" y2="143" stroke="#ed8936" stroke-width="1.5" opacity="0.15"/>
+  <circle cx="400" cy="270" r="50" fill="#ed8936" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#ed8936" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Drainage Overflow</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

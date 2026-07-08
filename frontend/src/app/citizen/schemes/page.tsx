@@ -12,8 +12,16 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { schemes } from "@/data/mock-citizen";
 import { useTranslation } from "@/hooks/use-translation";
+
+const schemes = [
+  { id: "s1", name: "Swachh Bharat Mission", description: "Cleanliness drive and waste management infrastructure", progress: 72, budget: "₹45 Cr", beneficiaries: "1.2 Lakh", deadline: "Mar 2025", status: "active" as const },
+  { id: "s2", name: "AMRUT Scheme", description: "Water supply and sewerage infrastructure development", progress: 58, budget: "₹32 Cr", beneficiaries: "85,000", deadline: "Jun 2025", status: "active" as const },
+  { id: "s3", name: "Smart City Mission", description: "Urban development and digital infrastructure", progress: 44, budget: "₹78 Cr", beneficiaries: "2.5 Lakh", deadline: "Dec 2025", status: "active" as const },
+  { id: "s4", name: "PM Awas Yojana", description: "Affordable housing for urban and rural poor", progress: 81, budget: "₹56 Cr", beneficiaries: "45,000", deadline: "Sep 2025", status: "active" as const },
+  { id: "s5", name: "PM GatiShakti", description: "Multi-modal connectivity and infrastructure planning", progress: 35, budget: "₹120 Cr", beneficiaries: "5 Lakh", deadline: "Dec 2026", status: "active" as const },
+  { id: "s6", name: " Jal Jeevan Mission", description: "Piped water supply to every rural household", progress: 67, budget: "₹42 Cr", beneficiaries: "1.8 Lakh", deadline: "Aug 2025", status: "active" as const },
+];
 
 const categoryColors: Record<string, string> = {
   "Swachh Bharat": "bg-emerald-100 text-emerald-700",

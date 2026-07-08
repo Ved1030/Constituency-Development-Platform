@@ -4,7 +4,7 @@ import { useState } from "react";
 import { MapPin, Navigation, Layers, Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import type { Issue } from "@/data/mock-citizen";
+import type { Issue } from "@/types/citizen";
 
 const categoryColors: Record<string, string> = {
   road: "bg-red-500",

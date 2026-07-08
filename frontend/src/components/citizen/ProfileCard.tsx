@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { MapPin, Mail, Phone, Globe, Award, Star, Zap, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import type { citizenUser } from "@/data/mock-citizen";
+import type { CitizenUser } from "@/types/citizen";
 
 const badgeIcons: Record<string, React.ElementType> = {
   Zap,
@@ -21,7 +21,7 @@ const badgeColors: Record<string, string> = {
 };
 
 interface ProfileCardProps {
-  user: typeof citizenUser;
+  user: CitizenUser;
 }
 
 export function ProfileCard({ user }: ProfileCardProps) {

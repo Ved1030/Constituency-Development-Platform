@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(221, 60%, 25%)"/>
+  <circle cx="227" cy="156" r="68" fill="hsl(261, 70%, 45%)" opacity="0.12163759513498207"/><circle cx="14" cy="192" r="46" fill="hsl(261, 70%, 45%)" opacity="0.1258261237279397"/><circle cx="619" cy="260" r="66" fill="hsl(261, 70%, 45%)" opacity="0.29276697145456976"/><circle cx="9" cy="412" r="60" fill="hsl(261, 70%, 45%)" opacity="0.12278066700579243"/><circle cx="608" cy="510" r="51" fill="hsl(261, 70%, 45%)" opacity="0.18455117463510667"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Electricity-Kasimedu</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

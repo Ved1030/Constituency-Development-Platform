@@ -31,7 +31,8 @@ import {
   PolarRadiusAxis,
   Radar,
 } from "recharts";
-import { projectComparisonData } from "@/data/mock-mp";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProjects } from "@/services/api/projects";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
 
@@ -49,25 +50,46 @@ const typeColors: Record<string, string> = {
   "Water Tank": "text-cyan-600",
 };
 
-const chartData = projectComparisonData.map((p) => ({
-  name: p.name.split(" ").slice(0, 2).join(" "),
-  roi: p.roi,
-  beneficiaries: p.beneficiaries / 1000,
-  satisfaction: p.satisfactionImpact,
-  costPerBeneficiary: p.costPerBeneficiary,
-}));
-
-const radarData = projectComparisonData.map((p) => ({
-  name: p.name.split(" ")[0],
-  roi: p.roi * 30,
-  beneficiaries: (p.beneficiaries / 500),
-  satisfaction: p.satisfactionImpact,
-  costEfficiency: 100 - (p.costPerBeneficiary / 30),
-}));
-
 export default function ProjectsComparePage() {
   const { t } = useTranslation();
   const [sortBy, setSortBy] = useState<"aiScore" | "roi" | "beneficiaries" | "budget">("aiScore");
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["mp-projects"],
+    queryFn: fetchProjects,
+    refetchInterval: 5000,
+  });
+
+  const apiData = data?.projects ?? [];
+
+  const projectComparisonData = apiData.map((p) => ({
+    name: p.title,
+    type: p.department || "General",
+    budget: p.budget,
+    beneficiaries: 0,
+    roi: 0,
+    completionTime: 0,
+    satisfactionImpact: p.progress,
+    costPerBeneficiary: 0,
+    aiScore: 0,
+  }));
+
+  const chartData = projectComparisonData.map((p) => ({
+    name: p.name.split(" ").slice(0, 2).join(" "),
+    roi: p.roi,
+    beneficiaries: p.beneficiaries / 1000,
+    satisfaction: p.satisfactionImpact,
+    costPerBeneficiary: p.costPerBeneficiary,
+  }));
+
+  const radarData = projectComparisonData.map((p) => ({
+    name: p.name.split(" ")[0],
+    roi: p.roi * 30,
+    beneficiaries: p.beneficiaries / 500,
+    satisfaction: p.satisfactionImpact,
+    costEfficiency: 100 - p.costPerBeneficiary / 30,
+  }));
+
   const sorted = [...projectComparisonData].sort((a, b) => {
     if (sortBy === "aiScore") return b.aiScore - a.aiScore;
     if (sortBy === "roi") return b.roi - a.roi;
@@ -75,6 +97,23 @@ export default function ProjectsComparePage() {
     return a.budget - b.budget;
   });
   const winner = sorted[0];
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+          <div className="flex items-center gap-2">
+            <GitCompare className="size-5 text-blue-600" />
+            <h1 className="text-2xl font-bold text-foreground">{t("mp.projects.aiProjectComparison")}</h1>
+          </div>
+          <p className="mt-1 text-sm text-muted-foreground">{t("mp.projects.compareSideBySide")}</p>
+        </motion.div>
+        <div className="flex items-center justify-center py-20">
+          <div className="size-8 animate-spin rounded-full border-4 border-muted border-t-blue-600" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

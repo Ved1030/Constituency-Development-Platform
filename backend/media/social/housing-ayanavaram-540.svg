@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(278, 60%, 25%)"/>
+  <circle cx="637" cy="380" r="21" fill="hsl(318, 70%, 45%)" opacity="0.1936062519522671"/><circle cx="617" cy="464" r="57" fill="hsl(318, 70%, 45%)" opacity="0.18004411025061368"/><circle cx="269" cy="398" r="78" fill="hsl(318, 70%, 45%)" opacity="0.20613324203957356"/><circle cx="389" cy="531" r="20" fill="hsl(318, 70%, 45%)" opacity="0.28542221222539277"/><circle cx="496" cy="595" r="55" fill="hsl(318, 70%, 45%)" opacity="0.14977839587678332"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Housing-Ayanavaram</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

@@ -25,11 +25,21 @@ import {
   Cell,
   Treemap,
 } from "recharts";
-import { budgetAllocations, sectorSpending } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
 
 const CHART_COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899", "#f97316"];
+
+const budgetAllocations = [
+  { department: "Roads & Infrastructure", allocated: 82000000, spent: 65000000, quarter: "Q4 2024" },
+  { department: "Water Supply", allocated: 56000000, spent: 42000000, quarter: "Q4 2024" },
+  { department: "Electricity", allocated: 34000000, spent: 28000000, quarter: "Q4 2024" },
+  { department: "Healthcare", allocated: 45000000, spent: 38000000, quarter: "Q4 2024" },
+  { department: "Education", allocated: 38000000, spent: 31000000, quarter: "Q4 2024" },
+  { department: "Sanitation", allocated: 42000000, spent: 35000000, quarter: "Q4 2024" },
+  { department: "Public Safety", allocated: 28000000, spent: 22000000, quarter: "Q4 2024" },
+  { department: "Housing", allocated: 52000000, spent: 41000000, quarter: "Q4 2024" },
+];
 
 const budgetData = budgetAllocations.map((b) => ({
   name: b.department.split(" ")[0],

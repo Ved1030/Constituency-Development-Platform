@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c5282"/>
+      <stop offset="100%" stop-color="#353e92"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#90cdf4" opacity="0.8"/>
+  <line x1="308" y1="237" x2="474" y2="80" stroke="#90cdf4" stroke-width="1.5" opacity="0.15"/>
+  <rect x="483" y="178" width="154" height="114" rx="6" fill="#90cdf4" opacity="0.17827705506060454"/>
+  <circle cx="62" cy="236" r="144" fill="#90cdf4" opacity="0.06479360705759454"/>
+  <circle cx="65" cy="14" r="55" fill="#90cdf4" opacity="0.06050192785721302"/>
+  <line x1="532" y1="62" x2="343" y2="123" stroke="#90cdf4" stroke-width="1.5" opacity="0.15"/>
+  <circle cx="400" cy="270" r="50" fill="#90cdf4" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#90cdf4" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Education Problem</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

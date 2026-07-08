@@ -16,6 +16,11 @@ from app.api import analytics
 from app.api import projects
 from app.api import recommendation
 from app.api import speech
+from app.api import digital_twin
+from app.api import constituency
+from app.api import seed
+from app.api import datasets
+from app.api import social
 
 api_router = APIRouter()
 
@@ -28,3 +33,8 @@ api_router.include_router(copilot.router, prefix="/copilot", tags=["Copilot"])
 api_router.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
 api_router.include_router(projects.router, prefix="/projects", tags=["Projects"])
 api_router.include_router(recommendation.router, prefix="/recommendations", tags=["Recommendations"])
+api_router.include_router(digital_twin.router, prefix="/digital-twin", tags=["Digital Twin"])
+api_router.include_router(constituency.router, prefix="/constituency", tags=["Constituency"])
+api_router.include_router(seed.router, prefix="/seed", tags=["Seed"])
+api_router.include_router(datasets.router, prefix="/datasets", tags=["Datasets"])
+api_router.include_router(social.router, prefix="/social", tags=["Social Media"])

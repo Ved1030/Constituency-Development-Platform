@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(242, 60%, 25%)"/>
+  <line x1="28" y1="508" x2="542" y2="497" stroke="hsl(282, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="525" y1="175" x2="0" y2="207" stroke="hsl(282, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="261" y1="545" x2="214" y2="203" stroke="hsl(282, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="620" y1="388" x2="40" y2="329" stroke="hsl(282, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="440" y1="341" x2="226" y2="33" stroke="hsl(282, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="4" y1="562" x2="401" y2="474" stroke="hsl(282, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">news-Sanitation</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

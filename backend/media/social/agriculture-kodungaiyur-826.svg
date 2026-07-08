@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(270, 60%, 25%)"/>
+  <line x1="653" y1="256" x2="489" y2="363" stroke="hsl(310, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="144" y1="193" x2="632" y2="15" stroke="hsl(310, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="719" y1="600" x2="129" y2="225" stroke="hsl(310, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="256" y1="329" x2="239" y2="143" stroke="hsl(310, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="128" y1="539" x2="375" y2="373" stroke="hsl(310, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="336" y1="522" x2="163" y2="348" stroke="hsl(310, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Agriculture-Kodungaiyur</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

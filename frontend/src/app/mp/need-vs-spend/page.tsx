@@ -28,9 +28,35 @@ import {
   PolarRadiusAxis,
   Radar,
 } from "recharts";
-import { needVsSpendData } from "@/data/mock-mp";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
+
+const needVsSpendData = {
+  citizenDemand: [
+    { category: "Water Supply", demand: 645, priority: "Critical", sentiment: 89 },
+    { category: "Road Repair", demand: 892, priority: "High", sentiment: 82 },
+    { category: "Street Lighting", demand: 423, priority: "Medium", sentiment: 75 },
+    { category: "Drainage", demand: 378, priority: "High", sentiment: 85 },
+    { category: "Healthcare Access", demand: 412, priority: "Critical", sentiment: 91 },
+    { category: "School Infrastructure", demand: 334, priority: "Medium", sentiment: 78 },
+  ],
+  governmentSpending: [
+    { category: "Water Supply", spent: 42000000, allocated: 56000000, utilization: 75 },
+    { category: "Road Repair", spent: 65000000, allocated: 82000000, utilization: 79 },
+    { category: "Street Lighting", spent: 18000000, allocated: 22000000, utilization: 82 },
+    { category: "Drainage", spent: 35000000, allocated: 42000000, utilization: 83 },
+    { category: "Healthcare", spent: 38000000, allocated: 45000000, utilization: 84 },
+    { category: "Education", spent: 31000000, allocated: 38000000, utilization: 82 },
+  ],
+  gapAnalysis: [
+    { category: "Water Supply", gap: "High", insight: "Spending is 75% but demand is Critical. Need ₹1.4 Cr additional allocation.", aiConfidence: 92 },
+    { category: "Healthcare", gap: "Medium", insight: "Spending at 84% but access gaps remain in 3 wards. Reallocate from underspent departments.", aiConfidence: 88 },
+    { category: "Road Repair", gap: "Low", insight: "Budget on track. Batch contracting could save ₹2.3 Cr.", aiConfidence: 95 },
+    { category: "Education", gap: "Medium", insight: "School upgrades show 3.1x ROI vs new construction. Prioritize renovation.", aiConfidence: 86 },
+    { category: "Drainage", gap: "High", insight: "Monsoon risk requires ₹80L emergency allocation before October.", aiConfidence: 90 },
+    { category: "Street Lighting", gap: "Low", insight: "Solar installation project on track. 75% complete.", aiConfidence: 94 },
+  ],
+};
 
 const demandChartData = needVsSpendData.citizenDemand.map((d) => ({
   name: d.category.split(" ")[0],

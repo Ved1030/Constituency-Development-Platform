@@ -10,9 +10,7 @@ Provides:
 
 import logging
 import logging.handlers
-import os
 import sys
-import time
 import uuid
 from contextvars import ContextVar
 from pathlib import Path

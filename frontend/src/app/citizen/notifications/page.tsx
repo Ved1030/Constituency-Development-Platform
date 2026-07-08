@@ -14,8 +14,74 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { notifications } from "@/data/mock-citizen";
 import { useTranslation } from "@/hooks/use-translation";
+
+const notifications = [
+  {
+    id: "NOT-001",
+    title: "Complaint Update",
+    message: "Your complaint CMP-2024-001 has been assigned to Junior Engineer K. Selvam.",
+    type: "status" as const,
+    read: false,
+    createdAt: "2025-01-10T09:30:00",
+  },
+  {
+    id: "NOT-002",
+    title: "New Voting Started",
+    message: "Solar Street Lights proposal is now open for community voting. Cast your vote!",
+    type: "voting" as const,
+    read: false,
+    createdAt: "2025-01-09T14:00:00",
+  },
+  {
+    id: "NOT-003",
+    title: "Achievement Unlocked!",
+    message: "Congratulations! You've earned the 'Top Contributor' badge.",
+    type: "achievement" as const,
+    read: false,
+    createdAt: "2025-01-08T11:45:00",
+  },
+  {
+    id: "NOT-004",
+    title: "Nearby Issue Reported",
+    message: "A critical road cave-in has been reported near Main Market.",
+    type: "alert" as const,
+    read: true,
+    createdAt: "2025-01-07T16:20:00",
+  },
+  {
+    id: "NOT-005",
+    title: "Complaint Resolved",
+    message: "Your complaint CMP-2024-004 about medicine shortage has been resolved.",
+    type: "status" as const,
+    read: true,
+    createdAt: "2025-01-05T10:00:00",
+  },
+  {
+    id: "NOT-006",
+    title: "Community Request",
+    message: "Priya S. from your area needs support for the Road Caving issue.",
+    type: "system" as const,
+    read: true,
+    createdAt: "2025-01-04T08:30:00",
+  },
+  {
+    id: "NOT-007",
+    title: "Budget Update",
+    message: "₹12.5 Lakh allocated for Ward 7 road repairs. Work begins next week.",
+    type: "status" as const,
+    read: false,
+    createdAt: "2025-01-14T08:00:00",
+  },
+  {
+    id: "NOT-008",
+    title: "New Scheme Launched",
+    message: "PM Swachh Bharat 2.0 is now available in your constituency. Apply now!",
+    type: "system" as const,
+    read: true,
+    createdAt: "2025-01-12T10:00:00",
+  },
+];
 
 const typeConfig: Record<string, { icon: typeof Bell; color: string; bg: string }> = {
   status: { icon: CheckCircle, color: "text-blue-600", bg: "bg-blue-50" },

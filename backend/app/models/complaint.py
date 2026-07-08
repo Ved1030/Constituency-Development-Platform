@@ -103,6 +103,7 @@ class Complaint(Base):
     pincode = Column(String(10), nullable=True)
     assembly_constituency = Column(String(200), nullable=True)
     lok_sabha_constituency = Column(String(200), nullable=True)
+    constituency_name = Column(String(200), nullable=True, index=True)
     nearest_landmark = Column(String(300), nullable=True)
 
     # -- Evidence & Verification --------------------------------------------

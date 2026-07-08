@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg0" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#744210"/>
+      <stop offset="50%" stop-color="#975a16" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#744210"/>
+    </linearGradient>
+    <pattern id="grid0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" opacity="0.03"/></pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg0)"/>
+  <rect width="100%" height="100%" fill="url(#grid0)"/>
+  <rect x="418" y="22" width="64" height="97" rx="8" fill="#975a16" opacity="0.13"/>
+  <rect x="67" y="371" width="139" height="146" rx="8" fill="#975a16" opacity="0.13"/>
+  <circle cx="295" cy="191" r="168" fill="#975a16" opacity="0.08"/>
+  <rect x="712" y="492" width="186" height="98" rx="8" fill="#975a16" opacity="0.14"/>
+  <circle cx="5" cy="566" r="96" fill="#975a16" opacity="0.05"/>
+  <rect x="55" y="112" width="158" height="60" rx="8" fill="#975a16" opacity="0.06"/>
+  <rect x="53" y="66" width="76" height="197" rx="8" fill="#975a16" opacity="0.14"/>
+  <circle cx="329" cy="132" r="63" fill="none" stroke="#975a16" stroke-width="2" opacity="0.12"/>
+  <circle cx="271" cy="383" r="48" fill="none" stroke="#975a16" stroke-width="2" opacity="0.12"/>
+  <circle cx="265" cy="372" r="65" fill="none" stroke="#975a16" stroke-width="2" opacity="0.12"/>
+  <rect x="0" y="0" width="800" height="8" fill="#975a16" opacity="0.7"/>
+  <circle cx="400" cy="260" r="60" fill="#975a16" opacity="0.12"/>
+  <circle cx="400" cy="260" r="35" fill="#975a16" opacity="0.25"/>
+  <text x="50%" y="335" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="23" font-weight="700" fill="white" opacity="0.9">Traffic Problem</text>
+  <text x="50%" y="360" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Constituency #1 · Demo Image</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.25"/>
+  <text x="50%" y="586" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="white" opacity="0.5">Category: Traffic · MP Portal Demo</text>
+  <rect x="660" y="16" width="124" height="28" rx="14" fill="#975a16" opacity="0.2"/>
+  <text x="722" y="34" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#975a16" opacity="0.8">Traffic</text>
+</svg>

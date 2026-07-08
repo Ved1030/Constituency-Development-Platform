@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(209, 60%, 25%)"/>
+  <rect x="185" y="209" width="101" height="84" rx="8" fill="hsl(249, 70%, 45%)" opacity="0.1346383383367365"/><rect x="357" y="5" width="111" height="125" rx="8" fill="hsl(249, 70%, 45%)" opacity="0.1483213096430004"/><rect x="407" y="429" width="127" height="120" rx="8" fill="hsl(249, 70%, 45%)" opacity="0.12043669036708397"/><rect x="437" y="266" width="126" height="102" rx="8" fill="hsl(249, 70%, 45%)" opacity="0.10031206005386036"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Environment-Vyasarpadi</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#553c9a"/>
+      <stop offset="100%" stop-color="#532c96"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#b794f4" opacity="0.8"/>
+  <circle cx="69" cy="577" r="72" fill="#b794f4" opacity="0.11446635927188367"/>
+  <circle cx="100" cy="72" r="47" fill="#b794f4" opacity="0.10608071965955862"/>
+  <circle cx="207" cy="24" r="132" fill="#b794f4" opacity="0.19203474747501237"/>
+  <rect x="293" y="224" width="120" height="165" rx="6" fill="#b794f4" opacity="0.0801894735864129"/>
+  <circle cx="201" cy="9" r="122" fill="#b794f4" opacity="0.07571487058887243"/>
+  <line x1="497" y1="535" x2="243" y2="499" stroke="#b794f4" stroke-width="1.5" opacity="0.15"/>
+  <circle cx="535" cy="505" r="128" fill="#b794f4" opacity="0.1482575045049272"/>
+  <circle cx="400" cy="270" r="50" fill="#b794f4" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#b794f4" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Garbage Dump Alert</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

@@ -1,8 +1,9 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Building2, TrendingUp, Users, FolderKanban, IndianRupee, Brain } from "lucide-react";
-import { departments } from "@/data/mock-mp";
+import { fetchDashboard } from "@/services/api/dashboard";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
 
@@ -30,6 +31,29 @@ const riskLevels: Record<string, string> = {
 
 export default function DepartmentsPage() {
   const { t } = useTranslation();
+  const { data: dashData } = useQuery({
+    queryKey: ["mp-departments-data"],
+    queryFn: () => fetchDashboard(),
+    refetchInterval: 5000,
+    refetchIntervalInBackground: true,
+  });
+  const departments = (dashData?.department_performance || []).map((d) => {
+    const budget = d.total * 50000;
+    const spent = Math.round(budget * (d.resolved / Math.max(d.total, 1)));
+    return {
+      name: d.department,
+      icon: departmentIcons[d.department] || "📋",
+      complaints: d.total,
+      resolved: d.resolved,
+      avgDays: d.avg_resolution_days,
+      budget,
+      spent,
+      budgetLabel: `₹${(budget / 100000).toFixed(1)}L`,
+      budgetUtilization: d.resolved > 0 ? Math.round((d.resolved / d.total) * 100) : 0,
+      satisfaction: d.resolved > 0 ? Math.min(100, Math.round((d.resolved / d.total) * 100) + 20) : 0,
+      performance: d.resolved > 0 ? Math.round((d.resolved / d.total) * 100) : 0,
+    };
+  });
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>

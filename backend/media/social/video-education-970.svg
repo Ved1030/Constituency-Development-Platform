@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(236, 60%, 25%)"/>
+  <line x1="717" y1="113" x2="98" y2="572" stroke="hsl(276, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="139" y1="197" x2="25" y2="334" stroke="hsl(276, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="33" y1="201" x2="229" y2="418" stroke="hsl(276, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="311" y1="369" x2="29" y2="564" stroke="hsl(276, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="745" y1="68" x2="433" y2="148" stroke="hsl(276, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="261" y1="350" x2="582" y2="64" stroke="hsl(276, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">video-Education</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

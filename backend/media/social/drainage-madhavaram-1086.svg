@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(274, 60%, 25%)"/>
+  <line x1="684" y1="390" x2="331" y2="497" stroke="hsl(314, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="181" y1="365" x2="581" y2="203" stroke="hsl(314, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="310" y1="486" x2="574" y2="461" stroke="hsl(314, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="242" y1="362" x2="104" y2="38" stroke="hsl(314, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="423" y1="211" x2="428" y2="478" stroke="hsl(314, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="618" y1="3" x2="227" y2="449" stroke="hsl(314, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Drainage-Madhavaram</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

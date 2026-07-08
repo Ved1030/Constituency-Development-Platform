@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#276749"/>
+      <stop offset="100%" stop-color="#1b545b"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#48bb78" opacity="0.8"/>
+  <rect x="168" y="8" width="186" height="136" rx="6" fill="#48bb78" opacity="0.10829570770032478"/>
+  <circle cx="724" cy="291" r="136" fill="#48bb78" opacity="0.10968769257715899"/>
+  <circle cx="279" cy="59" r="60" fill="#48bb78" opacity="0.09748116894893347"/>
+  <line x1="554" y1="164" x2="8" y2="279" stroke="#48bb78" stroke-width="1.5" opacity="0.15"/>
+  <rect x="489" y="49" width="178" height="54" rx="6" fill="#48bb78" opacity="0.05464900809476168"/>
+  <circle cx="24" cy="114" r="58" fill="#48bb78" opacity="0.1574081081607973"/>
+  <rect x="76" y="55" width="191" height="137" rx="6" fill="#48bb78" opacity="0.08785090659603517"/>
+  <circle cx="400" cy="270" r="50" fill="#48bb78" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#48bb78" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Agriculture Issue</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

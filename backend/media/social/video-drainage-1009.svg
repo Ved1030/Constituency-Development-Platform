@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(223, 60%, 25%)"/>
+  <rect x="12" y="249" width="69" height="126" rx="8" fill="hsl(263, 70%, 45%)" opacity="0.17176930373867227"/><rect x="171" y="257" width="90" height="87" rx="8" fill="hsl(263, 70%, 45%)" opacity="0.14123990806347675"/><rect x="32" y="104" width="85" height="134" rx="8" fill="hsl(263, 70%, 45%)" opacity="0.11169220917716627"/><rect x="504" y="82" width="125" height="72" rx="8" fill="hsl(263, 70%, 45%)" opacity="0.1856007263113304"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">video-Drainage</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

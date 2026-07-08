@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#742a2a"/>
+      <stop offset="100%" stop-color="#733218"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#fc8181" opacity="0.8"/>
+  <circle cx="46" cy="143" r="128" fill="#fc8181" opacity="0.14151227829246574"/>
+  <circle cx="613" cy="214" r="108" fill="#fc8181" opacity="0.19241056076612778"/>
+  <line x1="429" y1="227" x2="487" y2="432" stroke="#fc8181" stroke-width="1.5" opacity="0.15"/>
+  <rect x="527" y="386" width="73" height="121" rx="6" fill="#fc8181" opacity="0.18453965172110542"/>
+  <rect x="39" y="144" width="109" height="174" rx="6" fill="#fc8181" opacity="0.12165295074105054"/>
+  <line x1="191" y1="563" x2="491" y2="318" stroke="#fc8181" stroke-width="1.5" opacity="0.15"/>
+  <rect x="247" y="433" width="84" height="110" rx="6" fill="#fc8181" opacity="0.051822170005662097"/>
+  <circle cx="400" cy="270" r="50" fill="#fc8181" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#fc8181" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Sanitation Crisis</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dd6b20"/>
+      <stop offset="50%" stop-color="#7b341e" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#dd6b20"/>
+    </linearGradient>
+    <pattern id="grid1" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" opacity="0.03"/></pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg1)"/>
+  <rect width="100%" height="100%" fill="url(#grid1)"/>
+  <rect x="350" y="313" width="232" height="176" rx="8" fill="#7b341e" opacity="0.09"/>
+  <circle cx="40" cy="569" r="128" fill="#7b341e" opacity="0.09"/>
+  <rect x="267" y="314" width="229" height="218" rx="8" fill="#7b341e" opacity="0.12"/>
+  <rect x="153" y="104" width="114" height="200" rx="8" fill="#7b341e" opacity="0.11"/>
+  <circle cx="704" cy="233" r="90" fill="#7b341e" opacity="0.14"/>
+  <circle cx="264" cy="68" r="79" fill="none" stroke="#7b341e" stroke-width="2" opacity="0.12"/>
+  <circle cx="619" cy="239" r="26" fill="none" stroke="#7b341e" stroke-width="2" opacity="0.12"/>
+  <circle cx="105" cy="175" r="52" fill="none" stroke="#7b341e" stroke-width="2" opacity="0.12"/>
+  <circle cx="311" cy="95" r="59" fill="none" stroke="#7b341e" stroke-width="2" opacity="0.12"/>
+  <rect x="0" y="0" width="800" height="8" fill="#7b341e" opacity="0.7"/>
+  <circle cx="400" cy="260" r="60" fill="#7b341e" opacity="0.12"/>
+  <circle cx="400" cy="260" r="35" fill="#7b341e" opacity="0.25"/>
+  <text x="50%" y="335" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Street Light Out</text>
+  <text x="50%" y="360" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Constituency #2 · Demo Image</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.25"/>
+  <text x="50%" y="586" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="white" opacity="0.5">Category: Streetlights · MP Portal Demo</text>
+  <rect x="660" y="16" width="124" height="28" rx="14" fill="#7b341e" opacity="0.2"/>
+  <text x="722" y="34" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#7b341e" opacity="0.8">Streetlights</text>
+</svg>

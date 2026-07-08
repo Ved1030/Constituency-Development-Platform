@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(228, 60%, 25%)"/>
+  <circle cx="587" cy="231" r="34" fill="hsl(268, 70%, 45%)" opacity="0.19336673701784277"/><circle cx="617" cy="466" r="69" fill="hsl(268, 70%, 45%)" opacity="0.2910003168536631"/><circle cx="150" cy="79" r="75" fill="hsl(268, 70%, 45%)" opacity="0.21690474148296365"/><circle cx="133" cy="313" r="64" fill="hsl(268, 70%, 45%)" opacity="0.28657536758987956"/><circle cx="418" cy="318" r="73" fill="hsl(268, 70%, 45%)" opacity="0.2956967746663338"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">news-Roads</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

@@ -1,0 +1,105 @@
+{
+  "North Chennai": {
+    "name": "North Chennai",
+    "slug": "north-chennai",
+    "state": "Tamil Nadu",
+    "district": "Chennai",
+    "center": { "lat": 13.128, "lng": 80.288 },
+    "zoom": 12,
+    "boundary_file": "/maps/north-chennai.geojson",
+    "population": 1840000,
+    "villages": 142,
+    "wards": 24,
+    "gram_panchayats": 68,
+    "urban_rural_split": { "urban": 68, "rural": 32 },
+    "current_budget_cr": 37.7,
+    "mplads_fund_cr": 5.0,
+    "assembly_segment": "North Chennai",
+    "lok_sabha": "Chennai North",
+    "mp_name": "Dr. Rajesh Sharma",
+    "wards_list": [
+      "Ward 1 - T Nagar", "Ward 2 - Adyar East", "Ward 3 - Velachery",
+      "Ward 4 - Sholinganallur", "Ward 5 - Gandhi Nagar", "Ward 6 - Ramesh Nagar",
+      "Ward 7 - Marina", "Ward 8 - Korattur", "Ward 9 - Perambur",
+      "Ward 10 - Villivakkam", "Ward 11 - Ayanavaram", "Ward 12 - Otteri",
+      "Ward 13 - Pulianthope", "Ward 14 - Basin Bridge", "Ward 15 - Vyasarpadi",
+      "Ward 16 - Perambur Barracks", "Ward 17 - Agaram", "Ward 18 - Jafferkhanpet",
+      "Ward 19 - Aminjikarai", "Ward 20 - Anna Nagar East", "Ward 21 - Anna Nagar West",
+      "Ward 22 - Arumbakkam", "Ward 23 - Villivakkam West", "Ward 24 - Kolathur"
+    ],
+    "villages_list": [
+      "Korattur", "Perambur", "Villivakkam", "Ayanavaram", "Otteri",
+      "Pulianthope", "Basin Bridge", "Vyasarpadi", "Agaram", "Jafferkhanpet",
+      "Aminjikarai", "Anna Nagar East", "Anna Nagar West", "Arumbakkam", "Kolathur",
+      "T Nagar", "Adyar East", "Velachery", "Sholinganallur", "Gandhi Nagar",
+      "Ramesh Nagar", "Marina"
+    ]
+  },
+  "South Mumbai": {
+    "name": "South Mumbai",
+    "slug": "south-mumbai",
+    "state": "Maharashtra",
+    "district": "Mumbai",
+    "center": { "lat": 18.945, "lng": 72.833 },
+    "zoom": 13,
+    "boundary_file": "/maps/south-mumbai.geojson",
+    "population": 2100000,
+    "villages": 98,
+    "wards": 20,
+    "gram_panchayats": 0,
+    "urban_rural_split": { "urban": 100, "rural": 0 },
+    "current_budget_cr": 52.4,
+    "mplads_fund_cr": 5.0,
+    "assembly_segment": "South Mumbai",
+    "lok_sabha": "Mumbai South",
+    "mp_name": "Smt. Meera Desai",
+    "wards_list": [
+      "Ward 1 - Colaba", "Ward 2 - Cuffe Parade", "Ward 3 - Nariman Point",
+      "Ward 4 - Churchgate", "Ward 5 - Marine Lines", "Ward 6 - Fort",
+      "Ward 7 - Kalbadevi", "Ward 8 - Girgaon", "Ward 9 - Grant Road",
+      "Ward 10 - Tardeo", "Ward 11 - Walkeshwar", "Ward 12 - Malabar Hill",
+      "Ward 13 - Pedder Road", "Ward 14 - Breach Candy", "Ward 15 - Mahalaxmi",
+      "Ward 16 - Worli Sea Face", "Ward 17 - Prabhadevi", "Ward 18 - Lower Parel",
+      "Ward 19 - Elphinstone", "Ward 20 - Jacob Circle"
+    ],
+    "villages_list": [
+      "Colaba", "Cuffe Parade", "Nariman Point", "Churchgate", "Marine Lines",
+      "Fort", "Kalbadevi", "Girgaon", "Grant Road", "Tardeo",
+      "Walkeshwar", "Malabar Hill", "Breach Candy", "Mahalaxmi", "Worli",
+      "Prabhadevi", "Lower Parel", "Elphinstone", "Jacob Circle", "Pedder Road"
+    ]
+  },
+  "Central Surat": {
+    "name": "Central Surat",
+    "slug": "central-surat",
+    "state": "Gujarat",
+    "district": "Surat",
+    "center": { "lat": 21.195, "lng": 72.820 },
+    "zoom": 13,
+    "boundary_file": "/maps/central-surat.geojson",
+    "population": 1650000,
+    "villages": 112,
+    "wards": 18,
+    "gram_panchayats": 45,
+    "urban_rural_split": { "urban": 72, "rural": 28 },
+    "current_budget_cr": 41.2,
+    "mplads_fund_cr": 5.0,
+    "assembly_segment": "Central Surat",
+    "lok_sabha": "Surat Central",
+    "mp_name": "Shri Amit Joshi",
+    "wards_list": [
+      "Ward 1 - Nanpura", "Ward 2 - Mahidharpura", "Ward 3 - Gopipura",
+      "Ward 4 - Sagrampura", "Ward 5 - Shahpore", "Ward 6 - Begumpura",
+      "Ward 7 - Rander", "Ward 8 - Adajan", "Ward 9 - Palanpur Patia",
+      "Ward 10 - Vesu", "Ward 11 - City Light", "Ward 12 - Dumas Road",
+      "Ward 13 - Piplod", "Ward 14 - Bhatar", "Ward 15 - Udhna",
+      "Ward 16 - Pandesara", "Ward 17 - Katargam", "Ward 18 - Varachha"
+    ],
+    "villages_list": [
+      "Nanpura", "Mahidharpura", "Gopipura", "Sagrampura", "Shahpore",
+      "Begumpura", "Rander", "Adajan", "Palanpur Patia", "Vesu",
+      "City Light", "Dumas Road", "Piplod", "Bhatar", "Udhna",
+      "Pandesara", "Katargam", "Varachha"
+    ]
+  }
+}

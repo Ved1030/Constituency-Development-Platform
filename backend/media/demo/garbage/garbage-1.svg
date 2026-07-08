@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg0" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#553c9a"/>
+      <stop offset="50%" stop-color="#6b46c1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#553c9a"/>
+    </linearGradient>
+    <pattern id="grid0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" opacity="0.03"/></pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg0)"/>
+  <rect width="100%" height="100%" fill="url(#grid0)"/>
+  <circle cx="334" cy="230" r="134" fill="#6b46c1" opacity="0.11"/>
+  <circle cx="308" cy="73" r="147" fill="#6b46c1" opacity="0.14"/>
+  <rect x="665" y="547" width="229" height="177" rx="8" fill="#6b46c1" opacity="0.11"/>
+  <circle cx="701" cy="123" r="144" fill="#6b46c1" opacity="0.09"/>
+  <circle cx="755" cy="439" r="99" fill="#6b46c1" opacity="0.05"/>
+  <rect x="416" y="428" width="232" height="221" rx="8" fill="#6b46c1" opacity="0.11"/>
+  <circle cx="214" cy="183" r="22" fill="none" stroke="#6b46c1" stroke-width="2" opacity="0.12"/>
+  <circle cx="447" cy="114" r="56" fill="none" stroke="#6b46c1" stroke-width="2" opacity="0.12"/>
+  <circle cx="221" cy="295" r="79" fill="none" stroke="#6b46c1" stroke-width="2" opacity="0.12"/>
+  <circle cx="720" cy="537" r="34" fill="none" stroke="#6b46c1" stroke-width="2" opacity="0.12"/>
+  <circle cx="198" cy="456" r="54" fill="none" stroke="#6b46c1" stroke-width="2" opacity="0.12"/>
+  <circle cx="693" cy="83" r="24" fill="none" stroke="#6b46c1" stroke-width="2" opacity="0.12"/>
+  <rect x="0" y="0" width="800" height="8" fill="#6b46c1" opacity="0.7"/>
+  <circle cx="400" cy="260" r="60" fill="#6b46c1" opacity="0.12"/>
+  <circle cx="400" cy="260" r="35" fill="#6b46c1" opacity="0.25"/>
+  <text x="50%" y="335" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="23" font-weight="700" fill="white" opacity="0.9">Garbage Dump</text>
+  <text x="50%" y="360" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Constituency #1 · Demo Image</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.25"/>
+  <text x="50%" y="586" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="white" opacity="0.5">Category: Garbage · MP Portal Demo</text>
+  <rect x="660" y="16" width="124" height="28" rx="14" fill="#6b46c1" opacity="0.2"/>
+  <text x="722" y="34" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#6b46c1" opacity="0.8">Garbage</text>
+</svg>

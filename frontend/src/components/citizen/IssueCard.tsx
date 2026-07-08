@@ -5,7 +5,7 @@ import { MapPin, ThumbsUp, TriangleAlert, CheckCircle, Clock } from "lucide-reac
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ComplaintStatusBadge } from "./ComplaintStatusBadge";
-import type { Issue } from "@/data/mock-citizen";
+import type { Issue } from "@/types/citizen";
 
 const severityColors = {
   low: "bg-blue-500",

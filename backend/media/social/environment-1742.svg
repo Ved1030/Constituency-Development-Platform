@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22543d"/>
+      <stop offset="100%" stop-color="#105e3d"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="6" fill="#68d391" opacity="0.8"/>
+  <rect x="518" y="75" width="198" height="90" rx="6" fill="#68d391" opacity="0.06839483507617868"/>
+  <circle cx="95" cy="126" r="31" fill="#68d391" opacity="0.18329962230107777"/>
+  <line x1="384" y1="522" x2="414" y2="281" stroke="#68d391" stroke-width="1.5" opacity="0.15"/>
+  <line x1="121" y1="530" x2="223" y2="342" stroke="#68d391" stroke-width="1.5" opacity="0.15"/>
+  <line x1="711" y1="368" x2="16" y2="402" stroke="#68d391" stroke-width="1.5" opacity="0.15"/>
+  <circle cx="400" cy="270" r="50" fill="#68d391" opacity="0.15"/><circle cx="400" cy="270" r="30" fill="#68d391" opacity="0.25"/>
+  <text x="50%" y="340" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="22" font-weight="700" fill="white" opacity="0.9">Environment Alert</text>
+  <text x="50%" y="365" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Social Media Intelligence</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.3"/>
+</svg>

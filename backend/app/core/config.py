@@ -61,6 +61,12 @@ class Settings(BaseSettings):
         "ai_confidence": 15,
     }
 
+    # -- Apify (Social Media Scraping) --------------------------------------
+    APIFY_TOKEN: Optional[str] = None
+    APIFY_CACHE_TTL: int = 900          # seconds (15 min)
+    APIFY_MAX_POSTS: int = 100
+    APIFY_REQUEST_TIMEOUT: int = 60
+
     # -- Logging ------------------------------------------------------------
     LOG_DIR: str = "logs"
     LOG_LEVEL: str = "INFO"

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(258, 60%, 25%)"/>
+  <line x1="687" y1="186" x2="451" y2="127" stroke="hsl(298, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="322" y1="177" x2="711" y2="69" stroke="hsl(298, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="62" y1="160" x2="767" y2="335" stroke="hsl(298, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="174" y1="317" x2="266" y2="115" stroke="hsl(298, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="157" y1="289" x2="642" y2="229" stroke="hsl(298, 70%, 45%)" stroke-width="2" opacity="0.2"/><line x1="410" y1="367" x2="129" y2="52" stroke="hsl(298, 70%, 45%)" stroke-width="2" opacity="0.2"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Public Safety-Kasimedu</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

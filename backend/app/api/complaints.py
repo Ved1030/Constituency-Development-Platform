@@ -85,6 +85,7 @@ async def list_complaints(
     category: str = Query(None),
     ward: str = Query(None),
     village: str = Query(None),
+    constituency: str = Query(None),
     db: AsyncSession = Depends(get_db),
 ):
     """List complaints with optional filters and pagination."""
@@ -96,6 +97,7 @@ async def list_complaints(
         category=category,
         ward=ward,
         village=village,
+        constituency=constituency,
     )
     return ComplaintListResponse(
         complaints=complaints,
@@ -107,10 +109,11 @@ async def list_complaints(
 
 @router.get("/stats", response_model=ComplaintStatsResponse)
 async def get_complaint_stats(
+    constituency: str = Query(None),
     db: AsyncSession = Depends(get_db),
 ):
     """Get complaint statistics for dashboard."""
-    stats = await complaint_service.get_stats(db)
+    stats = await complaint_service.get_stats(db, constituency=constituency)
     return ComplaintStatsResponse(**stats)
 
 

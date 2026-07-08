@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(222, 60%, 25%)"/>
+  <rect x="631" y="221" width="124" height="68" rx="8" fill="hsl(262, 70%, 45%)" opacity="0.22560431179717247"/><rect x="638" y="217" width="61" height="66" rx="8" fill="hsl(262, 70%, 45%)" opacity="0.1814160466499422"/><rect x="4" y="485" width="125" height="122" rx="8" fill="hsl(262, 70%, 45%)" opacity="0.2135535518742773"/><rect x="216" y="113" width="79" height="64" rx="8" fill="hsl(262, 70%, 45%)" opacity="0.11172063203079857"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">video-Education</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

@@ -42,7 +42,6 @@ import { EvidenceScoreGauge } from "@/components/citizen/EvidenceScoreGauge";
 import { BackgroundClassificationCard } from "@/components/citizen/BackgroundClassificationCard";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 import type { UILanguage } from "@/components/common/LanguageSwitcher";
-import { complaintCategories } from "@/data/mock-citizen";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { useReverseGeocoding } from "@/hooks/use-reverse-geocoding";
 import { useBackgroundClassification } from "@/hooks/use-background-classification";
@@ -57,6 +56,16 @@ import type {
   GPSLocation,
   IssueClusterInfo,
 } from "@/types/complaint";
+
+const complaintCategories = [
+  { value: "road", label: "Road", icon: "MapPin" },
+  { value: "water", label: "Water", icon: "Droplets" },
+  { value: "electricity", label: "Electricity", icon: "Zap" },
+  { value: "healthcare", label: "Healthcare", icon: "Heart" },
+  { value: "education", label: "Education", icon: "BookOpen" },
+  { value: "sanitation", label: "Sanitation", icon: "Trash2" },
+  { value: "other", label: "Other", icon: "MoreHorizontal" },
+];
 
 // ---------------------------------------------------------------------------
 // Steps

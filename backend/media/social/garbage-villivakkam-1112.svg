@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(236, 60%, 25%)"/>
+  <circle cx="74" cy="260" r="72" fill="hsl(276, 70%, 45%)" opacity="0.2502619631974805"/><circle cx="32" cy="440" r="72" fill="hsl(276, 70%, 45%)" opacity="0.11362129409079276"/><circle cx="577" cy="340" r="77" fill="hsl(276, 70%, 45%)" opacity="0.25141583854816063"/><circle cx="382" cy="527" r="26" fill="hsl(276, 70%, 45%)" opacity="0.26427718212020845"/><circle cx="688" cy="72" r="28" fill="hsl(276, 70%, 45%)" opacity="0.10899489812090742"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">Garbage-Villivakkam</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>

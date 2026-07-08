@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
@@ -17,13 +17,48 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ComplaintCard } from "@/components/citizen/ComplaintCard";
-import { complaints, citizenUser, complaintCategories } from "@/data/mock-citizen";
 import { useTranslation } from "@/hooks/use-translation";
+import { useQuery } from "@tanstack/react-query";
+import { fetchComplaints } from "@/services/api/complaints";
+import type { Complaint } from "@/types/complaint";
+
+function mapComplaint(c: Complaint) {
+  return {
+    id: c.complaint_uid,
+    title: c.title,
+    description: c.description || "",
+    category: c.category,
+    status: c.status,
+    severity: c.severity as "low" | "medium" | "high" | "critical",
+    location: c.village || c.nearest_landmark || "Unknown",
+    lat: c.gps_latitude || 0,
+    lng: c.gps_longitude || 0,
+    createdAt: c.created_at,
+    updatedAt: c.updated_at,
+    upvotes: 0,
+    comments: 0,
+    department: c.department || undefined,
+    officerAssigned: "",
+    expectedResolution: c.estimated_resolution_days ? `${c.estimated_resolution_days} days` : "",
+    tags: c.ai_detected_sector ? [c.ai_detected_sector] : [],
+    progress: c.status === "resolved" ? 100 : c.status === "in-progress" ? 50 : c.status === "verified" ? 25 : 0,
+  };
+}
 
 export default function ComplaintsPage() {
   const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { data } = useQuery({
+    queryKey: ["complaints", activeFilter, searchQuery],
+    queryFn: () => fetchComplaints({
+      status: activeFilter === "all" ? undefined : activeFilter,
+    }),
+    refetchInterval: 5000,
+  });
+
+  const complaints = useMemo(() => (data?.complaints || []).map(mapComplaint), [data]);
 
   const statusFilters = [
     { label: t("common.all"), value: "all" },
@@ -33,12 +68,11 @@ export default function ComplaintsPage() {
   ];
 
   const filtered = complaints.filter((c) => {
-    const matchesStatus = activeFilter === "all" || c.status === activeFilter;
     const matchesSearch =
       c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.location.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesStatus && matchesSearch;
+    return matchesSearch;
   });
 
   const stats = [

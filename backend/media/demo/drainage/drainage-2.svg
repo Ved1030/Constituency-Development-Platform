@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a5568"/>
+      <stop offset="50%" stop-color="#1a202c" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#4a5568"/>
+    </linearGradient>
+    <pattern id="grid1" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" opacity="0.03"/></pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg1)"/>
+  <rect width="100%" height="100%" fill="url(#grid1)"/>
+  <circle cx="196" cy="134" r="147" fill="#1a202c" opacity="0.07"/>
+  <circle cx="538" cy="220" r="156" fill="#1a202c" opacity="0.07"/>
+  <rect x="354" y="348" width="132" height="143" rx="8" fill="#1a202c" opacity="0.14"/>
+  <circle cx="399" cy="238" r="144" fill="#1a202c" opacity="0.11"/>
+  <circle cx="707" cy="70" r="133" fill="#1a202c" opacity="0.1"/>
+  <circle cx="426" cy="368" r="81" fill="#1a202c" opacity="0.14"/>
+  <rect x="647" y="545" width="155" height="138" rx="8" fill="#1a202c" opacity="0.07"/>
+  <circle cx="126" cy="248" r="29" fill="none" stroke="#1a202c" stroke-width="2" opacity="0.12"/>
+  <circle cx="118" cy="98" r="72" fill="none" stroke="#1a202c" stroke-width="2" opacity="0.12"/>
+  <circle cx="527" cy="283" r="21" fill="none" stroke="#1a202c" stroke-width="2" opacity="0.12"/>
+  <rect x="0" y="0" width="800" height="8" fill="#1a202c" opacity="0.7"/>
+  <circle cx="400" cy="260" r="60" fill="#1a202c" opacity="0.12"/>
+  <circle cx="400" cy="260" r="35" fill="#1a202c" opacity="0.25"/>
+  <text x="50%" y="335" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="24" font-weight="700" fill="white" opacity="0.9">Drainage Issue</text>
+  <text x="50%" y="360" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="13" fill="white" opacity="0.5">Constituency #2 · Demo Image</text>
+  <rect x="0" y="560" width="800" height="40" fill="black" opacity="0.25"/>
+  <text x="50%" y="586" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="white" opacity="0.5">Category: Drainage · MP Portal Demo</text>
+  <rect x="660" y="16" width="124" height="28" rx="14" fill="#1a202c" opacity="0.2"/>
+  <text x="722" y="34" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="11" fill="#1a202c" opacity="0.8">Drainage</text>
+</svg>

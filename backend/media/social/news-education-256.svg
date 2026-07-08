@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="100%" height="100%" fill="hsl(262, 60%, 25%)"/>
+  <circle cx="317" cy="442" r="43" fill="hsl(302, 70%, 45%)" opacity="0.17500988067277848"/><circle cx="40" cy="468" r="69" fill="hsl(302, 70%, 45%)" opacity="0.18651099539177418"/><circle cx="524" cy="177" r="38" fill="hsl(302, 70%, 45%)" opacity="0.23344015675562027"/><circle cx="569" cy="330" r="80" fill="hsl(302, 70%, 45%)" opacity="0.16570910156066818"/><circle cx="83" cy="557" r="38" fill="hsl(302, 70%, 45%)" opacity="0.21130830520586624"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="600" fill="#ffffff" opacity="0.8">news-Education</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" opacity="0.5">Social Media Post</text>
+</svg>
