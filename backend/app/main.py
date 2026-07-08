@@ -133,7 +133,10 @@ app = FastAPI(
 # ---------------------------------------------------------------------------
 app.add_middleware(LoggingMiddleware)
 
-allow_origins = list(settings.BACKEND_CORS_ORIGINS)
+allow_origins = [
+    "https://constituency-development-platform.vercel.app",
+    "http://localhost:3000",
+]
 if settings.FRONTEND_URL and settings.FRONTEND_URL not in allow_origins:
     allow_origins.append(settings.FRONTEND_URL)
 

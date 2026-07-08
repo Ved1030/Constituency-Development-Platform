@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
-        "https://constituency-development-platform-a5odnsw7n.vercel.app",
+        "https://constituency-development-platform.vercel.app",
     ]
     FRONTEND_URL: Optional[str] = None
 
